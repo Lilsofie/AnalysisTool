@@ -25,11 +25,13 @@
     display: flex;
     box-sizing: border-box;
     position: relative;
+    align-content: center;
+    justify-content: center;
     width: 95vw;
     height: 85vh;
     margin-top: 0px;
     background: #EBBD03;
-    border-width: 20px;
+    border-width: 16px;
     border-radius: 5px;
     display: flex;
 }
@@ -37,7 +39,6 @@
         /* Pick one to Start */
 
     position: absolute;
-    width: 954px;
     height: 75.69px;
     left: 30vw;
     top:5vh;
@@ -57,12 +58,19 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    padding: 0px;
+    margin-top: 10vh;
+    padding: 8px;
     gap: 17px;
+}
+.gallery{
 
-    position: absolute;
-    width: 1084px;
+    width: 350px;
     height: 351.25px;
-    left: 82px;
-    top: 263px;
+
+
+    /* Inside auto layout */
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+
 }
