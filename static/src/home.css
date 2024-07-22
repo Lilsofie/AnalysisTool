@@ -2,11 +2,9 @@
     background: #232423;
     display: flex;
     flex-direction: column;
-    margin:12px 33px;
-}
-.frame{
-    width: 263px;
-    height: 56px;
+    margin:12px 48px 8px 56px;
+    justify-content: center;
+    align-content: center;
 }
 .title{
     /* Analysis Tool */
@@ -25,24 +23,23 @@
     display: flex;
     box-sizing: border-box;
     position: relative;
-    align-content: center;
+    margin: 0px, 33px;
     justify-content: center;
-    width: 95vw;
+    align-content: center;
+    
     height: 85vh;
-    margin-top: 0px;
     background: #EBBD03;
-    border-width: 16px;
+    border-width: 0px;
     border-radius: 5px;
     display: flex;
+    flex-direction: row;
 }
-.pickstart{
-        /* Pick one to Start */
 
+.pickstart{
     position: absolute;
     height: 75.69px;
     left: 30vw;
     top:5vh;
-
     font-family: Arial, Helvetica, sans-serif;
     font-style: normal;
     font-weight: 700;
@@ -50,27 +47,24 @@
     line-height: 120%;
     /* or 58px */
     letter-spacing: -0.02em;
-
     color: #000000;
+    text-align: center; 
 }
 .icons{
-/* Auto layout */
+
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-self: center;
+    align-content: center;
+    justify-content: center;
     margin-top: 10vh;
     padding: 8px;
-    gap: 17px;
+    gap: 10vw;
+
 }
 .gallery{
-
-    width: 350px;
-    height: 351.25px;
-
-
-    /* Inside auto layout */
-    flex: none;
-    order: 0;
-    flex-grow: 0;
-
+    width: 18.229vw;
+    height: 35.125vh;
+    justify-self: center;
+    align-self: center;
 }
