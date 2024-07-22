@@ -1,3 +1,68 @@
 .bg {
     background: #232423;
+    display: flex;
+    flex-direction: column;
+    margin:12px 33px;
+}
+.frame{
+    width: 263px;
+    height: 56px;
+}
+.title{
+    /* Analysis Tool */
+    color:#EBBD03;
+    font-family: Arial, Helvetica, sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 36px;
+    line-height: 28px;
+    margin-top: 12px;
+    margin-bottom: 12px;
+
+}
+.content{
+        /* Content */
+    display: flex;
+    box-sizing: border-box;
+    position: relative;
+    width: 95vw;
+    height: 85vh;
+    margin-top: 0px;
+    background: #EBBD03;
+    border-width: 20px;
+    border-radius: 5px;
+    display: flex;
+}
+.pickstart{
+        /* Pick one to Start */
+
+    position: absolute;
+    width: 954px;
+    height: 75.69px;
+    left: 30vw;
+    top:5vh;
+
+    font-family: Arial, Helvetica, sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 48px;
+    line-height: 120%;
+    /* or 58px */
+    letter-spacing: -0.02em;
+
+    color: #000000;
+}
+.icons{
+/* Auto layout */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px;
+    gap: 17px;
+
+    position: absolute;
+    width: 1084px;
+    height: 351.25px;
+    left: 82px;
+    top: 263px;
 }
