@@ -1,35 +1,24 @@
+{% extends "base.html" %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Analysis Tool</title>
-    <link rel="stylesheet" href=".\static\src\home.css">
-</head>
-<body class="bg">
-    <div class="frame">
-        <h1 class="title">Analysis Tool</h1>
-        <div class="content">
-           <h1 class="pickstart">Pick one to START</h1>
-            <div class="icons">
-                <div class="gallery">
-                    <a target="_blank" href="/ip">
-                      <img src="./static/src/ip.png" alt="ip" width="250px" height="250px" >
-                    </a>
-                </div>
-                <div class="gallery">
-                    <a target="_blank" href="./static/src/domain.png">
-                      <img src="./static/src/domain.png" alt="domain"  width="250px" height="250px">
-                    </a>
-                </div>
-                <div class="gallery">
-                    <a target="_blank" href="./static/src/link.png">
-                      <img src="./static/src/link.png" alt="link"  width="250px" height="250px">
-                    </a>
-                </div>
-            </div>
-        </div>
+{% block title %} IP Analysis {% endblock %}
+<link rel="stylesheet" href=".\static\src\home.css">
+{% block content %}
+<h1 class="pickstart">Pick one to START</h1>
+<div class="icons">
+    <div class="gallery">
+        <a target="_blank" href="/ip">
+          <img src="./static/src/ip.png" alt="ip" width="250px" height="250px" >
+        </a>
     </div>
-</body>
-</html>
+    <div class="gallery">
+        <a target="_blank" href="./static/src/domain.png">
+          <img src="./static/src/domain.png" alt="domain"  width="250px" height="250px">
+        </a>
+    </div>
+    <div class="gallery">
+        <a target="_blank" href="./static/src/link.png">
+          <img src="./static/src/link.png" alt="link"  width="250px" height="250px">
+        </a>
+    </div>
+</div>
+{% endblock %}
