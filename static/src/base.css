@@ -7,16 +7,18 @@
 }
 
 .nav-bar{
-
     align-items: center;
-    padding: 72px 0px 56px 0px;
+    padding: 88px 0px 56px 0px;
     gap: 40px;
     background: #d3d3d3;
     position: relative;
     width: 4.167vw;
     margin-left: 0;
+    height: 100vh;
 }
-
+.nav-item{
+    z-index: 9999;
+}
 .frame{
     position: relative;
     display: flex;
@@ -34,18 +36,16 @@
     font-size: 36px;
     line-height: 28px;
     margin-left: 33px;
-    margin-top: 20px;
+    margin-top: 1.4vh;
 
 }
 .content{
-        /* Content */
     display: flex;
     box-sizing: border-box;
     position: relative;
     margin: 12px 1.719vw 12px 1.719vw;
-    height: 90vh;
+    height: 85vh;
     width: 92.395vw;
-    justify-content: center;
     align-content: center;
     background: #EBBD03;
     border-width: 0px;

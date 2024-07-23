@@ -1,0 +1,49 @@
+.content-title{
+    position:relative;
+    height: 75.69px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 36px;
+    line-height: 120%;
+    /* or 58px */
+    letter-spacing: -0.02em;
+    color: #000000;
+    text-align: left; 
+    align-self: left;
+    padding-left: 3vw;
+    padding-top: 3vh;
+}
+.board-display{
+   position: relative;
+   width: 100%;
+   height: 100%;
+   display: flex;
+   flex-direction: row;
+   padding: 0vh 3vw 3vh 3vw;
+   gap: 3vw;
+}
+.card-display{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 0px;
+    isolation: isolate;
+
+    position: relative;
+    width: 517px;
+    height:100%;
+    border-radius: 12px;
+}
+.item{
+    padding: 0px;
+    position: relative;
+    width: 14.531vw;
+    height: 12.8vh;
+    border-radius: 12px;
+    background-color: #333332 ;
+
+}
+.group-display{
+    gap:2vh;
+}
