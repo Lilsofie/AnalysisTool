@@ -1,13 +1,12 @@
 .content-title{
     position: relative;
-    padding-top: 12px;
-    height: 75.69px;
+    padding-top: 1.8vh;
+    height: 7.596vh;
     font-family: Arial, Helvetica, sans-serif;
     font-style: normal;
     font-weight: 700;
     font-size: 48px;
-    line-height: 58px;
-    /* or 58px */
+    line-height: 5.8vh;
     letter-spacing: -0.02em;
     color: #000000;
     text-align: center; 

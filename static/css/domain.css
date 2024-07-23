@@ -20,7 +20,6 @@
     width:18vw;
 }
 .inputbar{
-    width:18vw;
     top: 3vh;
 }
 .board-display{
@@ -30,7 +29,6 @@
    display: flex;
    flex-direction: row;
    padding: 0vh 3vw 3vh 3vw;
-   gap: 2vw;
    justify-content: space-between;
 }
 .card-display{
@@ -40,7 +38,7 @@
     padding: 0px;
     isolation: isolate;
     position: relative;
-    height:100%;
+    height:60vh;
     border-radius: 12px;
 }
 .item{
@@ -48,7 +46,7 @@
     position: relative;
     border-radius: 12px;
     background-color: #333332;
-    width: 25vw;
+    width: 28vw;
 
 }
 .grid {

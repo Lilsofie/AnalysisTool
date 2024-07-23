@@ -1,5 +1,12 @@
 {% extends "base.html" %}
 {% block title %} URL Analysis {% endblock %}
+{% block link  %}.\static\css\url.css" {% endblock %}
 {% block content %}
-<h1> URL </h1>
+
+<h1 class="content-title">Insert a URL</h1>
+<div class="input-group mb-2 inputbar" style="align-self:center; height:6vh; width: 75%; ">
+    <input type="text" class="form-control " placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2">
+    <button class="btn btn-outline-secondary" type="button" id="button-addon2">Button</button>
+</div>
+<div class="item">1</div>
 {% endblock %}

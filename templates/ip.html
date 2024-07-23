@@ -2,7 +2,15 @@
 {% block title %} IP Analysis {% endblock %}
 {% block link  %}.\static\css\ip.css" {% endblock %}
 {% block content %}
-<h1 class="content-title"> IP </h1>
+<div class="title-display">
+    <h1  class="content-title"> IP </h1>
+    <div class="input-group mb-2 inputbar" style="height: 50%; width: 75%; ">
+        <input type="text" class="form-control " placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2">
+        <button class="btn btn-outline-secondary" type="button" id="button-addon2">Button</button>
+    </div>
+</div>
+
+
 <div class="board-display">
     <div class="card card-display" style="width: 32vw;">
         <img src="..." class="card-img-top" alt="...">
@@ -19,8 +27,8 @@
        <div class="item" style="height: 15vh;"> 1</div>
     </div>
     <div class="grid">
-        <div class="item" style="height: 34vh;"> 2</div>
-        <div class="item" style="height: 34vh;"> 2</div>
+        <div class="item" style="height: 33vh;"> 2</div>
+        <div class="item" style="height: 33vh;"> 2</div>
     </div>
 </div>
 {% endblock %}
