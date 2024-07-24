@@ -16,6 +16,8 @@
 }
 .nav-item{
     z-index: 9999;
+    width: 120%;
+    align-content: center;
 }
 .frame{
     position: relative;
@@ -35,16 +37,16 @@
     font-style: normal;
     font-weight: 700;
     font-size: 36px;
-    line-height: 2.8vh;
-    margin-left: 3vw;
-    margin-top: 2vh;
+    line-height: 20%;
+    margin-left: 3%;
+    margin-top: 1%;
     position: relative;
 }
 .content{
     display: flex;
     box-sizing: border-box;
     position: relative;
-    margin:1vh 3vw;
+    margin:2% 3%;
     align-content: center;
     background: #EBBD03;
     border-width: 0px;

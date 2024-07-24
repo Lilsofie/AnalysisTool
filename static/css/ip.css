@@ -4,7 +4,6 @@
 }
 .content-title{
     position:relative;
-    height: 75.69px;
     font-family: Arial, Helvetica, sans-serif;
     font-style: normal;
     font-weight: 700;
@@ -15,13 +14,13 @@
     color: #000000;
     text-align: left; 
     align-self: left;
-    padding-left: 3vw;
-    padding-top: 3vh;
-    width:18vw;
+    padding-left: 3%;
+    padding-top: 2%;
+    width:20%;
 }
 .inputbar{
-    width:18vw;
-    top: 3vh;
+    width:100%;
+    padding-top: 2%;
 }
 .board-display{
    position: relative;
@@ -29,8 +28,7 @@
    height: 100%;
    display: flex;
    flex-direction: row;
-   padding: 0vh 3vw 3vh 3vw;
-   gap: 2vw;
+   padding: 0% 3% 2% 3%;
    justify-content: space-between;
 }
 .card-display{

@@ -1,27 +1,24 @@
 .content-title{
     position: relative;
-    padding-top: 1.8vh;
-    height: 7.596vh;
+    padding-top: 7%;
     font-family: Arial, Helvetica, sans-serif;
     font-style: normal;
     font-weight: 700;
     font-size: 48px;
-    line-height: 5.8vh;
     letter-spacing: -0.02em;
     color: #000000;
     text-align: center; 
     align-self: center;
-    width: 92.395vw;
-    height: auto;
 }
 .icons{
    position: relative;
    width: 100%;
-   height: 70vh;
+   height: 100%;
    display: flex;
    flex-direction: row;
-   padding: 2vh 15vw;
-   gap: 3vw;
+   padding: 2% 15%;
+   padding-top:0% ;
+   gap: 10%;
    align-self: center;
    justify-self: center;
 }
