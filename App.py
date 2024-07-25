@@ -5,7 +5,7 @@ app = Flask(__name__)
 @app.route('/')
 def home():
     return render_template('home.html')
-@app.route("/ip")
+@app.route("/ip", methods=["POST","GET"])
 def ip():
     return render_template('ip.html')
 @app.route("/domain")

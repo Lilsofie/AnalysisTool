@@ -14,10 +14,23 @@
     justify-content: top;
     position: relative;
 }
+    
+
 .nav-item{
     z-index: 9999;
-    width: 120%;
+    width: 110%;
     align-content: center;
+    align-items: center;
+
+}
+
+.nav-button{
+    width: 100%;
+    align-self: center;
+    padding-left: 20%;
+    margin: 0% 10%;
+    
+    
 }
 .frame{
     position: relative;
@@ -47,6 +60,7 @@
     box-sizing: border-box;
     position: relative;
     margin:2% 3%;
+    margin-top: 1.5%;
     align-content: center;
     background: #EBBD03;
     border-width: 0px;
