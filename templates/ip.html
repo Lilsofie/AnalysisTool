@@ -1,7 +1,9 @@
 {% extends "base.html" %}
 {% block title %} IP Analysis {% endblock %}
 {% block link  %} {{ url_for('static', filename='css/ip.css') }}{% endblock %}
-
+{% block scripts %} 
+<script src="{{ url_for('static', filename='js/google.js') }}"></script>
+{% endblock %}
 {% block content %}
 <div class="title-display">
     <div class="title-line">
@@ -17,7 +19,8 @@
 
 <div class="board-display">
     <div class="card card-display" style="width: 35%; background-color:  #333332;" >
-        <img src="..." class="card-img-top" alt="...">
+        <div id="map" class="card-img-top" data-lat = "{{ data['IP info']['latitude'] }}" data-lng="{{ data['IP info']['longitude'] }}" 
+        data-title="{{ data['IP info']['City'] }}" ></div>
         <div class="card-body" style="width: 100%;">
           <p class="card-text" style="width: 100%;">
             <p class="text-content">Country: {{data["IP info"]["Country"]}}</p>
@@ -48,18 +51,21 @@
     <div class="grid">
         <div class="item" style="height: 49%;"> 
             <h3 class="text">Hetrix Tool </h3>
-            <h2 class="text" style = "font-size: 28px; align-self: center;">{{data["HetrixTools"]["count"]}} blacklisted count</h2>
+            <h2 class="text" style = "font-size: 28px; align-self: center; padding-top: 3%;">{{data["HetrixTools"]["count"]}} blacklisted count</h2>
             <p class="text-content" style="align-self: center;">{{data["HetrixTools"]["sites"]}} </p>
         </div>
         <div class="item" style="height: 49%;"> 
             <h3 class=" text">Virus Total </h3>
-            <p class="text-content" style="align-self: left;  padding-left: 2%;"> Malicious :{{data["VirusTotal"]["malicious"]}} </p>
-            <p class="text-content" style="align-self: left;  padding-left: 2%;"> Suspious :{{data["VirusTotal"]["suspious"]}} </p>
-            <p class="text-content" style="align-self: left;  padding-left: 2%;"> Undetected :{{data["VirusTotal"]["undetected"]}} </p>
-            <p class="text-content" style="align-self: left;  padding-left: 2%;"> Harmless :{{data["VirusTotal"]["harmless"]}} </p>
-            <p class="text-content" style="align-self: left;  padding-left: 2%;"> Timeout :{{data["VirusTotal"]["timeout"]}} </p>
-            <p class="text-content" style="align-self: left;  padding-left: 2%;"> {{data["VirusTotal"]["text"]}} </p>
+            <p class="text-content" style="align-self: left;  padding-left: 2%; padding-top: 2.5%;"> Malicious :{{data["VirusTotal"]["malicious"]}} </p>
+            <p class="text-content" style="align-self: left;  padding-left: 2%; padding-top: 0%;"> Suspious :{{data["VirusTotal"]["suspious"]}} </p>
+            <p class="text-content" style="align-self: left;  padding-left: 2%; padding-top: 0%;"> Undetected :{{data["VirusTotal"]["undetected"]}} </p>
+            <p class="text-content" style="align-self: left;  padding-left: 2%; padding-top: 0%;"> Harmless :{{data["VirusTotal"]["harmless"]}} </p>
+            <p class="text-content" style="align-self: left;  padding-left: 2%; padding-top: 0%;"> Timeout :{{data["VirusTotal"]["timeout"]}} </p>
+            <p class="text-content" style="align-self: left;  padding-left: 2%; padding-top: 0%;"> {{data["VirusTotal"]["text"]}} </p>
         </div>
     </div>
 </div>
+{% endblock %}
+{% block googlemap %} 
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDI-RLXTfsYGAuDtQMi1AZcJCvNHjP1aKE&callback=initMap&libraries=maps,marker&v=weekly" async defer></script>
 {% endblock %}

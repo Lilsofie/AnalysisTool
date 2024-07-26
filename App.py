@@ -16,6 +16,14 @@ VIRUSTOTAL_APIKEY = os.getenv('VIRUS_TOTAL')
 IPINFO_APIKEY=os.getenv('IP_INFO')
 HETRIXTOOLS_APIKEY = os.getenv('HETRIX_TOOLS')
 MXTOOLBOX_APIKEY = os.getenv('MX_TOOLBOX')
+GOOGLEMAP_APIKEY = os.getenv('GOOGLE_MAP')
+
+DEFAULT_IP_DATA = {
+    'VirusTotal': {'malicious': 0, 'suspicious': 0, 'undetected': 0, 'harmless': 0, 'timeout': 0, 'text': ''}, 
+    'IP info': {'Hostname': '', 'City': '', 'Region': '', 'Country': '', 'Org': '', 'latitude': '', 'longtitude': ''}, 
+    'HetrixTools': {'count': 0, 'sites': ''}, 
+    'MxToolBox': {'ISP': '', 'Range': ''}
+}
 
 @app.route('/', methods=["GET", "POST"])
 def home():
@@ -44,16 +52,13 @@ def home():
         return render_template('home.html')
     
 @app.route('/ip/', defaults={'ip_address': None})
-@app.route('/ip/<ip_address>')
+@app.route('/ip/<ip_address>') 
 def ip(ip_address):
-    result = {}
+    result = DEFAULT_IP_DATA
     if ip_address:
          if(ip_address != "..."):
             result = run_ip_analysis(ip_address)
-         return render_template('ip.html',ip_addr=ip_address,data=result)
-    else:
-        print("message:No IP address provided")
-        return render_template('ip.html',ip_addr= None,data = result)
+    return render_template('ip.html',ip_addr=ip_address,data=result, apikey=GOOGLEMAP_APIKEY)
 
 def run_ip_analysis(ip_addr):
     result = {}

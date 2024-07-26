@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 {% block title %} Domain Analysis {% endblock %}
 {% block link  %}{{ url_for('static', filename='css/domain.css') }}{% endblock %}
+{% block scripts %} 
+<script src="{{ url_for('static', filename='js/google.js') }}"></script>
+{% endblock %}
 {% block content %}
 <div class="title-display">
     <div class="title-line">
@@ -36,4 +39,7 @@
         <div class="item" style="height: 18%;"> 1</div>
     </div>
 </div>
+{% endblock %}
+{% block googlemap %} 
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDI-RLXTfsYGAuDtQMi1AZcJCvNHjP1aKE&callback=initMap&libraries=maps,marker&v=weekly" async defer></script>
 {% endblock %}

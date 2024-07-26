@@ -18,7 +18,9 @@ def getIPgeo(IP,apitoken):
        result["Region"] = geo_response["region"]
        result["Country"] = geo_response["country"]
        result["Org"] =  geo_response["org"]
-       result["location"] = geo_response["loc"]
+       location = geo_response["loc"].split(",")
+       result["latitude"] = location[0]
+       result["longitude"] = location[1]       
 
     else:
         print(f"API call failed with status code: {geo_response.status_code}")

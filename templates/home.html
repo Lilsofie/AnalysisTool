@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block link  %}{{ url_for('static', filename='css/home.css') }}{% endblock %}
 {% block scripts%}
-<script src="./static/js/home.js"></script>
+<script src="{{ url_for('static', filename='js/home.js') }}"></script>
 {% endblock %}
 
 {% block content %}
@@ -17,7 +17,6 @@
         <input type="text"  id="inputField" class="form-control input-field" aria-label="Text input with dropdown button">
       </div>
 </div>
-
 {% endblock %}
 
 
