@@ -5,22 +5,23 @@ base_url = "https://www.virustotal.com/api/v3/"
 
 # get ip address report
 def getIP(input_ip,apikey):
-    result = ""
+    result = {}
     ip_url = base_url+'ip_addresses/'+ input_ip
     ip_response = requests.get(ip_url, headers={
         "accept": "application/json",
         "x-apikey": apikey
 }   )
     if ip_response.status_code == 200:
-            json = ip_response.json()
-            ip_response = json['data']['attributes']['last_analysis_stats']
-            result += (f"Response: {ip_response}\n")
-            if ip_response['malicious'] > 0 or ip_response['suspicious'] > 0:
-                result += ("Be careful with IP address: {input_ip}\n" )
-            
-            else:
-                result += (f"IP address: {input_ip} is clean!\n")          
-            
+        ip_response = ip_response.json()
+        ip_response = ip_response['data']['attributes']['last_analysis_stats']
+        for type in ip_response:
+            result[type] = ip_response[type]
+        if ip_response['malicious'] > 0 or ip_response['suspicious'] > 0:
+            result["text"] = "Be careful with IP address: {input_ip}\n"
+        
+        else:
+            result["text"] = "IP address: {input_ip} is clean!\n"        
+        return result
     else:
         print(f"API call failed with status code: {ip_response.status_code}\n")
         result = ip_response.text

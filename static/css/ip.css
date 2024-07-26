@@ -43,7 +43,7 @@
     border-radius: 12px;
     background-color: #333332;
     width: 25vw;
-
+    justify-content: center;
 }
 .grid {
     display: flex;
@@ -56,4 +56,10 @@
     padding-left: 3%;
     padding-top: 2%;
     width:20%;
+}
+.text{
+    color: #ffffff;
+    justify-self: center;
+    font-size: 20px;
+    padding-left: 2%;
 }

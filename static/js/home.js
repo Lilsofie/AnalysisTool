@@ -32,8 +32,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function sendDataToBackend(inputValue, dropdownValue) {
     const data = {
-        inputValue: inputValue,
-        dropdownValue: dropdownValue
+        "inputValue": inputValue,
+       "dropdownValue": dropdownValue
     };
     const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content'); 
     console.log('Sending data:', data);
@@ -57,6 +57,7 @@ function sendDataToBackend(inputValue, dropdownValue) {
     })
     .then(data => {
         if (data.redirect_url) {
+            console.log('Redirecting to:', data.redirect_url);
             window.location.href = data.redirect_url;
         } else {
             console.log('Success:', data);

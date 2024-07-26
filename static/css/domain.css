@@ -3,6 +3,7 @@
     flex-direction: row;
     gap:11%;
     align-content: space-between;
+    height: 15%;
 }
 .content-title{
     position:relative;

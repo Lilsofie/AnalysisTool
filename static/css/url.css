@@ -1,15 +1,25 @@
 .content-title{
-    position: relative;
-    padding-top: 7%;
+    position:relative;
     font-family: Arial, Helvetica, sans-serif;
     font-style: normal;
     font-weight: 700;
-    font-size: 48px;
+    font-size: 40px;
+    line-height: 120%;
+    /* or 58px */
     letter-spacing: -0.02em;
     color: #000000;
-    text-align: center; 
-    align-self: center;
+    text-align: left; 
+    align-self: left;
+    
 }
+.title-line{
+    display: flex;
+    flex-direction: column;
+    padding-left: 10%;
+    padding-top: 2%;
+    width:100%;
+}
+
 .item{
     padding: 0px;
     position: relative;
