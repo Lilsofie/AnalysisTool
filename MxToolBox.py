@@ -12,34 +12,39 @@ def checkValidationDetails(type):
     return check_names
 
 def checkDomain(domain,selector,apikey):
-    result = ""
-    for method in auth_methods:
-       if(method == "DKIM"):
-           if(selector == ""):
-               selector = "google"
-           domain_url = base_url + method + "/"+ "?argument=" + domain + ":" + selector
-       else:
-           domain_url = base_url + method + '/' + domain  
-       domain_response = requests.get(domain_url, headers= {'Authorization': apikey})
-       if domain_response.status_code == 200:
-            domain_response = domain_response.json()
-            result += (f"{method}\n")   
-            failed = domain_response["Failed"]
-            details =  checkValidationDetails(failed)
-            if(details != []):
-                result += (f"Failed: {details}\n" )
-            warnings = domain_response["Warnings"]
-            details = checkValidationDetails(warnings)
-            if(details != []):
-                result += (f"Warnings: {details}\n")
-            passed = domain_response["Passed"]
-            details = checkValidationDetails(passed)
-            if(details != []):
-                result += (f"Passed: \n{details}\n")
-           
-       else:
-        print(f"API call failed with status code: {domain_response.status_code}")
-        result = domain_response.text
+    result = {}
+    for method in auth_methods:       
+        if(method == "DKIM"):
+            if(selector == ""):
+                selector = "google"
+            domain_url = base_url + method + "/"+ "?argument=" + domain + ":" + selector
+        else:
+            domain_url = base_url + method + '/' + domain  
+        domain_response = requests.get(domain_url, headers= {'Authorization': apikey})
+        if domain_response.status_code == 200:
+                domain_response = domain_response.json()
+                result[method] = {}
+                failed = domain_response["Failed"]
+                details =  checkValidationDetails(failed)
+                result[method]["Failed"] = {}
+                if(details != []):
+                    result[method]["Failed"]["count"] = len(details)
+                    result[method]["Failed"]["details"] = details
+                warnings = domain_response["Warnings"]
+                details = checkValidationDetails(warnings)
+                result[method]["Warnings"] = {}
+                if(details != []):
+                    result[method]["Warnings"]["count"] = len(details)
+                    result[method]["Warnings"]["details"] = details
+                passed = domain_response["Passed"]
+                details = checkValidationDetails(passed)
+                result[method]["Passed"] = {}
+                if(details != []):
+                    result[method]["Passed"]["count"] = len(details)
+                    result[method]["Passed"]["details"] = details
+        else:
+            print(f"API call failed with status code: {domain_response.status_code}")
+            result = domain_response.text
     return result
 
 def dnsLookup(domain,apikey):
@@ -49,11 +54,11 @@ def dnsLookup(domain,apikey):
     if dns_response.status_code == 200:
         dns_response = dns_response.json()["Information"][0]
         domain_ip = dns_response["IP Address"]
-        result += (f"IP address: {domain_ip}\n")
+        result = domain_ip
     else:
         print(f"API call failed with status code: {dns_response.status_code}")
         print(dns_response.json())
-    return [result,domain_ip]
+    return result
 
 def calculate_range(cidr):
     data = cidr.split("/")

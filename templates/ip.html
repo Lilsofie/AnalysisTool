@@ -3,65 +3,72 @@
 {% block link  %} {{ url_for('static', filename='css/ip.css') }}{% endblock %}
 {% block scripts %} 
 <script src="{{ url_for('static', filename='js/google.js') }}"></script>
+<script src="{{ url_for('static', filename='js/ip.js') }}"></script>
 {% endblock %}
 {% block content %}
 <div class="title-display">
     <div class="title-line">
         <h1  class="content-title"> IP: &nbsp;</h1>
         <h1 class="content-title"> {{ip_addr}} </h1>
-    </div>
-    
+    </div> 
     <div class="input-group mb-2" style="position:relative;height: fit-content; padding-right: 3%;padding-top:2%; align-self: right;">
-        <input type="text" class="form-control " placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2">
-        <button class="btn btn-outline-secondary" type="button" id="button-addon2">Enter</button>
+        <input type="text" class="form-control" id="inputIP" placeholder="IP address" aria-label="IP address" aria-describedby="button-addon2">
+        <button class="btn btn-outline-secondary" type="button" id="submitIP">Enter</button>
     </div>
 </div>
 
 <div class="board-display">
     <div class="card card-display" style="width: 35%; background-color:  #333332;" >
-        <div id="map" class="card-img-top" data-lat = "{{ data['IP info']['latitude'] }}" data-lng="{{ data['IP info']['longitude'] }}" 
-        data-title="{{ data['IP info']['City'] }}" ></div>
+        <div id="map" class="card-img-top" data-lat = "{{ data['Geolocation']['latitude'] }}" data-lng="{{ data['Geolocation']['longitude'] }}" 
+        data-title="{{ data['Geolocation']['City'] }}" ></div>
         <div class="card-body" style="width: 100%;">
-          <p class="card-text" style="width: 100%;">
-            <p class="text-content">Country: {{data["IP info"]["Country"]}}</p>
-            <p class="text-content">Region: {{data["IP info"]["Region"]}}</p>
-            <p class="text-content">City: {{data["IP info"]["City"]}}</p>
-          </p>
+            <div class="wrap">
+                <p class="text-content">Country: {{data["Geolocation"]["Country"]}}</p>
+                <p class="text-content">Region: {{data["Geolocation"]["Region"]}}</p>
+                <p class="text-content">City: {{data["Geolocation"]["City"]}}</p>
+            </div>
+            
+          
         </div>
     </div>
     <div class="grid" >
        <div class="item" style="height: 23%;"> 
             <h3 class=" text" style ="text-align: left;">ISP: </h3>
-            <p class="text-content" style="align-self: center;">{{data["MxToolBox"]["ISP"]}} </p>
+            <p class="text-content" style="align-self: center; padding-top: 5%;">{{data["ASN"]["ISP"]}} </p>
        </div>
        <div class="item" style="height: 23%">
             <h3 class=" text" style ="text-align: left;">Organization: </h3>
-            <p class="text-content" style="align-self: center;">{{data["IP info"]["Org"]}} </p>
+            <p class="text-content" style="align-self: center;padding-top: 5%;">{{data["Geolocation"]["Org"]}} </p>
        </div>
        
        <div class="item" style="height: 23%;"> 
             <h3 class=" text" style ="text-align: left;">IP Range: </h3>
-            <p class="text-content" style="align-self: center;">{{data["MxToolBox"]["Range"]}} </p>
+            <p class="text-content" style="align-self: center;padding-top: 5%;">{{data["ASN"]["Range"]}} </p>
        </div>
        <div class="item" style="height: 23%;"> 
             <h3 class=" text" style ="text-align: left;">HostName: </h3>
-            <p class="text-content" style="align-self: center;"> {{data["IP info"]["Hostname"]}} </p>
+            <p class="text-content" style="align-self: center; padding-top: 5%;"> {{data["Geolocation"]["Hostname"]}} </p>   
        </div>
     </div>
     <div class="grid">
         <div class="item" style="height: 49%;"> 
-            <h3 class="text">Hetrix Tool </h3>
-            <h2 class="text" style = "font-size: 28px; align-self: center; padding-top: 3%;">{{data["HetrixTools"]["count"]}} blacklisted count</h2>
-            <p class="text-content" style="align-self: center;">{{data["HetrixTools"]["sites"]}} </p>
+            <h3 class="text">BlackList </h3>
+            <div class="wrap">
+                <h2 class="text" style = "font-size: 28px; align-self: center; padding-top: 3%;">{{data["BlackList"]["count"]}} blacklisted count</h2>
+                 <p class="text-content" style="align-self: center;">{{data["BlackList"]["sites"]}} </p>
+            </div> 
         </div>
         <div class="item" style="height: 49%;"> 
-            <h3 class=" text">Virus Total </h3>
-            <p class="text-content" style="align-self: left;  padding-left: 2%; padding-top: 2.5%;"> Malicious :{{data["VirusTotal"]["malicious"]}} </p>
-            <p class="text-content" style="align-self: left;  padding-left: 2%; padding-top: 0%;"> Suspious :{{data["VirusTotal"]["suspious"]}} </p>
-            <p class="text-content" style="align-self: left;  padding-left: 2%; padding-top: 0%;"> Undetected :{{data["VirusTotal"]["undetected"]}} </p>
-            <p class="text-content" style="align-self: left;  padding-left: 2%; padding-top: 0%;"> Harmless :{{data["VirusTotal"]["harmless"]}} </p>
-            <p class="text-content" style="align-self: left;  padding-left: 2%; padding-top: 0%;"> Timeout :{{data["VirusTotal"]["timeout"]}} </p>
-            <p class="text-content" style="align-self: left;  padding-left: 2%; padding-top: 0%;"> {{data["VirusTotal"]["text"]}} </p>
+            <h3 class="text">Virus Total </h3>
+            <div class="wrap">
+                <p class="text-content" style="align-self: left;  padding-left: 2%; padding-top: 0%;"> Malicious :{{data["VT anal"]["malicious"]}} </p>
+                <p class="text-content" style="align-self: left;  padding-left: 2%; padding-top: 0%;"> Suspious :{{data["VT anal"]["suspious"]}} </p>
+                <p class="text-content" style="align-self: left;  padding-left: 2%; padding-top: 0%;"> Undetected :{{data["VT anal"]["undetected"]}} </p>
+                <p class="text-content" style="align-self: left;  padding-left: 2%; padding-top: 0%;"> Harmless :{{data["VT anal"]["harmless"]}} </p>
+                <p class="text-content" style="align-self: left;  padding-left: 2%; padding-top: 0%;"> Timeout :{{data["VT anal"]["timeout"]}} </p>
+                <p class="text-content" style="align-self: left;  padding-left: 2%; padding-top: 0%;"> {{data["VT anal"]["text"]}} </p>
+            </div>
+            
         </div>
     </div>
 </div>

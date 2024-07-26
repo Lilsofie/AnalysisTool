@@ -3,6 +3,7 @@
 {% block link  %}{{ url_for('static', filename='css/domain.css') }}{% endblock %}
 {% block scripts %} 
 <script src="{{ url_for('static', filename='js/google.js') }}"></script>
+<script src="{{ url_for('static', filename='js/domain.js') }}"></script>
 {% endblock %}
 {% block content %}
 <div class="title-display">
@@ -11,32 +12,72 @@
         <h1 class="content-title"> {{domain_name}}</h1>
     </div>
     <div class="input-group mb-2 inputbar" style="position:relative;height: fit-content; padding-right: 3%;padding-top:2% ; align-self: right;">
-        <input type="text" class="form-control " placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2">
-        <button class="btn btn-outline-secondary" type="button" id="button-addon2">Enter</button>
+        <input id = "inputDomain" type="text" class="form-control " placeholder="Enter a Domain" aria-label="Recipient's username" aria-describedby="button-addon2">
+        <button id = "submitDomain" class="btn btn-outline-secondary" type="button">Enter</button>
     </div>
 </div>
 <div class="board-display">
-    <div class="grid" >
-        <div class="card card-display" style=" width: 100%; height: 67%;">
-            <img src="..." class="card-img-top" alt="...">
-            <div class="card-body">
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    <div class="grid"  style="width: 32%;">
+        <div class="item" style="width: 100%;height: 17%; justify-content: center;">
+            <h3 class="text" style ="text-align: center;justify-self: center; margin-bottom: 7%;">IP address: {{data["IP Addr"]}}</h3>
+        </div>
+        <div class="card card-display" style="width: 100%;height: 80%; background-color:  #333332;" >
+            <div id="map" class="card-img-top" data-lat = "{{ data['Geolocation']['latitude'] }}" data-lng="{{ data['Geolocation']['longitude'] }}" 
+            data-title="{{ data['Geolocation']['City'] }}" ></div>
+            <div class="card-body" style="width: 100%;">
+              <p class="card-text" style="width: 100%;">
+                <p class="text-content">Country: {{data["Geolocation"]["Country"]}}</p>
+                <p class="text-content">Region: {{data["Geolocation"]["Region"]}}</p>
+                <p class="text-content">City: {{data["Geolocation"]["City"]}}</p>
+              </p>
             </div>
         </div>
-        <div class="item" style="width: 100%;height: 31%;"> 1</div>
+        
      </div>
    
     <div class="grid" >
-        <div class="item" style="height: 23%;"> 1</div>
-        <div class="item" style="height: 23%"> 1</div>
-        <div class="item" style="height: 23%;"> 1</div>
-        <div class="item" style="height: 23%;"> 1</div>
+        <div class="item" style="height: 23%;"> 
+            <h3 class=" text" style ="text-align: left;">ISP: </h3>
+            <p class="text-content" style="align-self: center; padding-top: 5%;">{{data["ASN"]["ISP"]}} </p>
+       </div>
+       <div class="item" style="height: 23%">
+            <h3 class=" text" style ="text-align: left;">Organization: </h3>
+            <p class="text-content" style="align-self: center; padding-top: 5%;">{{data["Geolocation"]["Org"]}} </p>
+       </div>
+       
+       <div class="item" style="height: 23%;"> 
+            <h3 class=" text" style ="text-align: left;">IP Range: </h3>
+            <p class="text-content" style="align-self: center; padding-top: 5%;">{{data["ASN"]["Range"]}} </p>
+       </div>
+       <div class="item" style="height: 23%;"> 
+            <h3 class=" text" style ="text-align: left;">HostName: </h3>
+            <p class="text-content" style="align-self: center; padding-top: 5%;"> {{data["Geolocation"]["Hostname"]}} </p>
+       </div>
     </div>
     <div class="grid">
-        <div class="item" style="height: 38%;"> 2</div>
-        <div class="item" style="height: 18%;"> 1</div>
-        <div class="item" style="height: 18%;"> 1</div>
-        <div class="item" style="height: 18%;"> 1</div>
+        <div class="item" style="height: 23%;"> 
+            <h3 class="text"> Hetrix Tool </h3>
+            <h2 class="text" style = "line-height: 80%; align-self: center; padding-top: 3%;">{{data["BlackList"]["count"]}} blacklisted count</h2>
+            <p class="text-content" style="align-self: center;">{{data["BlackList"]["sites"]}} </p>
+        </div>
+        <div class="item" style="height: 23%;">  
+            <h3 class=" text">DMARC </h3>
+            <p class="text-content" style="align-self: left;  padding-left: 2%; padding-top: 2%;"> Failed: {{data["Authentication"]["DMARC"]["Failed"]["count"]}} </p>
+            <p class="text-content" style="align-self: left;  padding-left: 2%; padding-top: 0%;"> Warnings: {{data["Authentication"]["DMARC"]["Warnings"]["count"]}} </p>
+            <p class="text-content" style="align-self: left;  padding-left: 2%; padding-top: 0%;"> Passed: {{data["Authentication"]["DMARC"]["Passed"]["count"]}} </p>
+        </div>
+        <div class="item" style="height: 23%;"> 
+            <h3 class=" text">DKIM </h3>
+            <p class="text-content" style="align-self: left;  padding-left: 2%; padding-top: 2%;"> Failed: {{data["Authentication"]["DKIM"]["Failed"]["count"]}} </p>
+            <p class="text-content" style="align-self: left;  padding-left: 2%; padding-top: 0%;"> Warnings: {{data["Authentication"]["DKIM"]["Warnings"]["count"]}} </p>
+            <p class="text-content" style="align-self: left;  padding-left: 2%; padding-top: 0%;"> Passed: {{data["Authentication"]["DKIM"]["Passed"]["count"]}} </p>
+        </div>
+        <div class="item" style="height: 23%;"> 
+            <h3 class=" text" >SPF </h3>
+            <p class="text-content" style="align-self: left;  padding-left: 2%; padding-top: 2%;"> Failed: {{data["Authentication"]["SPF"]["Failed"]["count"]}} </p>
+            <p class="text-content" style="align-self: left;  padding-left: 2%; padding-top: 0%;"> Warnings: {{data["Authentication"]["SPF"]["Warnings"]["count"]}} </p>
+            <p class="text-content" style="align-self: left;  padding-left: 2%; padding-top: 0%;"> Passed: {{data["Authentication"]["SPF"]["Passed"]["count"]}} </p>
+        </div>
     </div>
 </div>
 {% endblock %}
