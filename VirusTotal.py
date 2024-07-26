@@ -17,10 +17,10 @@ def getIP(input_ip,apikey):
         for type in ip_response:
             result[type] = ip_response[type]
         if ip_response['malicious'] > 0 or ip_response['suspicious'] > 0:
-            result["text"] = "Be careful with IP address: {input_ip}\n"
+            result["text"] = f"Be careful with IP address: {input_ip}\n"
         
         else:
-            result["text"] = "IP address: {input_ip} is clean!\n"        
+            result["text"] = f"IP address: {input_ip} is clean!\n"        
         return result
     else:
         print(f"API call failed with status code: {ip_response.status_code}\n")

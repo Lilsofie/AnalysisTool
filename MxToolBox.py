@@ -67,6 +67,7 @@ def calculate_range(cidr):
     return range
 
 def asnLookup(asn, apikey):
+    result = {}
     asn_url = base_url + 'asn/' + asn
     asn_response = requests.get(asn_url, headers={'Authorization': apikey})
     if asn_response.status_code == 200:
@@ -75,8 +76,9 @@ def asnLookup(asn, apikey):
        isp = information[0]["As Name"]
        cidr = information[0]["CIDR Range"]
        range = calculate_range(cidr)
-       print(isp)
-       print(range)
+       result["ISP"] = isp
+       result["Range"] = range
     else:
         print(f"API call failed with status code: {asn_response.status_code}")
         print(asn_response.json())
+    return result

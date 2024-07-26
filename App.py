@@ -13,6 +13,9 @@ app.config['SECRET_KEY'] = 'L22_h02306@'
 load_dotenv()
 
 VIRUSTOTAL_APIKEY = os.getenv('VIRUS_TOTAL')
+IPINFO_APIKEY=os.getenv('IP_INFO')
+HETRIXTOOLS_APIKEY = os.getenv('HETRIX_TOOLS')
+MXTOOLBOX_APIKEY = os.getenv('MX_TOOLBOX')
 
 @app.route('/', methods=["GET", "POST"])
 def home():
@@ -43,18 +46,22 @@ def home():
 @app.route('/ip/', defaults={'ip_address': None})
 @app.route('/ip/<ip_address>')
 def ip(ip_address):
+    result = {}
     if ip_address:
          if(ip_address != "..."):
             result = run_ip_analysis(ip_address)
-            print(result)
-         return render_template('ip.html',ip_addr=ip_address)
+         return render_template('ip.html',ip_addr=ip_address,data=result)
     else:
         print("message:No IP address provided")
-        return render_template('ip.html',ip_addr= None)
+        return render_template('ip.html',ip_addr= None,data = result)
 
 def run_ip_analysis(ip_addr):
     result = {}
-    result["VirusToral"] = VirusTotal.getIP(ip_addr,VIRUSTOTAL_APIKEY)
+    result["VirusTotal"] = VirusTotal.getIP(ip_addr,VIRUSTOTAL_APIKEY)
+    result["IP info"] = IPinfo.getIPgeo(ip_addr,IPINFO_APIKEY)
+    result["HetrixTools"] = HetrixTools.checkIPBlackList(ip_addr,HETRIXTOOLS_APIKEY)
+    asn = result["IP info"]["Org"][0:7]
+    result["MxToolBox"] = MxToolBox.asnLookup(asn,MXTOOLBOX_APIKEY)
     print(result)
     return result
 

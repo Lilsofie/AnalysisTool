@@ -3,7 +3,6 @@ import VirusTotal as VirusTotal
 import IPinfo as IPinfo
 import MxToolBox as MxToolBox
 import HetrixTools as HetrixTools
-from API import API
 
 def main():
     app = App()
@@ -28,7 +27,6 @@ class App(ctk.CTk):
         self.entry = ctk.CTkEntry(self.scrollable_frame,placeholder_text=("Enter here"))
         self.entry.pack(fill="x")
 
-        self.info = API()
     def option_selected(self,choice):
         try:
             self.label

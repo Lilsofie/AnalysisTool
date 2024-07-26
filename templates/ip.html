@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block title %} IP Analysis {% endblock %}
 {% block link  %} {{ url_for('static', filename='css/ip.css') }}{% endblock %}
+
 {% block content %}
 <div class="title-display">
     <div class="title-line">
@@ -10,7 +11,7 @@
     
     <div class="input-group mb-2" style="position:relative;height: fit-content; padding-right: 3%;padding-top:2%; align-self: right;">
         <input type="text" class="form-control " placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2">
-        <button class="btn btn-outline-secondary" type="button" id="button-addon2">Button</button>
+        <button class="btn btn-outline-secondary" type="button" id="button-addon2">Enter</button>
     </div>
 </div>
 
@@ -19,33 +20,45 @@
         <img src="..." class="card-img-top" alt="...">
         <div class="card-body" style="width: 100%;">
           <p class="card-text" style="width: 100%;">
-            <h3 class=" text">Country:</h3>
-            <h3 class=" text">Region: </h3>
-            <h3 class=" text">City: </h3>
+            <p class="text-content">Country: {{data["IP info"]["Country"]}}</p>
+            <p class="text-content">Region: {{data["IP info"]["Region"]}}</p>
+            <p class="text-content">City: {{data["IP info"]["City"]}}</p>
           </p>
         </div>
     </div>
     <div class="grid" >
        <div class="item" style="height: 23%;"> 
-            <h3 class=" text">ISP: </h3>
+            <h3 class=" text" style ="text-align: left;">ISP: </h3>
+            <p class="text-content" style="align-self: center;">{{data["MxToolBox"]["ISP"]}} </p>
        </div>
        <div class="item" style="height: 23%">
-            <h3 class=" text">Organization: </h3>
+            <h3 class=" text" style ="text-align: left;">Organization: </h3>
+            <p class="text-content" style="align-self: center;">{{data["IP info"]["Org"]}} </p>
        </div>
        
        <div class="item" style="height: 23%;"> 
-            <h3 class=" text">IP Range: </h3>
+            <h3 class=" text" style ="text-align: left;">IP Range: </h3>
+            <p class="text-content" style="align-self: center;">{{data["MxToolBox"]["Range"]}} </p>
        </div>
        <div class="item" style="height: 23%;"> 
-             <h3 class=" text">Host Name: </h3>
+            <h3 class=" text" style ="text-align: left;">HostName: </h3>
+            <p class="text-content" style="align-self: center;"> {{data["IP info"]["Hostname"]}} </p>
        </div>
     </div>
     <div class="grid">
         <div class="item" style="height: 49%;"> 
-            <h3 class=" text">Hetrix Tool </h3>
+            <h3 class="text">Hetrix Tool </h3>
+            <h2 class="text" style = "font-size: 28px; align-self: center;">{{data["HetrixTools"]["count"]}} blacklisted count</h2>
+            <p class="text-content" style="align-self: center;">{{data["HetrixTools"]["sites"]}} </p>
         </div>
         <div class="item" style="height: 49%;"> 
             <h3 class=" text">Virus Total </h3>
+            <p class="text-content" style="align-self: left;  padding-left: 2%;"> Malicious :{{data["VirusTotal"]["malicious"]}} </p>
+            <p class="text-content" style="align-self: left;  padding-left: 2%;"> Suspious :{{data["VirusTotal"]["suspious"]}} </p>
+            <p class="text-content" style="align-self: left;  padding-left: 2%;"> Undetected :{{data["VirusTotal"]["undetected"]}} </p>
+            <p class="text-content" style="align-self: left;  padding-left: 2%;"> Harmless :{{data["VirusTotal"]["harmless"]}} </p>
+            <p class="text-content" style="align-self: left;  padding-left: 2%;"> Timeout :{{data["VirusTotal"]["timeout"]}} </p>
+            <p class="text-content" style="align-self: left;  padding-left: 2%;"> {{data["VirusTotal"]["text"]}} </p>
         </div>
     </div>
 </div>
