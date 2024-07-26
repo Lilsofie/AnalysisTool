@@ -1,10 +1,14 @@
 {% extends "base.html" %}
 {% block title %} IP Analysis {% endblock %}
-{% block link  %}.\static\css\ip.css" {% endblock %}
+{% block link  %} {{ url_for('static', filename='css/ip.css') }}{% endblock %}
 {% block content %}
 <div class="title-display">
-    <h1  class="content-title"> IP </h1>
-    <div class="input-group mb-2 inputbar" style="height: 50%; width: 75%; ">
+    <div class="title-line">
+        <h1  class="content-title"> IP: </h1>
+        <h1 class="content-title"> {{ip_addr}} </h1>
+    </div>
+    
+    <div class="input-group mb-2" style="position:relative; padding-right: 3%;padding-top:2%; align-self: right;">
         <input type="text" class="form-control " placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2">
         <button class="btn btn-outline-secondary" type="button" id="button-addon2">Button</button>
     </div>

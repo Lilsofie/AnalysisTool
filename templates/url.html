@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block title %} URL Analysis {% endblock %}
-{% block link  %}.\static\css\url.css" {% endblock %}
+{% block link  %}{{ url_for('static', filename='css/url.css') }} {% endblock %}
 {% block content %}
 
 <h1 class="content-title">Insert a URL</h1>

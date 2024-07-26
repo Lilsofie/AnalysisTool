@@ -1,17 +1,23 @@
 {% extends "base.html" %}
-{% block link  %}.\static\css\home.css" {% endblock %}
+{% block link  %}{{ url_for('static', filename='css/home.css') }}{% endblock %}
+{% block scripts%}
+<script src="./static/js/home.js"></script>
+{% endblock %}
+
 {% block content %}
 <h1 class="content-title">Insert an IP, Domain or URL to start</h1>
 <div class="inputbar">
     <div class="input-group mb-3 ">
-        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Dropdown</button>
+        <button id="dropdownButton" class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Choose</button>
         <ul class="dropdown-menu">
-          <li><a class="dropdown-item" href="#">ip</a></li>
-          <li><a class="dropdown-item" href="#">Another action</a></li>
-          <li><a class="dropdown-item" href="#">Something else here</a></li>
+          <li><a class="dropdown-item">IP</a></li>
+          <li><a class="dropdown-item">Domain</a></li>
+          <li><a class="dropdown-item">URL</a></li>
         </ul>
-        <input type="text" class="form-control input-field" aria-label="Text input with dropdown button">
+        <input type="text"  id="inputField" class="form-control input-field" aria-label="Text input with dropdown button">
       </div>
 </div>
 
 {% endblock %}
+
+
