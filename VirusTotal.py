@@ -15,12 +15,7 @@ def getIP(input_ip,apikey):
         ip_response = ip_response.json()
         ip_response = ip_response['data']['attributes']['last_analysis_stats']
         for type in ip_response:
-            result[type] = ip_response[type]
-        if ip_response['malicious'] > 0 or ip_response['suspicious'] > 0:
-            result["text"] = f"Be careful with IP address: {input_ip}\n"
-        
-        else:
-            result["text"] = f"IP address: {input_ip} is clean!\n"        
+            result[type] = ip_response[type]   
         return result
     else:
         print(f"API call failed with status code: {ip_response.status_code}\n")
@@ -44,7 +39,7 @@ def analyzeUrl(analysis_id,headers):
 
 #scan URL
 def scanUrl(input_url,apikey):
-    result = ""
+    result = {}
     payload = { "url": input_url }
     headers = {
         "accept": "application/json",

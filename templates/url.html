@@ -15,12 +15,26 @@
 <div class="item">
     <h3 class="text-title">Virus Total </h3>
     <div class="wrap">
-        <p class="text-content" > Malicious :{{data["malicious"]}} </p>
-        <p class="text-content" > Suspious :{{data["suspious"]}} </p>
-        <p class="text-content" > Undetected :{{data["undetected"]}} </p>
-        <p class="text-content" > Harmless :{{data["harmless"]}} </p>
-        <p class="text-content" > Timeout :{{data["timeout"]}} </p>
-        <p class="text-content" > {{data["text"]}} </p>
+        <div class="icon">
+            <img src="{{ url_for('static', filename='src/malicious.png') }}" alt="domain" width="5%" height="65%">
+            <p class="text-content"> Malicious : {{data["malicious"]}} </p>
+        </div>
+        <div class="icon">
+            <img src="{{ url_for('static', filename='src/suspicious.png') }}" alt="domain"  width="5%" height="65%">
+            <p class="text-content"> Suspicious : {{data["suspicious"]}} </p>
+        </div>
+        <div class="icon">
+            <img src="{{ url_for('static', filename='src/undetected.png') }}" alt="domain"  width="5%" height="65%">
+            <p class="text-content"> Undetected : {{data["undetected"]}} </p>
+        </div>
+        <div class="icon">
+            <img src="{{ url_for('static', filename='src/harmless.png') }}" alt="domain"  width="5%" height="65%">
+            <p class="text-content"> Harmless : {{data["harmless"]}} </p>
+        </div>
+        <div class="icon">
+            <img src="{{ url_for('static', filename='src/timeout.png') }}" alt="domain"  width="5%" height="65%">
+            <p class="text-content"> Timeout : {{data["timeout"]}} </p>
+        </div>  
     </div>
 </div>
 {% endblock %}
