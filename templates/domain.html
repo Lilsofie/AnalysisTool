@@ -58,21 +58,86 @@
         </div>
         <div class="item">  
             <h3 class="text-title">DMARC </h3>
-            <p class="text-content"> Failed: {{data["Authentication"]["DMARC"]["Failed"]["count"]}} </p>
-            <p class="text-content"> Warnings: {{data["Authentication"]["DMARC"]["Warnings"]["count"]}} </p>
-            <p class="text-content"> Passed: {{data["Authentication"]["DMARC"]["Passed"]["count"]}} </p>
+            <p class="text-content"> Failed: 
+                <span 
+                    data-bs-toggle="tooltip" 
+                    data-bs-placement="top" 
+                    title="{{data['Authentication']['DMARC']['Failed']['details']}}" >
+                    {{data["Authentication"]["DMARC"]["Failed"]["count"]}}
+                </span>
+            </p>
+            <p class="text-content"> Warnings: 
+                <span 
+                    data-bs-toggle="tooltip" 
+                    data-bs-placement="top" 
+                    title="{{data['Authentication']['DMARC']['Warnings']['details']}}" >
+                    {{data["Authentication"]["DMARC"]["Warnings"]["count"]}}
+                </span>
+            </p>
+            <p class="text-content"> Passed:
+                <span 
+                    data-bs-toggle="tooltip" 
+                    data-bs-placement="top" 
+                    title="{{data['Authentication']['DMARC']['Passed']['details']}}" >
+                    {{data["Authentication"]["DMARC"]["Passed"]["count"]}}
+                </span>
+            </p>
         </div>
         <div class="item"> 
             <h3 class="text-title">DKIM </h3>
-            <p class="text-content"> Failed: {{data["Authentication"]["DKIM"]["Failed"]["count"]}} </p>
-            <p class="text-content"> Warnings: {{data["Authentication"]["DKIM"]["Warnings"]["count"]}} </p>
-            <p class="text-content"> Passed: {{data["Authentication"]["DKIM"]["Passed"]["count"]}} </p>
+            <p class="text-content"> Failed: 
+                <span 
+                    data-bs-toggle="tooltip" 
+                    data-bs-placement="top" 
+                    title="{{data['Authentication']['DKIM']['Failed']['details']}}" >
+                    {{data["Authentication"]["DKIM"]["Failed"]["count"]}}
+                </span>
+            </p>
+            <p class="text-content"> Warnings: 
+                <span 
+                    data-bs-toggle="tooltip" 
+                    data-bs-placement="top" 
+                    title="{{data['Authentication']['DKIM']['Warnings']['details']}}" >
+                    {{data["Authentication"]["DKIM"]["Warnings"]["count"]}}
+                </span>
+                
+            </p>
+            <p class="text-content"> Passed: 
+                <span 
+                    data-bs-toggle="tooltip" 
+                    data-bs-placement="top" 
+                    title="{{data['Authentication']['DKIM']['Passed']['details']}}" >
+                    {{data["Authentication"]["DKIM"]["Passed"]["count"]}}
+                </span>
+            </p>
+
         </div>
         <div class="item"> 
             <h3 class="text-title" >SPF </h3>
-            <p class="text-content"> Failed: {{data["Authentication"]["SPF"]["Failed"]["count"]}} </p>
-            <p class="text-content"> Warnings: {{data["Authentication"]["SPF"]["Warnings"]["count"]}} </p>
-            <p class="text-content"> Passed: {{data["Authentication"]["SPF"]["Passed"]["count"]}} </p>
+            <p class="text-content"> Failed: 
+                <span 
+                    data-bs-toggle="tooltip" 
+                    data-bs-placement="top" 
+                    title="{{data['Authentication']['SPF']['Failed']['details']}}" >
+                    {{data["Authentication"]["SPF"]["Failed"]["count"]}}
+                </span>
+            </p>
+            <p class="text-content"> Warnings: 
+                <span 
+                    data-bs-toggle="tooltip" 
+                    data-bs-placement="top" 
+                    title="{{data['Authentication']['SPF']['Warnings']['details']}}" >
+                    {{data["Authentication"]["SPF"]["Warnings"]["count"]}}
+                </span>
+            </p>
+            <p class="text-content"> Passed: 
+                <span 
+                    data-bs-toggle="tooltip" 
+                    data-bs-placement="top" 
+                    title="{{data['Authentication']['SPF']['Passed']['details']}}" >
+                    {{data["Authentication"]["SPF"]["Passed"]["count"]}}
+                </span>
+            </p>
         </div>
     </div>
 </div>

@@ -28,9 +28,9 @@ DEFAULT_DOMAIN_DATA = {'IP Addr': '',
                         'Geolocation': {'Hostname': '', 'City': '', 'Region': '', 'Country': '', 'Org': '', 'latitude': '', 'longitude': ''}, 
                         'ASN': {'ISP': '', 'Range': ''}, 
                         'BlackList': {'count': 0, 'sites': ''},
-                        'Authentication': {'DMARC': {'Failed': {}, 'Warnings': {}, 'Passed': {}}, 
-                                           'DKIM': {'Failed': {}, 'Warnings': {}, 'Passed': {}}, 
-                                           'SPF': {'Failed': {}, 'Warnings': {}, 'Passed': {}}}}
+                        'Authentication': {'DMARC': {'Failed': {'count':0}, 'Warnings': {'count':0}, 'Passed': {'count':0}}, 
+                                           'DKIM': {'Failed': {'count':0}, 'Warnings': {'count':0}, 'Passed': {'count':0}}, 
+                                           'SPF': {'Failed': {'count':0}, 'Warnings': {'count':0}, 'Passed': {'count':0}}}}
 
 @app.route('/', methods=["GET", "POST"])
 def home():
