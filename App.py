@@ -112,7 +112,7 @@ def url(link):
     if link:
          if(link != "..."):
             result = run_url_analysis(link)
-    return render_template('domain.html',url_link=link,data=result)
+    return render_template('url.html',url_link=link,data=result)
 
 def run_url_analysis(link):
     result = VirusTotal.scanUrl(link,VIRUSTOTAL_APIKEY)
