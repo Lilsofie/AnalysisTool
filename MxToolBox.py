@@ -30,7 +30,7 @@ def checkDomain(domain,selector,apikey):
                 result[method]["Failed"]["count"] = len(details)
                 if(details != []):
                     result[method]["Failed"]["details"] = details
-                        
+
                 warnings = domain_response["Warnings"]
                 details = checkValidationDetails(warnings)
                 result[method]["Warnings"] = {}
@@ -59,7 +59,7 @@ def dnsLookup(domain,apikey):
         result = domain_ip
     else:
         print(f"API call failed with status code: {dns_response.status_code}")
-        print(dns_response.json())
+        # print(dns_response.json())
     return result
 
 def calculate_range(cidr):
@@ -87,5 +87,5 @@ def asnLookup(asn, apikey):
        result["Range"] = range
     else:
         print(f"API call failed with status code: {asn_response.status_code}")
-        print(asn_response.json())
+       # print(asn_response.json())
     return result

@@ -21,13 +21,13 @@ GOOGLEMAP_APIKEY = os.getenv('GOOGLE_MAP')
 DEFAULT_IP_DATA = {
     'VT anal': {'malicious': 0, 'suspicious': 0, 'undetected': 0, 'harmless': 0, 'timeout': 0, 'text': ''}, 
     'Geolocation': {'Hostname': '', 'City': '', 'Region': '', 'Country': '', 'Org': '', 'latitude': '', 'longtitude': ''}, 
-    'BlackList': {'count': 0, 'sites': ['1','2','3']}, 
+    'BlackList': {'count': 0, 'sites': []}, 
     'ASN': {'ISP': '', 'Range': ''}
 }
 DEFAULT_DOMAIN_DATA = {'IP Addr': '',
                         'Geolocation': {'Hostname': '', 'City': '', 'Region': '', 'Country': '', 'Org': '', 'latitude': '', 'longitude': ''}, 
                         'ASN': {'ISP': '', 'Range': ''}, 
-                        'BlackList': {'count': 0, 'sites': ['1','2','3']},
+                        'BlackList': {'count': 0, 'sites': []},
                         'Authentication': {'DMARC': {'Failed': {'count':0}, 'Warnings': {'count':0}, 'Passed': {'count':0}}, 
                                            'DKIM': {'Failed': {'count':0}, 'Warnings': {'count':0}, 'Passed': {'count':0}}, 
                                            'SPF': {'Failed': {'count':0}, 'Warnings': {'count':0}, 'Passed': {'count':0}}}}
@@ -101,24 +101,56 @@ def run_domain_analysis(domain_nm):
     result["ASN"] = MxToolBox.asnLookup(asn,MXTOOLBOX_APIKEY)
     result["BlackList"] = HetrixTools.checkHostBlackList(domain_nm,HETRIXTOOLS_APIKEY)
     result["Authentication"] = MxToolBox.checkDomain(domain_nm,selector,MXTOOLBOX_APIKEY)
-    print(result)
+    # print(result)
     return result
 
-
-@app.route('/url/', defaults={'link': None})
-@app.route("/url/<link>")
-def url(link):
-    result = {}
-    if link:
-         if(link != "..."):
-            result = run_url_analysis(link)
-    return render_template('url.html',url_link=link,data=result)
+@app.route('/analyze-url', methods=['POST'])
+def analyze_url():
+    app.logger.info(f"Received request: {request.json}")  # Log the received request
+    data = request.json
+    url = data.get('url')
+    if url:
+        try:
+            app.logger.info(f"Analyzing URL: {url}")  # Log the URL being analyzed
+            result = run_url_analysis(url)
+            app.logger.info(f"Analysis result: {result}")  # Log the analysis result
+            return jsonify({'id': result.get('id')})
+        except Exception as e:
+            app.logger.error(f"Error in run_url_analysis: {str(e)}")
+            return jsonify({'error': 'Analysis failed'}), 500
+    app.logger.warning("No URL provided")  # Log when no URL is provided
+    return jsonify({'error': 'No URL provided'}), 400
 
 def run_url_analysis(link):
-    result = VirusTotal.scanUrl(link,VIRUSTOTAL_APIKEY)
-    print(result)
-    return result
+    try:
+        result = VirusTotal.scanUrl(link, VIRUSTOTAL_APIKEY)
+        app.logger.info(f"VirusTotal scan result: {result}")
+        return result
+    except Exception as e:
+        app.logger.error(f"Error in run_url_analysis: {str(e)}")
+        raise
+@app.route('/url/', defaults={'id': None})
+@app.route("/url/<id>")
+def url(id):
+    result = {}
+    if id:
+        try:
+            result = VirusTotal.analyzeUrl(id,VIRUSTOTAL_APIKEY)
+        except Exception as e:
+            app.logger.error(f"Error retrieving analysis result: {str(e)}")
+    return render_template('url.html', data=result)
 
+@app.errorhandler(404)
+def not_found(error):
+    if request.path.startswith('/analyze-url'):
+        return jsonify(error=str(error)), 404
+    return render_template('404.html'), 404
+
+@app.errorhandler(500)
+def server_error(error):
+    if request.path.startswith('/analyze-url'):
+        return jsonify(error=str(error)), 500
+    return render_template('500.html'), 500
 
 if __name__ == '__main__':
     app.run(debug=True)

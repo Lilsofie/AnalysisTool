@@ -2,13 +2,13 @@
 {% block title %} URL Analysis {% endblock %}
 {% block link  %}{{ url_for('static', filename='css/url.css') }} {% endblock %}
 {% block scripts %} 
-<script src="{{ url_for('static', filename='js/ip.js') }}"></script>
+<script src="{{ url_for('static', filename='js/url.js') }}"></script>
 {% endblock %}
 {% block content %}
 <div class="title-display">
-    <h1  class="content-title"> URL link:  {{url_link}}</h1>
+    <h1  class="content-title"> URL link: {{url_link}}</h1>
     <div class="input-group mb-2 inputbar" style="align-self:center; height:6vh; width: 75%; ">
-        <input id="inputURL"  type="text" class="form-control " placeholder="Enter a URL" aria-label="enter" aria-describedby="button-addon2">
+        <input id="inputURL"  type="text" class="form-control " placeholder="Enter an URL" aria-label="enter" aria-describedby="button-addon2">
         <button id="submitURL" class="btn btn-outline-secondary" type="button" >Enter</button>
     </div>
 </div>
