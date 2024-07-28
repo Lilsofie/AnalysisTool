@@ -23,7 +23,7 @@ def checkIPBlackList(ip,apikey):
         if(ip_blacklisted_count > 0):
             result["sites"] = site_names
         else:
-            result["sites"] = "This IP address is not blacklisted"
+            result["sites"] = ["This IP address is not blacklisted"]
     else:
         print(f"API call failed with status code: {ip_response.status_code}")
         result = ip_response.text
@@ -40,7 +40,7 @@ def checkHostBlackList(domain,apikey):
         if(domain_blacklisted_count > 0):    
             result["sites"] =  site_names
         else:
-            result["sites"] = "This host is not blacklisted"
+            result["sites"] = ["This domain is not blacklisted"]
     else:
         print(f"API call failed with status code: {domain_response.status_code}")
         result["error"] = domain_response.text

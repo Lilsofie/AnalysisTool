@@ -58,6 +58,12 @@
     font-size: clamp(28px, calc(0.8rem + 0.5vw), 36px);
     text-align: center;
 }
+.blacklist-details{
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    justify-content: center;
+}
 #map{
     width: 100%;
     height: 80%;

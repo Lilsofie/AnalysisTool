@@ -21,13 +21,13 @@ GOOGLEMAP_APIKEY = os.getenv('GOOGLE_MAP')
 DEFAULT_IP_DATA = {
     'VT anal': {'malicious': 0, 'suspicious': 0, 'undetected': 0, 'harmless': 0, 'timeout': 0, 'text': ''}, 
     'Geolocation': {'Hostname': '', 'City': '', 'Region': '', 'Country': '', 'Org': '', 'latitude': '', 'longtitude': ''}, 
-    'BlackList': {'count': 0, 'sites': ''}, 
+    'BlackList': {'count': 0, 'sites': ['1','2','3']}, 
     'ASN': {'ISP': '', 'Range': ''}
 }
 DEFAULT_DOMAIN_DATA = {'IP Addr': '',
                         'Geolocation': {'Hostname': '', 'City': '', 'Region': '', 'Country': '', 'Org': '', 'latitude': '', 'longitude': ''}, 
                         'ASN': {'ISP': '', 'Range': ''}, 
-                        'BlackList': {'count': 0, 'sites': ''},
+                        'BlackList': {'count': 0, 'sites': ['1','2','3']},
                         'Authentication': {'DMARC': {'Failed': {'count':0}, 'Warnings': {'count':0}, 'Passed': {'count':0}}, 
                                            'DKIM': {'Failed': {'count':0}, 'Warnings': {'count':0}, 'Passed': {'count':0}}, 
                                            'SPF': {'Failed': {'count':0}, 'Warnings': {'count':0}, 'Passed': {'count':0}}}}

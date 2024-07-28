@@ -29,20 +29,20 @@
     <div class="content-grid">
        <div class="item"> 
             <h3 class="text-title" >ISP: </h3>
-            <p class="text-content" style="text-align: center; padding-top: 7%;">{{data["ASN"]["ISP"]}} </p>
+            <p class="text-content" style="text-align: center; padding-top: 3%;">{{data["ASN"]["ISP"]}} </p>
        </div>
        <div class="item">
             <h3 class=" text-title">Organization: </h3>
-            <p class="text-content" style="text-align: center; padding-top: 7%;">{{data["Geolocation"]["Org"]}} </p>
+            <p class="text-content" style="text-align: center; padding-top: 3%;">{{data["Geolocation"]["Org"]}} </p>
        </div>
        
        <div class="item"> 
             <h3 class=" text-title" >IP Range: </h3>
-            <p class="text-content" style="text-align: center; padding-top: 7%;">{{data["ASN"]["Range"]}} </p>
+            <p class="text-content" style="text-align: center; padding-top: 3%;">{{data["ASN"]["Range"]}} </p>
        </div>
        <div class="item"> 
             <h3 class=" text-title" >HostName: </h3>
-            <p class="text-content" style="text-align: center; padding-top: 7%;"> {{data["Geolocation"]["Hostname"]}} </p>   
+            <p class="text-content" style="text-align: center; padding-top: 3%;"> {{data["Geolocation"]["Hostname"]}} </p>   
        </div>
     </div>
     <div class="content-grid">
@@ -50,7 +50,11 @@
             <h3 class="text-title">BlackList </h3>
             <div class="wrap">
                 <h2 class="blacklist-count">{{data["BlackList"]["count"]}} blacklisted count</h2>
-                 <p class="text-content" style="text-align: center;">{{data["BlackList"]["sites"]}} </p>
+                <div class="blacklist-details">
+                    {% for site in data["BlackList"]["sites"] %}
+                        <p class="text-content" style="text-align: center;"> {{site}}, </p>
+                    {% endfor %}
+                </div>
             </div> 
         </div>
         <div class="item" > 
