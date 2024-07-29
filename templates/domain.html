@@ -8,7 +8,7 @@
 {% block content %}
 <div class="title-display">
      <h1  class="content-title"> Domain: {{domain_name}}</h1>
-     <div class="input-group mb-2 search-bar">
+     <div class="input-group search-bar">
         <input id = "inputDomain" type="text" class="form-control " placeholder="Enter a Domain" aria-label="Recipient's username" aria-describedby="button-addon2">
         <button id = "submitDomain" class="btn btn-outline-secondary" type="button">Enter</button>
     </div>
@@ -51,7 +51,7 @@
                     <p class="text-content text-center">{{data["Geolocation"]["Hostname"]}} </p>
             </div>
         {% endif %}
-       <div class="item"> 
+       <div class="item overflow-auto"> 
         <h3 class="text-title"> Blacklist - HetrixTools </h3>
         <h2 class="blacklist-count pb-0 p-top-1">{{data["HTBlacklist"]["count"]}} blacklisted count</h2>
         <div class="blacklist-details pt-0">
@@ -246,5 +246,5 @@
 </div>
 {% endblock %}
 {% block googlemap %} 
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDI-RLXTfsYGAuDtQMi1AZcJCvNHjP1aKE&callback=initMap&libraries=maps,marker&v=weekly" async defer></script>
+<script src="https://maps.googleapis.com/maps/api/js?key={{apikey}}&callback=initMap&libraries=maps,marker&v=weekly" async defer></script>
 {% endblock %}

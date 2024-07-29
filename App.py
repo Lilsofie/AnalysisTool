@@ -114,18 +114,19 @@ def scan_url():
     result = VirusTotal.scanUrl(input_url, VIRUSTOTAL_APIKEY)
     return jsonify(result)
 
-@app.route('/url/', defaults={'id': None})
+@app.route('/url/', defaults={'id': ''})
 @app.route('/url/<id>')
 def url(id):
-    url = request.args.get('url', 'No URL provided')
-    # Fetch the analysis results using the ID
-    headers = {
-        "accept": "application/json",
-        "x-apikey": VIRUSTOTAL_APIKEY
-    }
-    result = VirusTotal.analyzeUrl(id, headers)
-    print(result)
-    result['url'] = url
+    if(id != ''):
+        url = request.args.get('url', 'No URL provided')
+        # Fetch the analysis results using the ID
+        headers = {
+            "accept": "application/json",
+            "x-apikey": VIRUSTOTAL_APIKEY
+        }
+        result = VirusTotal.analyzeUrl(id, headers)
+        print(result)
+        result['url'] = url
     return render_template('url.html', url_link=url, data=result['stats'])
 
 
