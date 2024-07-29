@@ -59,11 +59,32 @@ function sendDataToBackend(inputValue, dropdownValue) {
         if (data.redirect_url) {
             console.log('Redirecting to:', data.redirect_url);
             window.location.href = data.redirect_url;
-        } else {
+        } 
+        else if (dropdownValue === 'URL') {         
+            fetch('/scan_url', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken
+                },
+                body: JSON.stringify({url: inputValue})
+            })
+            .then(response => response.json())
+            .then(result => {
+                // Redirect to the URL analysis page with the URL as a query parameter
+                window.location.href = `/url/${result.id}?url=${encodeURIComponent(result.url)}`;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while scanning the URL. Please check the console for details.');
+            });
+        } 
+        else {
             console.log('Success:', data);
         }
 
     })
+    
     .catch((error) => {
         console.error('Error:', error);
         alert('An error occurred. Please check the console for details.');

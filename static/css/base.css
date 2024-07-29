@@ -108,3 +108,13 @@
     width: 100%;
     justify-content: center;
 }
+/*********************************************/
+.p-top-1{
+    padding-top: 1%;
+}
+.p-top-3{
+    padding-top: 3%;
+}
+.w-75{
+    width: 75%;
+}

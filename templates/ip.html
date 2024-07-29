@@ -29,20 +29,20 @@
     <div class="content-grid">
        <div class="item"> 
             <h3 class="text-title" >ISP: </h3>
-            <p class="text-content" style="text-align: center; padding-top: 3%;">{{data["ASN"]["ISP"]}} </p>
+            <p class="text-content text-center p-top-3">{{data["ASN"]["ISP"]}} </p>
        </div>
        <div class="item">
             <h3 class=" text-title">Organization: </h3>
-            <p class="text-content" style="text-align: center; padding-top: 3%;">{{data["Geolocation"]["Org"]}} </p>
+            <p class="text-content text-center p-top-3">{{data["Geolocation"]["Org"]}} </p>
        </div>
        
        <div class="item"> 
             <h3 class=" text-title" >IP Range: </h3>
-            <p class="text-content" style="text-align: center; padding-top: 3%;">{{data["ASN"]["Range"]}} </p>
+            <p class="text-content text-center p-top-3">{{data["ASN"]["Range"]}} </p>
        </div>
        <div class="item"> 
             <h3 class=" text-title" >HostName: </h3>
-            <p class="text-content" style="text-align: center; padding-top: 3%;"> {{data["Geolocation"]["Hostname"]}} </p>   
+            <p class="text-content text-center p-top-3"> {{data["Geolocation"]["Hostname"]}} </p>   
        </div>
     </div>
     <div class="content-grid">
@@ -52,7 +52,7 @@
                 <h2 class="blacklist-count">{{data["HTBlacklist"]["count"]}} blacklisted count</h2>
                 <div class="blacklist-details">
                     {% for site in data["HTBlacklist"]["sites"] %}
-                        <p class="text-content" style="text-align: center;"> {{site}}, </p>
+                        <p class="text-content text-center"> {{site}}, </p>
                     {% endfor %}
                 </div>
             </div> 
@@ -60,7 +60,9 @@
         <div class="item" > 
             <h3 class="text-title">Blacklist - VirusTotal </h3>
             <div class="wrap">
-                <p class="text-content" style="text-align: center; font-weight: 600;"> Severity : {{data["VTBlacklist"]["severity"]}} </p>
+                {% if data["VTBlacklist"]["severity"] != 'None' %}
+                    <p class="text-content text-center font-bold"> Severity : {{data["VTBlacklist"]["severity"]}} </p>
+                {% endif %}
                 <div class="icon">
                     <img src="{{ url_for('static', filename='src/malicious.png') }}" alt="domain" width="10%" height="80%">
                     <p class="text-content"> Malicious:
@@ -84,7 +86,7 @@
                         data-bs-toggle="tooltip" 
                         data-bs-placement="top" 
                         title="{{data['VTBlacklist']['stats']['suspicious']['details']}}" >
-                        {{datadata["VTBlacklist"]['stats']["suspicious"]['count']}}
+                        {{data["VTBlacklist"]['stats']["suspicious"]['count']}}
                     </span>   
                     {% else %}
                     {{data["VTBlacklist"]['stats']["suspicious"]['count']}} 

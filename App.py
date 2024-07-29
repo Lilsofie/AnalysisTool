@@ -24,12 +24,13 @@ DEFAULT_IP_DATA = {
     'HTBlacklist': {'count': 0, 'sites': ['']}, 
     'ASN': {'ISP': '', 'Range': ''}}
 DEFAULT_DOMAIN_DATA = {'IP Addr': '',
+                       'VTBlacklist': {'severity': '', 'stats': {'malicious': {'count': 0, 'details': []}, 'suspicious': {'count': 0, 'details': []}, 'undetected': 0, 'harmless':0, 'timeout': 0}}, 
                         'Geolocation': {'Hostname': '', 'City': '', 'Region': '', 'Country': '', 'Org': '', 'latitude': '', 'longitude': ''}, 
                         'ASN': {'ISP': '', 'Range': ''}, 
                         'HTBlacklist': {'count': 0, 'sites': []},
-                        'Authentication': {'DMARC': {'Failed': {'count':0}, 'Warnings': {'count':0}, 'Passed': {'count':0}}, 
-                                           'DKIM': {'Failed': {'count':0}, 'Warnings': {'count':0}, 'Passed': {'count':0}}, 
-                                           'SPF': {'Failed': {'count':0}, 'Warnings': {'count':0}, 'Passed': {'count':0}}}}
+                        'Authentication': {'DMARC': {'Failed': {'count':0, 'details': []}, 'Warnings': {'count':0, 'details': []}, 'Passed': {'count':1, 'details': []}}, 
+                                           'DKIM': {'Failed': {'count':0, 'details': []}, 'Warnings': {'count':1, 'details': []}, 'Passed': {'count':0, 'details': []}}, 
+                                           'SPF': {'Failed': {'count':1, 'details': []}, 'Warnings': {'count':0, 'details': []}, 'Passed': {'count':0, 'details': []}}}}
 
 @app.route('/', methods=["GET", "POST"])
 def home():
@@ -74,7 +75,7 @@ def run_ip_analysis(ip_addr):
     asn = result["Geolocation"]["Org"].split()
     asn = asn[0]
     result["ASN"] = MxToolBox.asnLookup(asn,MXTOOLBOX_APIKEY)
-    print(result)
+    # print(result)
     return result
 
 
@@ -94,7 +95,7 @@ def run_domain_analysis(domain_nm):
     if index != -1:
         domain_nm = domain_nm[:index]
         selector = domain_nm[index+1:]
-    result["VTBlacklist"] = VirusTotal.getReport('domain',ip_addr,VIRUSTOTAL_APIKEY)
+    result["VTBlacklist"] = VirusTotal.getReport('domain',domain_nm,VIRUSTOTAL_APIKEY)
     result["IP Addr"] = MxToolBox.dnsLookup(domain_nm,MXTOOLBOX_APIKEY)
     ip_addr = result["IP Addr"]
     result["Geolocation"] = IPinfo.getIPgeo(ip_addr,IPINFO_APIKEY)
@@ -102,56 +103,31 @@ def run_domain_analysis(domain_nm):
     result["ASN"] = MxToolBox.asnLookup(asn,MXTOOLBOX_APIKEY)
     result["HTBlacklist"] = HetrixTools.checkHostBlackList(domain_nm,HETRIXTOOLS_APIKEY)
     result["Authentication"] = MxToolBox.checkDomain(domain_nm,selector,MXTOOLBOX_APIKEY)
-    # print(result)
+    print(result)
     return result
 
-@app.route('/analyze-url', methods=['POST'])
-def analyze_url():
-    app.logger.info(f"Received request: {request.json}")  # Log the received request
+
+@app.route('/scan_url', methods=['POST'])
+def scan_url():
     data = request.json
-    url = data.get('url')
-    if url:
-        try:
-            app.logger.info(f"Analyzing URL: {url}")  # Log the URL being analyzed
-            result = run_url_analysis(url)
-            app.logger.info(f"Analysis result: {result}")  # Log the analysis result
-            return jsonify({'id': result.get('id')})
-        except Exception as e:
-            app.logger.error(f"Error in run_url_analysis: {str(e)}")
-            return jsonify({'error': 'Analysis failed'}), 500
-    app.logger.warning("No URL provided")  # Log when no URL is provided
-    return jsonify({'error': 'No URL provided'}), 400
+    input_url = data['url']
+    result = VirusTotal.scanUrl(input_url, VIRUSTOTAL_APIKEY)
+    return jsonify(result)
 
-def run_url_analysis(link):
-    try:
-        result = VirusTotal.scanUrl(link, VIRUSTOTAL_APIKEY)
-        app.logger.info(f"VirusTotal scan result: {result}")
-        return result
-    except Exception as e:
-        app.logger.error(f"Error in run_url_analysis: {str(e)}")
-        raise
 @app.route('/url/', defaults={'id': None})
-@app.route("/url/<id>")
+@app.route('/url/<id>')
 def url(id):
-    result = {}
-    if id:
-        try:
-            result = VirusTotal.analyzeUrl(id,VIRUSTOTAL_APIKEY)
-        except Exception as e:
-            app.logger.error(f"Error retrieving analysis result: {str(e)}")
-    return render_template('url.html', data=result)
+    url = request.args.get('url', 'No URL provided')
+    # Fetch the analysis results using the ID
+    headers = {
+        "accept": "application/json",
+        "x-apikey": VIRUSTOTAL_APIKEY
+    }
+    result = VirusTotal.analyzeUrl(id, headers)
+    print(result)
+    result['url'] = url
+    return render_template('url.html', url_link=url, data=result['stats'])
 
-@app.errorhandler(404)
-def not_found(error):
-    if request.path.startswith('/analyze-url'):
-        return jsonify(error=str(error)), 404
-    return render_template('404.html'), 404
-
-@app.errorhandler(500)
-def server_error(error):
-    if request.path.startswith('/analyze-url'):
-        return jsonify(error=str(error)), 500
-    return render_template('500.html'), 500
 
 if __name__ == '__main__':
     app.run(debug=True)

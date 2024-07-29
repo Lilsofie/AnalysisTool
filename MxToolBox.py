@@ -28,22 +28,19 @@ def checkDomain(domain,selector,apikey):
                 details =  checkValidationDetails(failed)
                 result[method]["Failed"] = {}
                 result[method]["Failed"]["count"] = len(details)
-                if(details != []):
-                    result[method]["Failed"]["details"] = details
+                result[method]["Failed"]["details"] = details
 
                 warnings = domain_response["Warnings"]
                 details = checkValidationDetails(warnings)
                 result[method]["Warnings"] = {}
                 result[method]["Warnings"]["count"] = len(details)
-                if(details != []):
-                    result[method]["Warnings"]["details"] = details
+                result[method]["Warnings"]["details"] = details
 
                 passed = domain_response["Passed"]
                 details = checkValidationDetails(passed)     
                 result[method]["Passed"] = {}
                 result[method]["Passed"]["count"] = len(details)
-                if(details != []):
-                    result[method]["Passed"]["details"] = details
+                result[method]["Passed"]["details"] = details
         else:
             print(f"API call failed with status code: {domain_response.status_code}")
             result = domain_response.text

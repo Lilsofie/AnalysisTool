@@ -7,13 +7,14 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log('URL to analyze:', url); // Log the URL being sent
 
         if (url) {
-            const requestBody = JSON.stringify({ url: url });
+            const requestBody = JSON.stringify({url: url})
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content'); 
             console.log('Request body:', requestBody); // Log the request body
-
-            fetch('/analyze-url', {
+            fetch('/scan_url', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken
                 },
                 body: requestBody,
             })
@@ -31,12 +32,8 @@ document.addEventListener('DOMContentLoaded', () => {
             })
             .then(data => {
                 console.log('Response data:', data); // Log the response data
-                if (data.id) {
-                    window.location.href = `/url/${data.id}`;
-                } else {
-                    console.error('No ID received from the backend');
-                    alert('Error: No ID received from the backend');
-                }
+                window.location.href = `/url/${data.id}?url=${encodeURIComponent(data.url)}`;
+                
             })
             .catch(error => {
                 console.error('Error:', error);

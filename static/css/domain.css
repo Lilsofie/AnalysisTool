@@ -21,7 +21,8 @@
     background-color: #333332; 
     display: flex;
     flex-direction: column;
-    gap:2%;
+    gap:1%;
+    overflow: hidden;
 }
 .content-grid {
     display: grid;
@@ -32,6 +33,12 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+}
+.auth{
+    display: flex;
+    flex: row;
+    width: 94%;
+    gap:-0.3%;
 }
 .text-title{
     color: #ffffff;
@@ -63,4 +70,16 @@
 #map{
     width: 100%;
     height: 80%;
+}
+.t-title{
+    font-size: clamp(11px, calc(1rem + 0.5vw), 16px);
+}
+.t-content{
+    font-size: clamp(8px, calc(1rem + 0.5vw), 14px);
+}
+.p-ip-addr{
+    padding: 5.7% 7% 5% 9%
+}
+.grid-1{
+    grid-template-rows: 17% 81%;
 }
