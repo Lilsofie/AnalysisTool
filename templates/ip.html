@@ -47,38 +47,62 @@
     </div>
     <div class="content-grid">
         <div class="item"> 
-            <h3 class="text-title">BlackList </h3>
+            <h3 class="text-title">BlackList - HetrixTools </h3>
             <div class="wrap">
-                <h2 class="blacklist-count">{{data["BlackList"]["count"]}} blacklisted count</h2>
+                <h2 class="blacklist-count">{{data["HTBlacklist"]["count"]}} blacklisted count</h2>
                 <div class="blacklist-details">
-                    {% for site in data["BlackList"]["sites"] %}
+                    {% for site in data["HTBlacklist"]["sites"] %}
                         <p class="text-content" style="text-align: center;"> {{site}}, </p>
                     {% endfor %}
                 </div>
             </div> 
         </div>
         <div class="item" > 
-            <h3 class="text-title">Virus Total </h3>
+            <h3 class="text-title">Blacklist - VirusTotal </h3>
             <div class="wrap">
+                <p class="text-content" style="text-align: center; font-weight: 600;"> Severity : {{data["VTBlacklist"]["severity"]}} </p>
                 <div class="icon">
                     <img src="{{ url_for('static', filename='src/malicious.png') }}" alt="domain" width="10%" height="80%">
-                    <p class="text-content"> Malicious : {{data["VT anal"]["malicious"]}} </p>
+                    <p class="text-content"> Malicious:
+                        {% if data["VTBlacklist"]['stats']["malicious"]['count'] != 0 %}
+                        <span 
+                            data-bs-toggle="tooltip" 
+                            data-bs-placement="top" 
+                            title="{{data['VTBlacklist']['stats']['malicious']['details']}}" >
+                            {{data["VTBlacklist"]['stats']["malicious"]['count']}}
+                        </span>   
+                        {% else %}
+                        {{data["VTBlacklist"]['stats']["malicious"]['count']}} 
+                        {% endif %}
+                    </p>
                 </div>
                 <div class="icon">
                     <img src="{{ url_for('static', filename='src/suspicious.png') }}" alt="domain" width="10%" height="80%">
-                    <p class="text-content"> Suspicious : {{data["VT anal"]["suspicious"]}} </p>
+                    <p class="text-content"> Suspicious: 
+                     {% if data["VTBlacklist"]['stats']["suspicious"]['count'] != 0 %}
+                    <span 
+                        data-bs-toggle="tooltip" 
+                        data-bs-placement="top" 
+                        title="{{data['VTBlacklist']['stats']['suspicious']['details']}}" >
+                        {{datadata["VTBlacklist"]['stats']["suspicious"]['count']}}
+                    </span>   
+                    {% else %}
+                    {{data["VTBlacklist"]['stats']["suspicious"]['count']}} 
+                    {% endif %}
+                    </p>
+                   
                 </div>
                 <div class="icon">
                     <img src="{{ url_for('static', filename='src/undetected.png') }}" alt="domain" width="10%" height="80%">
-                    <p class="text-content"> Undetected : {{data["VT anal"]["undetected"]}} </p>
+                    <p class="text-content"> Undetected : {{data["VTBlacklist"]['stats']["undetected"]}} </p>
                 </div>
                 <div class="icon">
                     <img src="{{ url_for('static', filename='src/harmless.png') }}" alt="domain" width="10%" height="80%">
-                    <p class="text-content"> Harmless : {{data["VT anal"]["harmless"]}} </p>
+                    <p class="text-content"> Harmless : {{data["VTBlacklist"]['stats']["harmless"]}} </p>
                 </div>
                 <div class="icon">
                     <img src="{{ url_for('static', filename='src/timeout.png') }}" alt="domain" width="10%" height="80%">
-                    <p class="text-content"> Timeout : {{data["VT anal"]["timeout"]}} </p>
+                    <p class="text-content"> Timeout : {{data["VTBlacklist"]['stats']["timeout"]}} </p>
                 </div>           
           </div>
             

@@ -9,11 +9,11 @@ def getIPgeo(IP,apitoken):
     geo_response = requests.get(geo_url)
     if geo_response.status_code == 200:
        geo_response = geo_response.json()
-       if "hostname" in geo_response:
+       if geo_response.get("hostname") != None:
             hostname = geo_response["hostname"]
             result["Hostname"] = hostname
        else:
-           result["Hostname"] = ""
+           result["Hostname"] = 'None'
        result["City"] = geo_response["city"]
        result["Region"] = geo_response["region"]
        result["Country"] = geo_response["country"]

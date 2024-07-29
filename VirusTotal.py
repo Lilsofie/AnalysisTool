@@ -13,27 +13,34 @@ def getInfoDetails(category,data,stats):
     result['details'] = details
     return result
 
-# get ip address report
-def getIP(input_ip,apikey):
-    result = {}
-    ip_url = base_url+'ip_addresses/'+ input_ip
-    ip_response = requests.get(ip_url, headers={
+# get report
+def getReport(flag,input,apikey):
+    headers = {
         "accept": "application/json",
         "x-apikey": apikey
-    } )
-    if ip_response.status_code == 200:
-        ip_response = ip_response.json()
-        attributes = ip_response['data']['attributes']
-        ip_stats = attributes['last_analysis_stats']
-        ip_results = attributes['last_analysis_results']
-        ip_stats['malicious'] = getInfoDetails('malicious', ip_results,ip_stats)
-        ip_stats['suspicious'] = getInfoDetails('suspicious', ip_results,ip_stats)
-        result['severity'] = attributes['crowdsourced_context'][0]['severity']
-        result['stats'] = ip_stats
-        print(result)
+    }
+    result = {}
+    if flag == 'ip':
+        url = base_url+'ip_addresses/'+ input
+    elif flag == 'domain':
+        url = base_url + 'domains/' + input
+    response = requests.get(url, headers=headers )
+    if response.status_code == 200:
+        response = response.json()
+        # print(response)
+        attributes = response['data']['attributes']
+        stats = attributes['last_analysis_stats']
+        results = attributes['last_analysis_results']
+        stats['malicious'] = getInfoDetails('malicious', results,stats)
+        stats['suspicious'] = getInfoDetails('suspicious', results,stats)
+        if attributes.get('crowdsourced_context') != None:
+            result['severity'] = attributes['crowdsourced_context'][0]['severity']
+        else:
+            result['severity'] = 'None'
+        result['stats'] = stats
     else:
-        print(f"API call failed with status code: {ip_response.status_code}\n")
-        result = ip_response.text
+        print(f"API call failed with status code: {response.status_code}\n")
+        result = response.text
     return result
 
 

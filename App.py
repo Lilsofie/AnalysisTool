@@ -19,15 +19,14 @@ MXTOOLBOX_APIKEY = os.getenv('MX_TOOLBOX')
 GOOGLEMAP_APIKEY = os.getenv('GOOGLE_MAP')
 
 DEFAULT_IP_DATA = {
-    'VT anal': {'malicious': 0, 'suspicious': 0, 'undetected': 0, 'harmless': 0, 'timeout': 0, 'text': ''}, 
-    'Geolocation': {'Hostname': '', 'City': '', 'Region': '', 'Country': '', 'Org': '', 'latitude': '', 'longtitude': ''}, 
-    'BlackList': {'count': 0, 'sites': []}, 
-    'ASN': {'ISP': '', 'Range': ''}
-}
+    'VTBlacklist': {'severity': '', 'stats': {'malicious': {'count': 0, 'details': []}, 'suspicious': {'count': 0, 'details': []}, 'undetected': 0, 'harmless':0, 'timeout': 0}}, 
+    'Geolocation': {'Hostname': '', 'City': '', 'Region': '', 'Country': '', 'Org': '', 'latitude': '', 'longitude': ''}, 
+    'HTBlacklist': {'count': 0, 'sites': ['']}, 
+    'ASN': {'ISP': '', 'Range': ''}}
 DEFAULT_DOMAIN_DATA = {'IP Addr': '',
                         'Geolocation': {'Hostname': '', 'City': '', 'Region': '', 'Country': '', 'Org': '', 'latitude': '', 'longitude': ''}, 
                         'ASN': {'ISP': '', 'Range': ''}, 
-                        'BlackList': {'count': 0, 'sites': []},
+                        'HTBlacklist': {'count': 0, 'sites': []},
                         'Authentication': {'DMARC': {'Failed': {'count':0}, 'Warnings': {'count':0}, 'Passed': {'count':0}}, 
                                            'DKIM': {'Failed': {'count':0}, 'Warnings': {'count':0}, 'Passed': {'count':0}}, 
                                            'SPF': {'Failed': {'count':0}, 'Warnings': {'count':0}, 'Passed': {'count':0}}}}
@@ -69,12 +68,13 @@ def ip(ip_address):
 
 def run_ip_analysis(ip_addr):
     result = {}
-    result["VT anal"] = VirusTotal.getIP(ip_addr,VIRUSTOTAL_APIKEY)
+    result["VTBlacklist"] = VirusTotal.getReport('ip',ip_addr,VIRUSTOTAL_APIKEY)
     result["Geolocation"] = IPinfo.getIPgeo(ip_addr,IPINFO_APIKEY)
-    result["BlackList"] = HetrixTools.checkIPBlackList(ip_addr,HETRIXTOOLS_APIKEY)
-    asn = result["Geolocation"]["Org"][0:7]
+    result["HTBlacklist"] = HetrixTools.checkIPBlackList(ip_addr,HETRIXTOOLS_APIKEY)
+    asn = result["Geolocation"]["Org"].split()
+    asn = asn[0]
     result["ASN"] = MxToolBox.asnLookup(asn,MXTOOLBOX_APIKEY)
-    # print(result)
+    print(result)
     return result
 
 
@@ -94,12 +94,13 @@ def run_domain_analysis(domain_nm):
     if index != -1:
         domain_nm = domain_nm[:index]
         selector = domain_nm[index+1:]
+    result["VTBlacklist"] = VirusTotal.getReport('domain',ip_addr,VIRUSTOTAL_APIKEY)
     result["IP Addr"] = MxToolBox.dnsLookup(domain_nm,MXTOOLBOX_APIKEY)
     ip_addr = result["IP Addr"]
     result["Geolocation"] = IPinfo.getIPgeo(ip_addr,IPINFO_APIKEY)
     asn = result["Geolocation"]["Org"][0:7]
     result["ASN"] = MxToolBox.asnLookup(asn,MXTOOLBOX_APIKEY)
-    result["BlackList"] = HetrixTools.checkHostBlackList(domain_nm,HETRIXTOOLS_APIKEY)
+    result["HTBlacklist"] = HetrixTools.checkHostBlackList(domain_nm,HETRIXTOOLS_APIKEY)
     result["Authentication"] = MxToolBox.checkDomain(domain_nm,selector,MXTOOLBOX_APIKEY)
     # print(result)
     return result
