@@ -23,6 +23,7 @@ DEFAULT_IP_DATA = {
     'Geolocation': {'Hostname': '', 'City': '', 'Region': '', 'Country': '', 'Org': '', 'latitude': '', 'longitude': ''}, 
     'HTBlacklist': {'count': 0, 'sites': ['']}, 
     'ASN': {'ISP': '', 'Range': ''}}
+
 DEFAULT_DOMAIN_DATA = {'IP Addr': '',
                        'VTBlacklist': {'severity': '', 'stats': {'malicious': {'count': 0, 'details': []}, 'suspicious': {'count': 0, 'details': []}, 'undetected': 0, 'harmless':0, 'timeout': 0}}, 
                         'Geolocation': {'Hostname': '', 'City': '', 'Region': '', 'Country': '', 'Org': '', 'latitude': '', 'longitude': ''}, 
@@ -31,7 +32,7 @@ DEFAULT_DOMAIN_DATA = {'IP Addr': '',
                         'Authentication': {'DMARC': {'Failed': {'count':0, 'details': []}, 'Warnings': {'count':0, 'details': []}, 'Passed': {'count':1, 'details': []}}, 
                                            'DKIM': {'Failed': {'count':0, 'details': []}, 'Warnings': {'count':1, 'details': []}, 'Passed': {'count':0, 'details': []}}, 
                                            'SPF': {'Failed': {'count':1, 'details': []}, 'Warnings': {'count':0, 'details': []}, 'Passed': {'count':0, 'details': []}}}}
-
+DEFAULT_URL_DATA = {'id': '', 'stats': {'malicious': {'count': 0, 'details': []}, 'suspicious': {'count': 0, 'details': []}, 'undetected': 0, 'harmless': 0, 'timeout': 0}}
 @app.route('/', methods=["GET", "POST"])
 def home():
     if request.method == "POST":
@@ -75,7 +76,7 @@ def run_ip_analysis(ip_addr):
     asn = result["Geolocation"]["Org"].split()
     asn = asn[0]
     result["ASN"] = MxToolBox.asnLookup(asn,MXTOOLBOX_APIKEY)
-    # print(result)
+    print(result)
     return result
 
 
@@ -117,8 +118,9 @@ def scan_url():
 @app.route('/url/', defaults={'id': ''})
 @app.route('/url/<id>')
 def url(id):
-    if(id != ''):
-        url = request.args.get('url', 'No URL provided')
+    url = request.args.get('url', 'No URL provided')
+    result =  DEFAULT_URL_DATA
+    if(id ):
         # Fetch the analysis results using the ID
         headers = {
             "accept": "application/json",

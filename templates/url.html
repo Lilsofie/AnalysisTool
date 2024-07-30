@@ -26,7 +26,7 @@
         </div>
         <div class="icon">
             <img src="{{ url_for('static', filename='src/suspicious.png') }}" alt="domain"  width="5%" height="65%">
-            <p class="text-content"> Suspicious : {{data["suspicious"]}} 
+            <p class="text-content"> Suspicious : {{data["suspicious"]['count']}} 
                 {% if data["suspicious"]["count"] != 0 %}
                     {% for detail in data['suspicious']['details']%}
                         {{detail}}

@@ -51,7 +51,6 @@ def analyzeUrl(analysis_id,headers):
     analysis_url = base_url + 'analyses/' + analysis_id
     analysis_response = requests.get(analysis_url, headers=headers)
     if analysis_response.status_code == 200:
-        print(analysis_response.json())
         attribues = analysis_response.json()['data']['attributes']
         analysis_stats = attribues['stats']
         analysis_results = attribues['results']
