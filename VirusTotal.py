@@ -45,10 +45,12 @@ def getReport(flag,input,apikey):
 
 
 # analyze URL
-def analyzeUrl(analysis_id,headers):
-    result = {}
-    result['id'] = analysis_id
-    analysis_url = base_url + 'analyses/' + analysis_id
+def analyzeUrl(data,apikey):
+    headers = {
+        "accept": "application/json",
+        "x-apikey": apikey,
+    }   
+    analysis_url = base_url + 'analyses/' + data['id']
     analysis_response = requests.get(analysis_url, headers=headers)
     if analysis_response.status_code == 200:
         attribues = analysis_response.json()['data']['attributes']
@@ -56,12 +58,12 @@ def analyzeUrl(analysis_id,headers):
         analysis_results = attribues['results']
         analysis_stats['malicious'] = getInfoDetails('malicious',analysis_results,analysis_stats)
         analysis_stats['suspicious'] = getInfoDetails('suspicious',analysis_results,analysis_stats)
-        result['stats'] = analysis_stats 
+        data['stats'] = analysis_stats 
         
     else:
         print(f"API call failed with status code: {analysis_response.status_code}")
         print(analysis_response.text)
-    return result
+    return data
 
 
 #scan URL
@@ -78,7 +80,6 @@ def scanUrl(input_url,apikey):
     if url_response.status_code == 200:
         analysis_id = url_response.json()['data']['id']
         print(analysis_id)
-        del headers["conent-type"]
         return {"id": analysis_id, "url": input_url}
     else:
         print(f"API call failed with status code: {url_response.status_code}")

@@ -8,10 +8,10 @@ document.addEventListener('DOMContentLoaded', () => {
             if(isValidIP(ipAddress)){
                 window.location.href = `/ip/${ipAddress}`;
             } else {
-                showError('Please enter a valid domain name');
+                showError('Please enter a valid IP address');
             }
         } else {
-            showError('Please enter a domain name');
+            showError('Please enter a IP iddress');
         }
     }
     const isValidIP = (ip) => {

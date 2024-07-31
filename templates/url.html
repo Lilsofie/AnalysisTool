@@ -6,7 +6,7 @@
 {% endblock %}
 {% block content %}
 <div class="title-display">
-    <h1  class="content-title url-title"> URL: {{url_link}}</h1>
+    <h1  id="urlLink" class="content-title url-title">URL: </h1>
     <div class="input-group mb-0 align-self-center w-75">
         <input id="inputURL"  type="text" class="form-control " placeholder="Enter an URL" aria-label="enter" aria-describedby="button-addon2">
         <button id="submitURL" class="btn btn-outline-secondary" type="button" >Enter</button>
@@ -16,35 +16,34 @@
     <div class="wrap">
         <div class="icon">
             <img src="{{ url_for('static', filename='src/malicious.png') }}" alt="domain" width="5%" height="65%">
-            <p class="text-content"> Malicious : {{data["malicious"]["count"]}}    
-                {% if data["malicious"]["count"] != 0 %}
-                    {% for detail in data['malicious']['details']%}
-                        {{detail}}
-                    {% endfor %}
-                {% endif %}
+            <p id="maliciousCount" class="text-content"> Malicious : 0
+                <p id="maliciousContent" class="text-content"> hi
+                </p>
             </p>
         </div>
         <div class="icon">
             <img src="{{ url_for('static', filename='src/suspicious.png') }}" alt="domain"  width="5%" height="65%">
-            <p class="text-content"> Suspicious : {{data["suspicious"]['count']}} 
-                {% if data["suspicious"]["count"] != 0 %}
-                    {% for detail in data['suspicious']['details']%}
-                        {{detail}}
-                    {% endfor %}
-                {% endif %}
+            <p id = "suspiciousCount" class="text-content"> Suspicious : 0 
+                <p id = "suspiciousCount" class="text-content">
+                    {% if data["stats"]["suspicious"]["count"] != 0 %}
+                        {% for detail in data["stats"]['suspicious']['details']%}
+                            {{detail}}
+                        {% endfor %}
+                    {% endif %}
+                </p>
             </p>
         </div>
         <div class="icon">
             <img src="{{ url_for('static', filename='src/undetected.png') }}" alt="domain"  width="5%" height="65%">
-            <p class="text-content"> Undetected : {{data["undetected"]}} </p>
+            <p id = "undetectedCount" class="text-content"> Undetected : 0 </p>
         </div>
         <div class="icon">
             <img src="{{ url_for('static', filename='src/harmless.png') }}" alt="domain"  width="5%" height="65%">
-            <p class="text-content"> Clear : {{data["harmless"]}} </p>
+            <p id = "clearCount" class="text-content"> Clear : 0 </p>
         </div>
         <div class="icon">
             <img src="{{ url_for('static', filename='src/timeout.png') }}" alt="domain"  width="5%" height="65%">
-            <p class="text-content"> Timeout : {{data["timeout"]}} </p>
+            <p id = "timeoutCount" class="text-content"> Timeout : 0 </p>
         </div>  
     </div>
 </div>

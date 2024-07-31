@@ -112,24 +112,29 @@ def run_domain_analysis(domain_nm):
 def scan_url():
     data = request.json
     input_url = data['url']
-    result = VirusTotal.scanUrl(input_url, VIRUSTOTAL_APIKEY)
-    return jsonify(result)
+    try:
+        result = VirusTotal.scanUrl(input_url, VIRUSTOTAL_APIKEY)
+        return jsonify(result)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
-@app.route('/url/', defaults={'id': ''})
-@app.route('/url/<id>')
+@app.route('/analyze_url', methods=['GET', 'POST'])
+def analyze_url():
+    data = request.json
+    try:
+        result = VirusTotal.analyzeUrl(data, VIRUSTOTAL_APIKEY)
+        return jsonify(result)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/url/', defaults={'id':''})
+@app.route("/url/<id>")
 def url(id):
-    url = request.args.get('url', 'No URL provided')
-    result =  DEFAULT_URL_DATA
-    if(id ):
-        # Fetch the analysis results using the ID
-        headers = {
-            "accept": "application/json",
-            "x-apikey": VIRUSTOTAL_APIKEY
-        }
-        result = VirusTotal.analyzeUrl(id, headers)
-        print(result)
-        result['url'] = url
-    return render_template('url.html', url_link=url, data=result['stats'])
+    url_link = request.args.get('url')
+    stats = request.args.get('stats')
+    if stats == None:
+        stats = DEFAULT_URL_DATA
+    return render_template('url.html', url_link=url_link, data=stats)
 
 
 if __name__ == '__main__':
