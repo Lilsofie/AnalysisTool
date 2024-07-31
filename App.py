@@ -133,4 +133,4 @@ def url(id):
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='172.29.33.84', port=5000, debug=True, threaded=False)
