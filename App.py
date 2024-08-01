@@ -18,11 +18,7 @@ HETRIXTOOLS_APIKEY = os.getenv('HETRIX_TOOLS')
 MXTOOLBOX_APIKEY = os.getenv('MX_TOOLBOX')
 GOOGLEMAP_APIKEY = os.getenv('GOOGLE_MAP')
 
-DEFAULT_IP_DATA = {
-    'VTBlacklist': {'severity': '', 'stats': {'malicious': {'count': 0, 'details': []}, 'suspicious': {'count': 0, 'details': []}, 'undetected': 0, 'harmless':0, 'timeout': 0}}, 
-    'Geolocation': {'Hostname': '', 'City': '', 'Region': '', 'Country': '', 'Org': '', 'latitude': '', 'longitude': ''}, 
-    'HTBlacklist': {'count': 0, 'sites': ['']}, 
-    'ASN': {'ISP': '', 'Range': ''}}
+
 
 DEFAULT_DOMAIN_DATA = {'IP Addr': '',
                        'VTBlacklist': {'severity': '', 'stats': {'malicious': {'count': 0, 'details': []}, 'suspicious': {'count': 0, 'details': []}, 'undetected': 0, 'harmless':0, 'timeout': 0}}, 
@@ -32,7 +28,7 @@ DEFAULT_DOMAIN_DATA = {'IP Addr': '',
                         'Authentication': {'DMARC': {'Failed': {'count':0, 'details': []}, 'Warnings': {'count':0, 'details': []}, 'Passed': {'count':1, 'details': []}}, 
                                            'DKIM': {'Failed': {'count':0, 'details': []}, 'Warnings': {'count':1, 'details': []}, 'Passed': {'count':0, 'details': []}}, 
                                            'SPF': {'Failed': {'count':1, 'details': []}, 'Warnings': {'count':0, 'details': []}, 'Passed': {'count':0, 'details': []}}}}
-DEFAULT_URL_DATA = {'id': '', 'stats': {'malicious': {'count': 0, 'details': []}, 'suspicious': {'count': 0, 'details': []}, 'undetected': 0, 'harmless': 0, 'timeout': 0}}
+
 @app.route('/', methods=["GET", "POST"])
 def home():
         return render_template('home.html')
@@ -58,11 +54,7 @@ def analyze_ip():
 @app.route('/ip/', defaults={'ip_address': None})
 @app.route('/ip/<ip_address>') 
 def ip(ip_address):
-    result = DEFAULT_IP_DATA
-    # if ip_address:
-    #      if(ip_address != "..."):
-    #         result = run_ip_analysis(ip_address)
-    return render_template('ip.html',ip_addr=ip_address,data=result, apikey=GOOGLEMAP_APIKEY)
+    return render_template('ip.html',apikey=GOOGLEMAP_APIKEY)
 
 @app.route('/domain/', defaults={'domain_name': None})
 @app.route("/domain/<domain_name>")

@@ -6,39 +6,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const inputURL = document.getElementById("inputURL");
     const buttonEnter = document.getElementById("submitURL");
     var urlData = JSON.parse(localStorage.getItem('urlData'));
-
-    if (urlData == null) {urlData = DEFAULT_URL_DATA;}
-    else console.log(urlData);
-    
-    const urlLink = document.getElementById("urlLink");         
-    const maliciousContent = document.getElementById("maliciousContent");
-    const maliciousCount = document.getElementById("maliciousCount");
-    const suspiciousContent = document.getElementById("suspiciousContent");
-    const suspiciousCount = document.getElementById("suspiciousCount");
-    const undetectedCount = document.getElementById("undetectedCount");
-    const clearCount = document.getElementById("clearCount");
-    const timeoutCount = document.getElementById("timeoutCount");
-    urlLink.textContent = 'URL: ' + urlData.url;
-    maliciousCount.textContent = 'Malicious: ' + urlData.stats.malicious.count;
-
-    if (urlData.stats.malicious.count !== 0) {
-        maliciousContent.textContent = urlData.stats.malicious.details.join(" ");
-        } else {
-        maliciousContent.textContent = '';
-        }
-    suspiciousCount.textContent = 'Suspicious: ' + urlData.stats.suspicious.count;
-    if (urlData.stats.suspicious.count !== 0) {
-        suspiciousContent.textContent = urlData.stats.suspicious.details.join(" ");
-        } else {
-        suspiciousContent.textContent = '';
-        }
-    undetectedCount.textContent  = 'Undetected: ' + urlData.stats.undetected;
-    clearCount.textContent = 'Clear: ' + urlData.stats.harmless;
-    timeoutCount.textContent = 'Timeout: ' + urlData.stats.timeout;
-    // Clear the data from localStorage
-    localStorage.removeItem('urlData');
-    
-    console.log(inputURL.value);
+    displayData(urlData);
+ 
     inputURL.addEventListener('keypress', (event) => {
         if (event.key === 'Enter') {
             navigateToURLAnalysis(inputURL.value);
@@ -112,4 +81,42 @@ export function analyzeData(data){
             console.error('Error:', error);
             alert(`An error occurred: ${error.message}`);
         });
+}
+function displayData(urlData){
+    if (urlData == null) {urlData = DEFAULT_URL_DATA;}
+    else console.log(urlData);
+
+    const urlLink = document.getElementById("urlLink");         
+    const maliciousContent = document.getElementById("maliciousContent");
+    const maliciousCount = document.getElementById("maliciousCount");
+    const suspiciousContent = document.getElementById("suspiciousContent");
+    const suspiciousCount = document.getElementById("suspiciousCount");
+    const undetectedCount = document.getElementById("undetectedCount");
+    const clearCount = document.getElementById("clearCount");
+    const timeoutCount = document.getElementById("timeoutCount");
+
+    urlLink.textContent = 'URL: ' + urlData.url;
+    
+    const malicious =  urlData.stats.malicious;
+    maliciousCount.textContent = 'Malicious: ' + malicious.count;
+
+    if (malicious.count !== 0) {
+        maliciousContent.textContent = malicious.details.join(" ");
+    } else {
+    maliciousContent.textContent = '';
+    }
+
+    const suspicious = urlData.stats.suspicious;
+    suspiciousCount.textContent = 'Suspicious: ' + suspicious.count;
+    if (suspicious.count !== 0) {
+        suspiciousContent.textContent = suspicious.details.join(" ");
+    } else {
+        suspiciousContent.textContent = '';
+    }
+
+    undetectedCount.textContent  = 'Undetected: ' + urlData.stats.undetected;
+    clearCount.textContent = 'Clear: ' + urlData.stats.harmless;
+    timeoutCount.textContent = 'Timeout: ' + urlData.stats.timeout;
+    // Clear the data from localStorage
+    localStorage.removeItem('urlData');
 }

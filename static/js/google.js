@@ -1,6 +1,6 @@
 let map;
 let geoData = {
-  latitude: "25.033130" ,
+  latitude: "25.033130",
   longitude: "121.567720"
 };;
 

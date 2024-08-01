@@ -9,93 +9,14 @@ const DEFAULT_IP_DATA = {
 document.addEventListener('DOMContentLoaded', () => {
     const inputIP = document.getElementById('inputIP');
     const buttonEnter = document.getElementById('submitIP');
-    const ipData = JSON.parse(localStorage.getItem('ipData'));
-
-    if (ipData == null) ipData = DEFAULT_IP_DATA;
-    else console.log(ipData);
-    const ipAddr = document.getElementById("ipAddr");
-    
-    ipAddr.textContent = "IP: " + ipData.ip_addr;
-
-    const geo = ipData.Geolocation;
-    displayGeoData(geo);
-    fetchGeoData(geo);
-
-    const asn = ipData.ASN;
-    displayAsnData(asn);
-
-    const vt = ipData.VTBlacklist;
-    displayVtData(vt);
-    
-    const ht = ipData.HTBlacklist;
-    displayHtData(ht);
-
-    // Clear the data from localStorage
-    localStorage.removeItem('ipData');
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+    var ipData = JSON.parse(localStorage.getItem('ipData'));
+    displayData(ipData);
 
     
-    
-    function displayGeoData(geo){
-        const country = document.getElementById("country");
-        const region = document.getElementById("region");
-        const city = document.getElementById("city");
-        const org = document.getElementById("org");
-        const host = document.getElementById("host");
-
-        country.textContent = "Country: " + geo.Country;
-        region.textContent = "Region: " + geo.Region;
-        city.textContent = "City: " + geo.City;
-        org.textContent = geo.Org;
-        host.textContent = geo.Hostname;
-      
-
-    }
-
-    function displayAsnData(asn){
-        const isp = document.getElementById("isp");
-        const range = document.getElementById("range");
-
-        isp.textContent = asn.ISP;
-        range.textContent = asn.Range;
-    }
-
-    function displayVtData(vt){
-        const severity = document.getElementById("severity");
-        const maliciousCount = document.getElementById("maliciousCount");
-        const maliciousTooltip = document.getElementById("maliciousTooltip");
-        const suspiciousCount = document.getElementById("suspiciousCount");
-        const suspiciousTooltip = document.getElementById("suspiciousTooltip");
-        const undetectedCount = document.getElementById("undetectedCount");
-        const clearCount = document.getElementById("clearCount");
-        const timeoutCount = document.getElementById("timeoutCount");
-
-        if(vt.severity != 'None'){
-            severity.textContent = "Severity: " + vt.severity;
-        }
-
-        maliciousCount.textContent = "Malicious: " + vt.stats.malicious.count;
-        suspiciousCount.textContent = "Suspicious: " + vt.stats.suspicious.count;
-        undetectedCount.textContent = "Undetected: " + vt.stats.undetected;
-        clearCount.textContent = "Harmless: " + vt.stats.harmless;
-        timeoutCount.textContent = "Timeout: " + vt.stats.timeout;
-    }
-
-    function displayHtData(ht){
-        const blacklistCount = document.getElementById("blacklistCount");
-        const blacklistContent = document.getElementById("blacklistContent");
-
-        blacklistCount.textContent = ht.count + "blacklisted counts";
-        blacklistContent.textContent = ht.sites.join(" ");
-
-    }
-    function fetchGeoData(geo){
-        const geoData = {
-            latitude: geo.latitude,
-            longitude: geo.longitude
-        };
-        setGeoData(geoData);
-    }
-
     inputIP.addEventListener('keypress', (event) => {
         if (event.key === 'Enter') {
             navigateToIPAnalysis(inputIP.value);
@@ -156,4 +77,102 @@ export function navigateToIPAnalysis(input) {
     } else {
         showError('Please enter a IP iddress');
     }
+}
+
+function displayData(ipData){
+    if (ipData == null) ipData = DEFAULT_IP_DATA;
+    else console.log(ipData);
+
+    const ipAddr = document.getElementById("ipAddr");
+    
+    ipAddr.textContent = "IP: " + ipData.ip_addr;
+
+    const geo = ipData.Geolocation;
+    displayGeoData(geo);
+    fetchGeoData(geo);
+
+    const asn = ipData.ASN;
+    displayAsnData(asn);
+
+    const vt = ipData.VTBlacklist;
+    displayVtData(vt);
+    
+    const ht = ipData.HTBlacklist;
+    displayHtData(ht);
+
+    // Clear the data from localStorage
+    localStorage.removeItem('ipData');
+}
+  
+function displayGeoData(geo){
+    const country = document.getElementById("country");
+    const region = document.getElementById("region");
+    const city = document.getElementById("city");
+    const org = document.getElementById("org");
+    const host = document.getElementById("host");
+
+    country.textContent = "Country: " + geo.Country;
+    region.textContent = "Region: " + geo.Region;
+    city.textContent = "City: " + geo.City;
+    org.textContent = geo.Org;
+    host.textContent = geo.Hostname;
+  
+
+}
+
+function displayAsnData(asn){
+    const isp = document.getElementById("isp");
+    const range = document.getElementById("range");
+
+    isp.textContent = asn.ISP;
+    range.textContent = asn.Range;
+}
+
+function displayVtData(vt){
+    const severity = document.getElementById("severity");
+    const maliciousCount = document.getElementById("maliciousCount");
+    const maliciousTooltip = document.getElementById("maliciousTooltip");
+    const suspiciousCount = document.getElementById("suspiciousCount");
+    const suspiciousTooltip = document.getElementById("suspiciousTooltip");
+    const undetectedCount = document.getElementById("undetectedCount");
+    const clearCount = document.getElementById("clearCount");
+    const timeoutCount = document.getElementById("timeoutCount");
+
+    if(vt.severity != 'None'){
+        severity.textContent = "Severity: " + vt.severity;
+    }
+
+    const malicious = vt.stats.malicious
+    
+    if(malicious.count != 0){
+        maliciousTooltip.setAttribute("title", malicious.details.join(", "));
+        maliciousTooltip.textContent = "Malicious: " + malicious.count;
+        var tooltip = new bootstrap.Tooltip(maliciousTooltip);
+        tooltip.update();
+    }
+    else{
+        maliciousCount.textContent = "Malicious: " + malicious.count;
+    }
+
+    suspiciousCount.textContent = "Suspicious: " + vt.stats.suspicious.count;
+    undetectedCount.textContent = "Undetected: " + vt.stats.undetected;
+    clearCount.textContent = "Clear: " + vt.stats.harmless;
+    timeoutCount.textContent = "Timeout: " + vt.stats.timeout;
+}
+
+function displayHtData(ht){
+    const blacklistCount = document.getElementById("blacklistCount");
+    const blacklistContent = document.getElementById("blacklistContent");
+
+    blacklistCount.textContent = ht.count + "blacklisted counts";
+    blacklistContent.textContent = ht.sites.join(", ");
+
+}
+
+function fetchGeoData(geo){
+    const geoData = {
+        latitude: geo.latitude,
+        longitude: geo.longitude
+    };
+    setGeoData(geoData);
 }

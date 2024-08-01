@@ -60,48 +60,37 @@
                 <p id = "severity" class="text-content text-center font-bold"></p>
                 <div class="icon">
                     <img src="{{ url_for('static', filename='src/malicious.png') }}" alt="domain" width="10%" height="80%">
-                    <p id="maliciousCount" class="text-content"> Malicious:
-                        {% if data["VTBlacklist"]['stats']["malicious"]['count'] != 0 %}
+                    <p id="maliciousCount" class="text-content"> 
                         <span 
                             id = "maliciousTooltip"
                             data-bs-toggle="tooltip" 
-                            data-bs-placement="top" 
-                            title="{{data['VTBlacklist']['stats']['malicious']['details']}}" >
-                            {{data["VTBlacklist"]['stats']["malicious"]['count']}}
+                            data-bs-placement="top" title="">
                         </span>   
-                        {% else %}
-                        {{data["VTBlacklist"]['stats']["malicious"]['count']}} 
-                        {% endif %}
                     </p>
                 </div>
                 <div class="icon">
                     <img src="{{ url_for('static', filename='src/suspicious.png') }}" alt="domain" width="10%" height="80%">
-                    <p id = "suspiciousCount" class="text-content"> Suspicious: 
-                     {% if data["VTBlacklist"]['stats']["suspicious"]['count'] != 0 %}
+                    <p id = "suspiciousCount" class="text-content">
                     <span 
                         id = "suspiciousTooltip"
                         data-bs-toggle="tooltip" 
-                        data-bs-placement="top" 
-                        title="{{data['VTBlacklist']['stats']['suspicious']['details']}}" >
-                        {{data["VTBlacklist"]['stats']["suspicious"]['count']}}
+                        data-bs-placement="top" >
                     </span>   
-                    {% else %}
-                    {{data["VTBlacklist"]['stats']["suspicious"]['count']}} 
-                    {% endif %}
+         
                     </p>
                    
                 </div>
                 <div class="icon">
                     <img src="{{ url_for('static', filename='src/undetected.png') }}" alt="domain" width="10%" height="80%">
-                    <p id = "undetectedCount" class="text-content"> Undetected : 0 </p>
+                    <p id = "undetectedCount" class="text-content"> </p>
                 </div>
                 <div class="icon">
                     <img src="{{ url_for('static', filename='src/harmless.png') }}" alt="domain" width="10%" height="80%">
-                    <p id = "clearCount" class="text-content"> Clear : 0 </p>
+                    <p id = "clearCount" class="text-content"> </p>
                 </div>
                 <div class="icon">
                     <img src="{{ url_for('static', filename='src/timeout.png') }}" alt="domain" width="10%" height="80%">
-                    <p id = "timeoutCount" class="text-content"> Timeout : 0 </p>
+                    <p id = "timeoutCount" class="text-content"> </p>
                 </div>           
           </div>
             
