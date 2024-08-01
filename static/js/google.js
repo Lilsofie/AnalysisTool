@@ -1,29 +1,37 @@
 let map;
+let geoData = {
+  latitude: "25.033130" ,
+  longitude: "121.567720"
+};;
 
-async function initMap() {
-  const mapElement = document.getElementById('map');
-  const lat = parseFloat(mapElement.dataset.lat);
-  const lng = parseFloat(mapElement.dataset.lng);
-  const title = mapElement.dataset.title;
+export function setGeoData(data) {  
+    if (typeof google != 'undefined' && google.maps) {
+        geoData = data;
+        initMap();
+    }
 
-  const { Map } = await google.maps.importLibrary("maps");
-  const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
+}
+function initMap() {
+  if (!geoData) {
+      console.error('Geo data not available');
+      return;
+  }
 
-  // The location
-  const position = { lat: lat, lng: lng };
+  const mapDiv = document.getElementById("map");
 
-  // The map, centered at position
-  map = new Map(document.getElementById("map"), {
-    zoom: 4,
-    center: position,
-    mapId: "DEMO_MAP_ID",
-  });
+  const lat = parseFloat(geoData.latitude);
+  const lng = parseFloat(geoData.longitude);
+  const position = { lat:lat,  lng: lng }
 
-  // The marker
-  const marker = new AdvancedMarkerElement({
-    map: map,
+  const mapOptions = {
+      center: position,
+      zoom: 12
+  };
+  const newMap = new google.maps.Map(mapDiv, mapOptions);
+  new google.maps.Marker({
+    map:newMap,
     position: position,
-    title: title,
+    title: geoData.City,
   });
 }
 

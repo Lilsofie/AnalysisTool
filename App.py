@@ -35,28 +35,6 @@ DEFAULT_DOMAIN_DATA = {'IP Addr': '',
 DEFAULT_URL_DATA = {'id': '', 'stats': {'malicious': {'count': 0, 'details': []}, 'suspicious': {'count': 0, 'details': []}, 'undetected': 0, 'harmless': 0, 'timeout': 0}}
 @app.route('/', methods=["GET", "POST"])
 def home():
-    if request.method == "POST":
-        try:
-            data = request.json
-            if data is None:
-                return jsonify({"error": "No JSON data received"}), 400
-            
-            input_value = data.get('inputValue')
-            dropdown_value = data.get('dropdownValue')
-            if not input_value or not dropdown_value:
-                return jsonify({"error": "Missing input value or type"}), 400
-            
-            if dropdown_value == "IP":
-                return jsonify({"redirect_url": url_for("ip", ip_address=input_value)})
-            if dropdown_value == "Domain":
-                return jsonify({"redirect_url": url_for("domain", domain_name=input_value)})
-            return jsonify(success=True)
-   
-        
-        except Exception as e:
-            print(f"Error processing request: {str(e)}")
-            return jsonify({"error": "Internal server error"}), 500
-    else:
         return render_template('home.html')
     
 @app.route('/analyze_ip' , methods=['POST']) 
@@ -140,4 +118,5 @@ def url(id):
 
 
 if __name__ == '__main__':
-    app.run(host='172.29.33.84', port=5000, debug=True, threaded=False)
+    # app.run(host='172.29.33.84', port=5000, debug=True, threaded=False)
+    app.run(debug=True)

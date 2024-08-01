@@ -1,31 +1,41 @@
+import { setGeoData } from "./google.js";
 const CSRF_TOKEN = document.querySelector('meta[name="csrf-token"]').getAttribute('content'); 
+const DEFAULT_IP_DATA = {
+    'VTBlacklist': {'severity': '', 'stats': {'malicious': {'count': 0, 'details': []}, 'suspicious': {'count': 0, 'details': []}, 'undetected': 0, 'harmless':0, 'timeout': 0}}, 
+    'Geolocation': {'Hostname': '', 'City': '', 'Region': '', 'Country': '', 'Org': '', 'latitude': '25.033130', 'longitude': '121.567720'}, 
+    'HTBlacklist': {'count': 0, 'sites': ['']}, 
+    'ASN': {'ISP': '', 'Range': ''}};
 
 document.addEventListener('DOMContentLoaded', () => {
     const inputIP = document.getElementById('inputIP');
     const buttonEnter = document.getElementById('submitIP');
     const ipData = JSON.parse(localStorage.getItem('ipData'));
-    console.log(ipData);
-    if(ipData){   
-        const ipAddr = document.getElementById("ipAddr");
-       
-        ipAddr.textContent = "IP: " + ipData.ip_addr;
 
-        const geo = ipData.Geolocation;
-        displayGeo(geo);
-        loadMap(geo);
-
-        const asn = ipData.ASN;
-        displayAsn(asn);
-
-        const vt = ipData.VTBlacklist;
-        displayVt(vt);
-        
-        const ht = ipData.HTBlacklist;
-        displayHt(ht);
-
-    }
+    if (ipData == null) ipData = DEFAULT_IP_DATA;
+    else console.log(ipData);
+    const ipAddr = document.getElementById("ipAddr");
     
-    function displayGeo(geo){
+    ipAddr.textContent = "IP: " + ipData.ip_addr;
+
+    const geo = ipData.Geolocation;
+    displayGeoData(geo);
+    fetchGeoData(geo);
+
+    const asn = ipData.ASN;
+    displayAsnData(asn);
+
+    const vt = ipData.VTBlacklist;
+    displayVtData(vt);
+    
+    const ht = ipData.HTBlacklist;
+    displayHtData(ht);
+
+    // Clear the data from localStorage
+    localStorage.removeItem('ipData');
+
+    
+    
+    function displayGeoData(geo){
         const country = document.getElementById("country");
         const region = document.getElementById("region");
         const city = document.getElementById("city");
@@ -41,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     }
 
-    function displayAsn(asn){
+    function displayAsnData(asn){
         const isp = document.getElementById("isp");
         const range = document.getElementById("range");
 
@@ -49,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
         range.textContent = asn.Range;
     }
 
-    function displayVt(vt){
+    function displayVtData(vt){
         const severity = document.getElementById("severity");
         const maliciousCount = document.getElementById("maliciousCount");
         const maliciousTooltip = document.getElementById("maliciousTooltip");
@@ -65,12 +75,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         maliciousCount.textContent = "Malicious: " + vt.stats.malicious.count;
         suspiciousCount.textContent = "Suspicious: " + vt.stats.suspicious.count;
-        undetectedCount.textContent = "Undetected: " + vt.stats.undetected.count;
-        clearCount.textContent = "Harmless: " + vt.stats.harmless.count;
-        timeoutCount.textContent = "Timeout: " + vt.stats.timeout.count;
+        undetectedCount.textContent = "Undetected: " + vt.stats.undetected;
+        clearCount.textContent = "Harmless: " + vt.stats.harmless;
+        timeoutCount.textContent = "Timeout: " + vt.stats.timeout;
     }
 
-    function displayHt(ht){
+    function displayHtData(ht){
         const blacklistCount = document.getElementById("blacklistCount");
         const blacklistContent = document.getElementById("blacklistContent");
 
@@ -78,16 +88,12 @@ document.addEventListener('DOMContentLoaded', () => {
         blacklistContent.textContent = ht.sites.join(" ");
 
     }
-
-    function loadMap(geo){
-        const mapDiv = document.getElementById("map");
-
-        var mapOptions = {
-            center: { lat: geo.latitude, lng: geo.longtitude },
-            zoom: 12
+    function fetchGeoData(geo){
+        const geoData = {
+            latitude: geo.latitude,
+            longitude: geo.longitude
         };
-        
-        var map = new google.maps.Map(mapDiv, mapOptions);
+        setGeoData(geoData);
     }
 
     inputIP.addEventListener('keypress', (event) => {
