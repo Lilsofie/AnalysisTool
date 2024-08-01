@@ -7,7 +7,7 @@
 {% endblock %}
 {% block content %}
 <div class="title-display">
-     <h1  class="content-title"> Domain: {{domain_name}}</h1>
+     <h1  id="domainNm" class="content-title"> Domain: {{domain_name}}</h1>
      <div class="input-group search-bar">
         <input id = "inputDomain" type="text" class="form-control " placeholder="Enter a Domain" aria-label="Recipient's username" aria-describedby="button-addon2">
         <button id = "submitDomain" class="btn btn-outline-secondary" type="button">Enter</button>
@@ -16,16 +16,15 @@
 <div class="board-display">
     <div class="content-grid grid-1">
         <div class="item p-ip-addr">
-            <h3 class="text-title m-0 p-0">IP address: {{data["IP Addr"]}}</h3>
+            <h3 id="ipAddr" class="text-title m-0 p-0">IP address: {{data["IP Addr"]}}</h3>
         </div>
         <div class="card" style=" background-color:  #333332;">
-            <div id="map" class="card-img-top" data-lat = "{{ data['Geolocation']['latitude'] }}" data-lng="{{ data['Geolocation']['longitude'] }}" 
-            data-title="{{ data['Geolocation']['City'] }}" ></div>
+            <div id="map" class="card-img-top" ></div>
             <div class="card-body">
               <p class="card-text">
-                <p class="text-content">Country: {{data["Geolocation"]["Country"]}}</p>
-                <p class="text-content">Region: {{data["Geolocation"]["Region"]}}</p>
-                <p class="text-content">City: {{data["Geolocation"]["City"]}}</p>
+                <p id="country" class="text-content">Country: </p>
+                <p id="region" class="text-content">Region: </p>
+                <p id="city" class="text-content">City: </p>
               </p>
             </div>
         </div>
@@ -34,30 +33,26 @@
     <div class="content-grid" >
         <div class="item"> 
             <h3 class="text-title" >ISP: </h3>
-            <p class="text-content text-center">{{data["ASN"]["ISP"]}} </p>
+            <p id="isp" class="text-content text-center"></p>
        </div>
        <div class="item">
             <h3 class="text-title">Organization: </h3>
-            <p class="text-content text-center">{{data["Geolocation"]["Org"]}} </p>
+            <p id="org" class="text-content text-center"></p>
        </div>
        
        <div class="item"> 
             <h3 class="text-title" >IP Range: </h3>
-            <p class="text-content text-center">{{data["ASN"]["Range"]}} </p>
+            <p id="range" class="text-content text-center"> </p>
        </div>
-       {% if data["Geolocation"]["Hostname"] != 'None' %}
-            <div class="item"> 
-                    <h3 class="text-title">HostName: </h3>
-                    <p class="text-content text-center">{{data["Geolocation"]["Hostname"]}} </p>
-            </div>
-        {% endif %}
+        <div class="item"> 
+                <h3 class="text-title">HostName: </h3>
+                <p id="host" class="text-content text-center"></p>
+        </div>
        <div class="item overflow-auto"> 
         <h3 class="text-title"> Blacklist - HetrixTools </h3>
-        <h2 class="blacklist-count pb-0 p-top-1">{{data["HTBlacklist"]["count"]}} blacklisted count</h2>
+        <h2 id="blacklistCount" class="blacklist-count pb-0 p-top-1"></h2>
         <div class="blacklist-details pt-0">
-            {% for site in data["HTBlacklist"]["sites"] %}
-                <p class="text-content"> {{site}}, </p>
-            {% endfor %}
+             <p id="blacklistContent" class="text-content"> </p>
         </div>
     </div>
     </div>
@@ -79,10 +74,10 @@
                     <td class="text-content t-content">
                         {% if data['Authentication']['DMARC']['Failed']['count'] != 0 %}
                         <span 
+                            id="dmarcFailed"
                             data-bs-toggle="tooltip" 
-                            data-bs-placement="top" 
-                            title="{{data['Authentication']['DMARC']['Failed']['details']}}" >
-                            {{data['Authentication']['DMARC']['Failed']['count']}}
+                            data-bs-placement="top" >
+                        
                         </span> 
                         {% else %}
                         {{data['Authentication']['DMARC']['Failed']['count']}}
@@ -154,9 +149,9 @@
                   </tr>
                   <tr>
                     <th class="text-title t-title" scope="row">Passed</th>
-                    <td class="text-content t-content">
-                        {% if data['Authentication']['DMARC']['Passed']['count'] != 0 %}
+                    <td id="dmarcPassCount" class="text-content t-content">
                         <span 
+                            id="dmarcPassTooltip"
                             data-bs-toggle="tooltip" 
                             data-bs-placement="top" 
                             title="{{data['Authentication']['DMARC']['Passed']['details']}}" >
@@ -166,29 +161,20 @@
                         {{data['Authentication']['DMARC']['Passed']['count']}}
                         {% endif %}
                     </td>
-                    <td class="text-content t-content">
-                        {% if data['Authentication']['DKIM']['Passed']['count'] != 0 %}
+                    <td id="dkimPassCount" class="text-content t-content">
                         <span 
+                            id="dkimPassTooltip"
                             data-bs-toggle="tooltip" 
                             data-bs-placement="top" 
                             title="{{data['Authentication']['DKIM']['Passed']['details']}}" >
-                            {{data['Authentication']['DKIM']['Passed']['count']}}
                         </span> 
-                        {% else %}
-                        {{data['Authentication']['DKIM']['Passed']['count']}}
-                        {% endif %}
                     </td>
-                    <td class="text-content t-content">
-                        {% if data['Authentication']['SPF']['Passed']['count'] != 0 %}
+                    <td  id="spfPassCount" class="text-content t-content">
                         <span 
+                            id="spfPassTooltip"
                             data-bs-toggle="tooltip" 
-                            data-bs-placement="top" 
-                            title="{{data['Authentication']['SPF']['Passed']['details']}}" >
-                            {{data['Authentication']['SPF']['Passed']['count']}}
+                            data-bs-placement="top" >
                         </span> 
-                        {% else %}
-                        {{data['Authentication']['SPF']['Passed']['count']}}
-                        {% endif %}
                     </td>
                   </tr>
                 </tbody>
@@ -199,46 +185,35 @@
             <div class="wrap">
                 <div class="icon">
                     <img src="{{ url_for('static', filename='src/malicious.png') }}" alt="domain" width="10%" height="80%">
-                    <p class="text-content"> Malicious:
-                        {% if data["VTBlacklist"]['stats']["malicious"]['count'] != 0 %}
+                    <p id="maliciousCount" class="text-content">
                         <span 
                             data-bs-toggle="tooltip" 
-                            data-bs-placement="top" 
-                            title="{{data['VTBlacklist']['stats']['malicious']['details']}}" >
-                            {{data["VTBlacklist"]['stats']["malicious"]['count']}}
-                        </span>   
-                        {% else %}
-                        {{data["VTBlacklist"]['stats']["malicious"]['count']}} 
-                        {% endif %}
+                            data-bs-placement="top">
+                        </span>  
                     </p>
                 </div>
                 <div class="icon">
                     <img src="{{ url_for('static', filename='src/suspicious.png') }}" alt="domain" width="10%" height="80%">
-                    <p class="text-content"> Suspicious: 
-                     {% if data["VTBlacklist"]['stats']["suspicious"]['count'] != 0 %}
+                    <p id="suspiciousCount" class="text-content">
                     <span 
+                        id = "suspiciousTooltip"
                         data-bs-toggle="tooltip" 
-                        data-bs-placement="top" 
-                        title="{{data['VTBlacklist']['stats']['suspicious']['details']}}" >
-                        {{data["VTBlacklist"]['stats']["suspicious"]['count']}}
+                        data-bs-placement="top" >
                     </span>   
-                    {% else %}
-                    {{data["VTBlacklist"]['stats']["suspicious"]['count']}} 
-                    {% endif %}
                     </p>
                    
                 </div>
                 <div class="icon">
                     <img src="{{ url_for('static', filename='src/undetected.png') }}" alt="domain" width="10%" height="80%">
-                    <p class="text-content"> Undetected : {{data["VTBlacklist"]['stats']["undetected"]}} </p>
+                    <p id="undetectedCount" class="text-content"> </p>
                 </div>
                 <div class="icon">
                     <img src="{{ url_for('static', filename='src/harmless.png') }}" alt="domain" width="10%" height="80%">
-                    <p class="text-content"> Clear : {{data["VTBlacklist"]['stats']["harmless"]}} </p>
+                    <p id="clearCount" class="text-content"> </p>
                 </div>
                 <div class="icon">
                     <img src="{{ url_for('static', filename='src/timeout.png') }}" alt="domain" width="10%" height="80%">
-                    <p class="text-content"> Timeout : {{data["VTBlacklist"]['stats']["timeout"]}} </p>
+                    <p id="timeoutCount" class="text-content"> </p>
                 </div>           
           </div>
         </div>

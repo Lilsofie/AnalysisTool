@@ -1,5 +1,6 @@
 import { navigateToURLAnalysis, analyzeData} from './url.js';
 import {navigateToIPAnalysis} from './ip.js';
+import { navigateToDomainAnalysis } from './domain.js';
 
 document.addEventListener('DOMContentLoaded', function() {
     var dropdownElementList = [].slice.call(document.querySelectorAll('.dropdown-toggle'))
@@ -40,7 +41,7 @@ function sendData(inputValue, dropdownValue) {
         navigateToIPAnalysis(inputValue);
    }
    else if(dropdownValue == "Domain"){
-        console.log("domain");
+        navigateToDomainAnalysis(inputValue);
    }
    else if(dropdownValue == "URL"){
         navigateToURLAnalysis(inputValue);

@@ -1,21 +1,25 @@
 import { setGeoData } from "./google.js";
+
 const CSRF_TOKEN = document.querySelector('meta[name="csrf-token"]').getAttribute('content'); 
 const DEFAULT_IP_DATA = {
+    'ip_addr':'',
     'VTBlacklist': {'severity': '', 'stats': {'malicious': {'count': 0, 'details': []}, 'suspicious': {'count': 0, 'details': []}, 'undetected': 0, 'harmless':0, 'timeout': 0}}, 
     'Geolocation': {'Hostname': '', 'City': '', 'Region': '', 'Country': '', 'Org': '', 'latitude': '25.033130', 'longitude': '121.567720'}, 
     'HTBlacklist': {'count': 0, 'sites': ['']}, 
     'ASN': {'ISP': '', 'Range': ''}};
 
 document.addEventListener('DOMContentLoaded', () => {
+    
     const inputIP = document.getElementById('inputIP');
     const buttonEnter = document.getElementById('submitIP');
+
     var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
     var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
         return new bootstrap.Tooltip(tooltipTriggerEl);
     });
+
     var ipData = JSON.parse(localStorage.getItem('ipData'));
     displayData(ipData);
-
     
     inputIP.addEventListener('keypress', (event) => {
         if (event.key === 'Enter') {
@@ -117,7 +121,6 @@ function displayGeoData(geo){
     org.textContent = geo.Org;
     host.textContent = geo.Hostname;
   
-
 }
 
 function displayAsnData(asn){
@@ -131,9 +134,7 @@ function displayAsnData(asn){
 function displayVtData(vt){
     const severity = document.getElementById("severity");
     const maliciousCount = document.getElementById("maliciousCount");
-    const maliciousTooltip = document.getElementById("maliciousTooltip");
     const suspiciousCount = document.getElementById("suspiciousCount");
-    const suspiciousTooltip = document.getElementById("suspiciousTooltip");
     const undetectedCount = document.getElementById("undetectedCount");
     const clearCount = document.getElementById("clearCount");
     const timeoutCount = document.getElementById("timeoutCount");
@@ -142,19 +143,23 @@ function displayVtData(vt){
         severity.textContent = "Severity: " + vt.severity;
     }
 
-    const malicious = vt.stats.malicious
-    
+    const malicious = vt.stats.malicious;
+    maliciousCount.textContent = "Malicious: " + malicious.count;
     if(malicious.count != 0){
-        maliciousTooltip.setAttribute("title", malicious.details.join(", "));
-        maliciousTooltip.textContent = "Malicious: " + malicious.count;
-        var tooltip = new bootstrap.Tooltip(maliciousTooltip);
+        maliciousCount.setAttribute("title", malicious.details.join(", "));
+        var tooltip = new bootstrap.Tooltip(maliciousCount);
         tooltip.update();
     }
-    else{
-        maliciousCount.textContent = "Malicious: " + malicious.count;
+    
+
+    const suspicious = vt.stats.suspicious;
+    suspiciousCount.textContent = "Suspicious: " + suspicious.count;
+    if(suspicious.count != 0){
+        suspiciousCount.setAttribute("title", suspicious.details.join(", "));
+        var tooltip = new bootstrap.Tooltip(suspiciousCount);
+        tooltip.update();
     }
 
-    suspiciousCount.textContent = "Suspicious: " + vt.stats.suspicious.count;
     undetectedCount.textContent = "Undetected: " + vt.stats.undetected;
     clearCount.textContent = "Clear: " + vt.stats.harmless;
     timeoutCount.textContent = "Timeout: " + vt.stats.timeout;

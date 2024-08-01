@@ -82,6 +82,7 @@ export function analyzeData(data){
             alert(`An error occurred: ${error.message}`);
         });
 }
+
 function displayData(urlData){
     if (urlData == null) {urlData = DEFAULT_URL_DATA;}
     else console.log(urlData);

@@ -18,17 +18,6 @@ HETRIXTOOLS_APIKEY = os.getenv('HETRIX_TOOLS')
 MXTOOLBOX_APIKEY = os.getenv('MX_TOOLBOX')
 GOOGLEMAP_APIKEY = os.getenv('GOOGLE_MAP')
 
-
-
-DEFAULT_DOMAIN_DATA = {'IP Addr': '',
-                       'VTBlacklist': {'severity': '', 'stats': {'malicious': {'count': 0, 'details': []}, 'suspicious': {'count': 0, 'details': []}, 'undetected': 0, 'harmless':0, 'timeout': 0}}, 
-                        'Geolocation': {'Hostname': '', 'City': '', 'Region': '', 'Country': '', 'Org': '', 'latitude': '', 'longitude': ''}, 
-                        'ASN': {'ISP': '', 'Range': ''}, 
-                        'HTBlacklist': {'count': 0, 'sites': []},
-                        'Authentication': {'DMARC': {'Failed': {'count':0, 'details': []}, 'Warnings': {'count':0, 'details': []}, 'Passed': {'count':1, 'details': []}}, 
-                                           'DKIM': {'Failed': {'count':0, 'details': []}, 'Warnings': {'count':1, 'details': []}, 'Passed': {'count':0, 'details': []}}, 
-                                           'SPF': {'Failed': {'count':1, 'details': []}, 'Warnings': {'count':0, 'details': []}, 'Passed': {'count':0, 'details': []}}}}
-
 @app.route('/', methods=["GET", "POST"])
 def home():
         return render_template('home.html')
@@ -56,32 +45,32 @@ def analyze_ip():
 def ip(ip_address):
     return render_template('ip.html',apikey=GOOGLEMAP_APIKEY)
 
+@app.route('/analyze_domain', methods=['POST'])
+def analyze_domain():
+    try:
+        selector = ""
+        result = {}
+        index = domain_nm.find(":")
+        if index != -1:
+            domain_nm = domain_nm[:index]
+            selector = domain_nm[index+1:]
+        result["VTBlacklist"] = VirusTotal.getReport('domain',domain_nm,VIRUSTOTAL_APIKEY)
+        result["IP Addr"] = MxToolBox.dnsLookup(domain_nm,MXTOOLBOX_APIKEY)
+        ip_addr = result["IP Addr"]
+        result["Geolocation"] = IPinfo.getIPgeo(ip_addr,IPINFO_APIKEY)
+        asn = result["Geolocation"]["Org"][0:7]
+        result["ASN"] = MxToolBox.asnLookup(asn,MXTOOLBOX_APIKEY)
+        result["HTBlacklist"] = HetrixTools.checkHostBlackList(domain_nm,HETRIXTOOLS_APIKEY)
+        result["Authentication"] = MxToolBox.checkDomain(domain_nm,selector,MXTOOLBOX_APIKEY)
+        # print(result)
+        return jsonify(result)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
 @app.route('/domain/', defaults={'domain_name': None})
 @app.route("/domain/<domain_name>")
 def domain(domain_name):
-    result = DEFAULT_DOMAIN_DATA
-    if domain_name:
-         if(domain_name != "..."):
-            result = run_domain_analysis(domain_name)
-    return render_template('domain.html',domain_name=domain_name,data=result, apikey=GOOGLEMAP_APIKEY)
-
-def run_domain_analysis(domain_nm):
-    selector = ""
-    result = {}
-    index = domain_nm.find(":")
-    if index != -1:
-        domain_nm = domain_nm[:index]
-        selector = domain_nm[index+1:]
-    result["VTBlacklist"] = VirusTotal.getReport('domain',domain_nm,VIRUSTOTAL_APIKEY)
-    result["IP Addr"] = MxToolBox.dnsLookup(domain_nm,MXTOOLBOX_APIKEY)
-    ip_addr = result["IP Addr"]
-    result["Geolocation"] = IPinfo.getIPgeo(ip_addr,IPINFO_APIKEY)
-    asn = result["Geolocation"]["Org"][0:7]
-    result["ASN"] = MxToolBox.asnLookup(asn,MXTOOLBOX_APIKEY)
-    result["HTBlacklist"] = HetrixTools.checkHostBlackList(domain_nm,HETRIXTOOLS_APIKEY)
-    result["Authentication"] = MxToolBox.checkDomain(domain_nm,selector,MXTOOLBOX_APIKEY)
-    # print(result)
-    return result
+    return render_template('domain.html',apikey=GOOGLEMAP_APIKEY)
 
 
 @app.route('/scan_url', methods=['POST'])
