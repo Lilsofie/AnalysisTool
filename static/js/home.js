@@ -1,4 +1,6 @@
-import { navigateToURLAnalysis, analyzeData, displayData } from './url.js';
+import { navigateToURLAnalysis, analyzeData} from './url.js';
+import {navigateToIPAnalysis} from './ip.js';
+
 document.addEventListener('DOMContentLoaded', function() {
     var dropdownElementList = [].slice.call(document.querySelectorAll('.dropdown-toggle'))
     var dropdownList = dropdownElementList.map(function (dropdownToggleEl) {
@@ -34,9 +36,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 function sendData(inputValue, dropdownValue) {
-    console.log(inputValue)
    if(dropdownValue == "IP"){
-        console.log("ip");
+        navigateToIPAnalysis(inputValue);
    }
    else if(dropdownValue == "Domain"){
         console.log("domain");

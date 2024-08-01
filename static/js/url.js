@@ -38,13 +38,13 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log(inputURL.value);
     inputURL.addEventListener('keypress', (event) => {
         if (event.key === 'Enter') {
-            navigateToURLAnalysis(inputURL);
+            navigateToURLAnalysis(inputURL.value);
             inputURL.value = '';
         }
     });
      
     buttonEnter.addEventListener('click', function() {
-        navigateToURLAnalysis(inputURL);
+        navigateToURLAnalysis(inputURL.value);
         inputURL.value = '';
     });
     
@@ -71,7 +71,7 @@ export function navigateToURLAnalysis(input) {
         })
         .then(data => {
             // Assuming the scan response includes an 'id' field
-            analyzeData(data)
+            analyzeData(data);
           
         })
         .catch(error => {
@@ -109,12 +109,4 @@ export function analyzeData(data){
             console.error('Error:', error);
             alert(`An error occurred: ${error.message}`);
         });
-}
-
-
-export function displayData(data){
-    window.location.href = `/url/${data.id}`; 
-    console.log("display");
-
-    
 }

@@ -3,7 +3,7 @@
 {% block link  %} {{ url_for('static', filename='css/ip.css') }}{% endblock %}
 {% block scripts %} 
 <script src="{{ url_for('static', filename='js/google.js') }}"></script>
-<script src="{{ url_for('static', filename='js/ip.js') }}"></script>
+<script type="module" src="{{ url_for('static', filename='js/ip.js') }}"></script>
 {% endblock %}
 {% block content %}
 <div class="title-display">
@@ -16,53 +16,48 @@
 
 <div class="board-display">
     <div class="card" style=" background-color:  #333332;" >
-        <div id="map" class="card-img-top" data-lat = "{{ data['Geolocation']['latitude'] }}" data-lng="{{ data['Geolocation']['longitude'] }}" 
-        data-title="{{ data['Geolocation']['City'] }}" ></div>
+        <div id="map" class="card-img-top" data-lat = "25.033130" data-lng="121.567720" ></div>
         <div class="card-body" >
             <div class="wrap">
-                <p id="country" class="text-content">Country: {{data["Geolocation"]["Country"]}}</p>
-                <p id="region" class="text-content">Region: {{data["Geolocation"]["Region"]}}</p>
-                <p id="city" class="text-content">City: {{data["Geolocation"]["City"]}}</p>
+                <p id="country" class="text-content">Country: </p>
+                <p id="region" class="text-content">Region: </p>
+                <p id="city" class="text-content">City: </p>
             </div> 
         </div>
     </div>
     <div class="content-grid">
        <div class="item"> 
             <h3 class="text-title" >ISP: </h3>
-            <p id = "isp" class="text-content text-center p-top-3">{{data["ASN"]["ISP"]}} </p>
+            <p id = "isp" class="text-content text-center p-top-3"></p>
        </div>
        <div class="item">
             <h3 class=" text-title">Organization: </h3>
-            <p id="org" class="text-content text-center p-top-3">{{data["Geolocation"]["Org"]}} </p>
+            <p id="org" class="text-content text-center p-top-3"></p>
        </div>
        
        <div class="item"> 
             <h3 class=" text-title" >IP Range: </h3>
-            <p id="range" class="text-content text-center p-top-3">{{data["ASN"]["Range"]}} </p>
+            <p id="range" class="text-content text-center p-top-3"></p>
        </div>
        <div class="item"> 
             <h3 class=" text-title" >HostName: </h3>
-            <p id="host" class="text-content text-center p-top-3"> {{data["Geolocation"]["Hostname"]}} </p>   
+            <p id="host" class="text-content text-center p-top-3"></p>   
        </div>
     </div>
     <div class="content-grid">
         <div class="item"> 
             <h3 class="text-title">BlackList - HetrixTools </h3>
             <div class="wrap">
-                <h2 id = "blacklistCount" class="blacklist-count">{{data["HTBlacklist"]["count"]}} blacklisted count</h2>
-                <div id = "blacklistContent" class="blacklist-details">
-                    {% for site in data["HTBlacklist"]["sites"] %}
-                        <p class="text-content text-center"> {{site}}, </p>
-                    {% endfor %}
+                <h2 id = "blacklistCount" class="blacklist-count"></h2>
+                <div  class="blacklist-details">
+                        <p id = "blacklistContent" class="text-content text-center"></p>
                 </div>
             </div> 
         </div>
         <div class="item" > 
             <h3 class="text-title">Blacklist - VirusTotal </h3>
             <div class="wrap">
-                {% if data["VTBlacklist"]["severity"] != 'None' %}
-                    <p id = "severity" class="text-content text-center font-bold"> Severity : {{data["VTBlacklist"]["severity"]}} </p>
-                {% endif %}
+                <p id = "severity" class="text-content text-center font-bold"></p>
                 <div class="icon">
                     <img src="{{ url_for('static', filename='src/malicious.png') }}" alt="domain" width="10%" height="80%">
                     <p id="maliciousCount" class="text-content"> Malicious:
@@ -115,5 +110,5 @@
 </div>
 {% endblock %}
 {% block googlemap %} 
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDI-RLXTfsYGAuDtQMi1AZcJCvNHjP1aKE&callback=initMap&libraries=maps,marker&v=weekly" async defer></script>
+<script src="https://maps.googleapis.com/maps/api/js?key={{apikey}}&callback=initMap&libraries=maps,marker&v=weekly" async defer></script>
 {% endblock %}
