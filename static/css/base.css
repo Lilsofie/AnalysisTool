@@ -43,6 +43,7 @@
     padding-top: 1%;
 
 }
+
 .title{
     /* Analysis Tool */
     color:#EBBD03;
@@ -54,6 +55,14 @@
     margin-left: 3%;
     margin-top: 1%;
     position: relative;
+}
+.content-title{
+    font-family: Arial, Helvetica, sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: clamp(36px, calc(1rem + 0.5vw), 68px);
+    color: #000000;
+
 }
 .content{
     display: flex;

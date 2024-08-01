@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 {% block link  %}{{ url_for('static', filename='css/home.css') }}{% endblock %}
 {% block scripts%}
-<script src="{{ url_for('static', filename='js/home.js') }}"></script>
+<script type="module" src="{{ url_for('static', filename='js/home.js') }}"></script>
 {% endblock %}
 
 {% block content %}
-<h1 class="content-title">Insert an IP, Domain or URL to start</h1>
+<h1 class="home-title">Insert an IP, Domain or URL to start</h1>
 <div class="inputbar">
     <div class="input-group mb-3 ">
         <button id="dropdownButton" class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Choose</button>

@@ -1,10 +1,10 @@
-.content-title{
+.home-title{
     position: relative;
     padding-top: 15%;
     font-family: Arial, Helvetica, sans-serif;
     font-style: normal;
     font-weight: 700;
-    font-size: clamp(48px, calc(1rem + 0.5vw), 56px); 
+    font-size: clamp(48px, calc(1rem + 0.5vw), 68px); 
     letter-spacing: -0.02em;
     color: #000000;
     text-align: center; 

@@ -59,26 +59,32 @@ def home():
     else:
         return render_template('home.html')
     
+@app.route('/analyze_ip' , methods=['POST']) 
+def analyze_ip():
+    ip_addr = request.json['ip_addr']
+    try:
+        result = {}
+        result["ip_addr"] = ip_addr
+        result["VTBlacklist"] = VirusTotal.getReport('ip',ip_addr,VIRUSTOTAL_APIKEY)
+        result["Geolocation"] = IPinfo.getIPgeo(ip_addr,IPINFO_APIKEY)
+        result["HTBlacklist"] = HetrixTools.checkIPBlackList(ip_addr,HETRIXTOOLS_APIKEY)
+        asn = result["Geolocation"]["Org"].split()
+        asn = asn[0]
+        result["ASN"] = MxToolBox.asnLookup(asn,MXTOOLBOX_APIKEY)
+        # print(result)
+        return jsonify(result)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
 @app.route('/ip/', defaults={'ip_address': None})
 @app.route('/ip/<ip_address>') 
 def ip(ip_address):
     result = DEFAULT_IP_DATA
-    if ip_address:
-         if(ip_address != "..."):
-            result = run_ip_analysis(ip_address)
+    # if ip_address:
+    #      if(ip_address != "..."):
+    #         result = run_ip_analysis(ip_address)
     return render_template('ip.html',ip_addr=ip_address,data=result, apikey=GOOGLEMAP_APIKEY)
-
-def run_ip_analysis(ip_addr):
-    result = {}
-    result["VTBlacklist"] = VirusTotal.getReport('ip',ip_addr,VIRUSTOTAL_APIKEY)
-    result["Geolocation"] = IPinfo.getIPgeo(ip_addr,IPINFO_APIKEY)
-    result["HTBlacklist"] = HetrixTools.checkIPBlackList(ip_addr,HETRIXTOOLS_APIKEY)
-    asn = result["Geolocation"]["Org"].split()
-    asn = asn[0]
-    result["ASN"] = MxToolBox.asnLookup(asn,MXTOOLBOX_APIKEY)
-    print(result)
-    return result
-
 
 @app.route('/domain/', defaults={'domain_name': None})
 @app.route("/domain/<domain_name>")
@@ -104,7 +110,7 @@ def run_domain_analysis(domain_nm):
     result["ASN"] = MxToolBox.asnLookup(asn,MXTOOLBOX_APIKEY)
     result["HTBlacklist"] = HetrixTools.checkHostBlackList(domain_nm,HETRIXTOOLS_APIKEY)
     result["Authentication"] = MxToolBox.checkDomain(domain_nm,selector,MXTOOLBOX_APIKEY)
-    print(result)
+    # print(result)
     return result
 
 
@@ -118,7 +124,7 @@ def scan_url():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-@app.route('/analyze_url', methods=['GET', 'POST'])
+@app.route('/analyze_url', methods=['POST'])
 def analyze_url():
     data = request.json
     try:

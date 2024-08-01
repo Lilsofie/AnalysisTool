@@ -4,14 +4,6 @@
     gap: 1.5%; 
     padding: 2% 3% 0% 3%;
 }
-.content-title{
-    font-family: Arial, Helvetica, sans-serif;
-    font-style: normal;
-    font-weight: 700;
-    font-size: clamp(36px, calc(1rem + 0.5vw), 56px);
-    color: #000000;
-
-}
 .item{
     position: relative;
     border-radius: 12px;
@@ -69,10 +61,10 @@
     height: 80%;
 }
 .t-title{
-    font-size: clamp(11px, calc(1rem + 0.5vw), 16px);
+    font-size: clamp(11px, calc(1rem + 0.5vw), 36px);
 }
 .t-content{
-    font-size: clamp(8px, calc(1rem + 0.5vw), 14px);
+    font-size: clamp(8px, calc(1rem + 0.5vw), 34px);
 }
 .p-ip-addr{
     padding: 5.7% 7% 5% 9%
