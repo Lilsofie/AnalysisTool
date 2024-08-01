@@ -130,11 +130,7 @@ def analyze_url():
 @app.route('/url/', defaults={'id':''})
 @app.route("/url/<id>")
 def url(id):
-    url_link = request.args.get('url')
-    stats = request.args.get('stats')
-    if stats == None:
-        stats = DEFAULT_URL_DATA
-    return render_template('url.html', url_link=url_link, data=stats)
+    return render_template('url.html')
 
 
 if __name__ == '__main__':

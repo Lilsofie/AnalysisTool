@@ -17,20 +17,13 @@
         <div class="icon">
             <img src="{{ url_for('static', filename='src/malicious.png') }}" alt="domain" width="5%" height="65%">
             <p id="maliciousCount" class="text-content"> Malicious : 0
-                <p id="maliciousContent" class="text-content"> hi
-                </p>
+                <p id="maliciousContent" class="text-content"> </p>
             </p>
         </div>
         <div class="icon">
             <img src="{{ url_for('static', filename='src/suspicious.png') }}" alt="domain"  width="5%" height="65%">
             <p id = "suspiciousCount" class="text-content"> Suspicious : 0 
-                <p id = "suspiciousCount" class="text-content">
-                    {% if data["stats"]["suspicious"]["count"] != 0 %}
-                        {% for detail in data["stats"]['suspicious']['details']%}
-                            {{detail}}
-                        {% endfor %}
-                    {% endif %}
-                </p>
+                <p id = "suspiciousContent" class="text-content"> </p>
             </p>
         </div>
         <div class="icon">

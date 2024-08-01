@@ -2,7 +2,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const inputURL = document.getElementById('inputURL');
     const buttonEnter = document.getElementById('submitURL');
     const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content'); 
-
     const urlLink = document.getElementById("urlLink")
     const maliciousContent = document.getElementById("maliciousContent")
     const maliciousCount = document.getElementById("maliciousCount")
@@ -72,20 +71,32 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     }
     function displayData(data){
-        console.log(data)
-        urlLink.textContent = 'URL: ' + data['url']
-        maliciousCount.textContent = 'Malicious: ' + data['stats']['malicious']['count']
-         
-        suspiciousCount.textContent = 'suspicious: ' + data['stats']['suspicious']['count']
-        undetectedCount.textContent  = 'Undetected: ' + data['stats']['undetected']
-        clearCount.textContent = 'Clear: ' + data['stats']['harmless']
-        timeoutCount.textContent = 'Timeout: ' + data['stats']['timeout']
+        urlLink.textContent = 'URL: ' + data.url
+        maliciousCount.textContent = 'Malicious: ' + data.stats.malicious.count
+        if (data.stats.malicious.count !== 0) {
+            maliciousContent.textContent = data.stats.malicious.details.join(" ");
+          } else {
+            maliciousContent.textContent = '';
+          }
+        suspiciousCount.textContent = 'Suspicious: ' + data.stats.suspicious.count
+        if (data.stats.suspicious.count !== 0) {
+            suspiciousContent.textContent = data.stats.suspicious.details.join(" ");
+          } else {
+            suspiciousContent.textContent = '';
+          }
+        undetectedCount.textContent  = 'Undetected: ' + data.stats.undetected
+        clearCount.textContent = 'Clear: ' + data.stats.harmless
+        timeoutCount.textContent = 'Timeout: ' + data.stats.timeout
     }
     inputURL.addEventListener('keypress', (event) => {
         if (event.key === 'Enter') {
+            inputURL.value = '';
             navigateToURLAnalysis();
         }
     });
 
-    buttonEnter.addEventListener('click', navigateToURLAnalysis);
+    buttonEnter.addEventListener('click', function() {
+        inputURL.value = '';
+        navigateToURLAnalysis();
+    });
 });

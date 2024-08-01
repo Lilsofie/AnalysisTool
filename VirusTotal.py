@@ -59,7 +59,6 @@ def analyzeUrl(data,apikey):
         analysis_stats['malicious'] = getInfoDetails('malicious',analysis_results,analysis_stats)
         analysis_stats['suspicious'] = getInfoDetails('suspicious',analysis_results,analysis_stats)
         data['stats'] = analysis_stats 
-        
     else:
         print(f"API call failed with status code: {analysis_response.status_code}")
         print(analysis_response.text)
@@ -79,7 +78,7 @@ def scanUrl(input_url,apikey):
     url_response = requests.post(scan_url, data=payload, headers=headers)
     if url_response.status_code == 200:
         analysis_id = url_response.json()['data']['id']
-        print(analysis_id)
+        # print(analysis_id)
         return {"id": analysis_id, "url": input_url}
     else:
         print(f"API call failed with status code: {url_response.status_code}")
