@@ -19,14 +19,14 @@ document.addEventListener('DOMContentLoaded', function() {
             dropdownButton.textContent = this.textContent;
         });
     });
-
     inputValue.addEventListener('keypress', function(event) {
         if (event.key === 'Enter') {
             event.preventDefault();
             var inputValue = this.value.trim();
             var dropdownValue = dropdownButton.textContent;
 
-           sendData(inputValue, dropdownValue);
+            sendData(inputValue, dropdownValue);
+
         }
     });
 

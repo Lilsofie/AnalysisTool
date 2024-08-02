@@ -1,12 +1,15 @@
+import { Display } from "./display.js";
 const CSRF_TOKEN = document.querySelector('meta[name="csrf-token"]').getAttribute('content'); 
-const DEFAULT_URL_DATA = {'id': '', 'url':'.', 'stats': {'malicious': {'count': 0, 'details': []}, 'suspicious': {'count': 0, 'details': []}, 'undetected': 0, 'harmless': 0, 'timeout': 0}}
 
 document.addEventListener('DOMContentLoaded', () => {
-    
+
+    const display = new Display('urlData');
     const inputURL = document.getElementById("inputURL");
     const buttonEnter = document.getElementById("submitURL");
+
     var urlData = JSON.parse(localStorage.getItem('urlData'));
-    displayData(urlData);
+    localStorage.removeItem('urlData');
+    display.displayData(urlData,"URL");
  
     inputURL.addEventListener('keypress', (event) => {
         if (event.key === 'Enter') {
@@ -25,15 +28,26 @@ document.addEventListener('DOMContentLoaded', () => {
 export function navigateToURLAnalysis(input) {   
     const url = input;
     console.log('URL to analyze:', url);
+
+    const isValidURL = (url) => {
+        const domainRegex = /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(\/[^\s]*)?$/;
+        return domainRegex.test(url);
+    };
+
+    const showError = (message) => {
+        // error display
+        alert(message);
+    };
+
     if (url) {
-        const requestBody = JSON.stringify({url: url})
+      if(isValidURL(url)){
         fetch('/scan_url', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'X-CSRFToken': CSRF_TOKEN
             },
-            body: requestBody,
+            body: JSON.stringify({url: url})
         })
         .then(response => {
             if (!response.ok) {
@@ -42,7 +56,6 @@ export function navigateToURLAnalysis(input) {
             return response.json();
         })
         .then(data => {
-            // Assuming the scan response includes an 'id' field
             analyzeData(data);
           
         })
@@ -50,10 +63,13 @@ export function navigateToURLAnalysis(input) {
             console.error('Error:', error);
             alert(`An error occurred: ${error.message}`);
         });
+        } else {
+            showError('Please enter a valid URL address');
+        }
     } else {
-        console.log('No URL entered');
-    }}
-
+        showError('Please enter a URL iddress');
+    }
+}
 
 export function analyzeData(data){
     fetch('/analyze_url', {
@@ -83,41 +99,3 @@ export function analyzeData(data){
         });
 }
 
-function displayData(urlData){
-    if (urlData == null) {urlData = DEFAULT_URL_DATA;}
-    else console.log(urlData);
-
-    const urlLink = document.getElementById("urlLink");         
-    const maliciousContent = document.getElementById("maliciousContent");
-    const maliciousCount = document.getElementById("maliciousCount");
-    const suspiciousContent = document.getElementById("suspiciousContent");
-    const suspiciousCount = document.getElementById("suspiciousCount");
-    const undetectedCount = document.getElementById("undetectedCount");
-    const clearCount = document.getElementById("clearCount");
-    const timeoutCount = document.getElementById("timeoutCount");
-
-    urlLink.textContent = 'URL: ' + urlData.url;
-    
-    const malicious =  urlData.stats.malicious;
-    maliciousCount.textContent = 'Malicious: ' + malicious.count;
-
-    if (malicious.count !== 0) {
-        maliciousContent.textContent = malicious.details.join(" ");
-    } else {
-    maliciousContent.textContent = '';
-    }
-
-    const suspicious = urlData.stats.suspicious;
-    suspiciousCount.textContent = 'Suspicious: ' + suspicious.count;
-    if (suspicious.count !== 0) {
-        suspiciousContent.textContent = suspicious.details.join(" ");
-    } else {
-        suspiciousContent.textContent = '';
-    }
-
-    undetectedCount.textContent  = 'Undetected: ' + urlData.stats.undetected;
-    clearCount.textContent = 'Clear: ' + urlData.stats.harmless;
-    timeoutCount.textContent = 'Timeout: ' + urlData.stats.timeout;
-    // Clear the data from localStorage
-    localStorage.removeItem('urlData');
-}

@@ -58,7 +58,9 @@ def analyzeUrl(data,apikey):
         analysis_results = attribues['results']
         analysis_stats['malicious'] = getInfoDetails('malicious',analysis_results,analysis_stats)
         analysis_stats['suspicious'] = getInfoDetails('suspicious',analysis_results,analysis_stats)
-        data['stats'] = analysis_stats 
+        stats ={"severity":"None","stats": analysis_stats}
+        data['VTBlacklist']= stats
+        
     else:
         print(f"API call failed with status code: {analysis_response.status_code}")
         print(analysis_response.text)

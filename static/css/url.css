@@ -1,4 +1,4 @@
-.title-display{
+.url-title-display{
     display: flex;
     flex-direction: column;
     gap:1.5%;
@@ -19,17 +19,19 @@
     overflow:auto;
     white-space: nowrap;
 }
-.item{
+.url-item{
     position: relative;
     border-radius: 12px;
     background-color: #333332; 
     display: flex;
     flex-direction: column;
-    gap:2%;
+    gap:10%;
     margin: 2% 12%;
     height: 100%;
 }
-.wrap{
-    margin-top: 4%;
-    padding-top: 1%;
+.url-wrap{
+    display:grid;
+    padding-top: 4%;
+    grid-template-columns: repeat(auto-fit, minmax(30%, 100%));
+    height: 100%;
 }

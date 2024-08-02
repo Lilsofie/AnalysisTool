@@ -1,11 +1,9 @@
 let map;
-let geoData = {
-  latitude: "25.033130",
-  longitude: "121.567720"
-};
+let geoData = null;
 
 export function setGeoData(data) {  
     geoData = data;
+    
     if (typeof google !== 'undefined' && google.maps) {
         initMap();
     } else {
@@ -43,7 +41,5 @@ async function initMap() {
 document.addEventListener("DOMContentLoaded", () => {
   if (typeof google !== 'undefined' && google.maps) {
     initMap();
-  } else {
-    console.error('Google Maps API not available.');
   }
 });

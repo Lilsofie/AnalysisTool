@@ -1,22 +1,19 @@
 {% extends "base.html" %}
 {% block title %} URL Analysis {% endblock %}
 {% block link  %}{{ url_for('static', filename='css/url.css') }} {% endblock %}
-{% block scripts %} 
-<script type = "module" src="{{ url_for('static', filename='js/url.js') }}"></script>
-{% endblock %}
 {% block content %}
-<div class="title-display">
+<div class="url-title-display">
     <h1 id="urlLink" class="url-title"> URL: </h1>
     <div class="input-group mb-0 align-self-center w-75">
         <input id="inputURL" type="text" class="form-control " placeholder="Enter an URL" aria-label="enter"/>
         <button id="submitURL" class="btn btn-outline-secondary" type="button" >Enter</button>
     </div>
 </div>
-<div class="item">
-    <div class="wrap">
+<div class="url-item">
+    <div class="wrap h-100">
         <div class="icon">
             <img src="{{ url_for('static', filename='src/malicious.png') }}" alt="domain" width="5%" height="65%">
-            <p id="maliciousCount" class="text-content"> Malicious : 0
+            <p id="maliciousCount" class="text-content"> Malicious : 
                 <p id="maliciousContent" class="text-content"> </p>
             </p>
         </div>
@@ -40,4 +37,7 @@
         </div>  
     </div>
 </div>
+{% endblock %}
+{% block scripts %} 
+<script type = "module" src="{{ url_for('static', filename='js/url.js') }}"></script>
 {% endblock %}

@@ -1,10 +1,7 @@
 {% extends "base.html" %}
 {% block title %} Domain Analysis {% endblock %}
 {% block link  %}{{ url_for('static', filename='css/domain.css') }}{% endblock %}
-{% block scripts %} 
-<script src="{{ url_for('static', filename='js/google.js') }}"></script>
-<script src="{{ url_for('static', filename='js/domain.js') }}"></script>
-{% endblock %}
+
 {% block content %}
 <div class="title-display">
      <h1  id="domainNm" class="content-title"> Domain: {{domain_name}}</h1>
@@ -16,15 +13,15 @@
 <div class="board-display">
     <div class="content-grid grid-1">
         <div class="item p-ip-addr">
-            <h3 id="ipAddr" class="text-title m-0 p-0">IP address: {{data["IP Addr"]}}</h3>
+            <h3 id="ipAddr" class="text-title m-0 p-0">IP address:</h3>
         </div>
         <div class="card" style=" background-color:  #333332;">
             <div id="map" class="card-img-top" ></div>
             <div class="card-body">
               <p class="card-text">
-                <p id="country" class="text-content">Country: </p>
-                <p id="region" class="text-content">Region: </p>
-                <p id="city" class="text-content">City: </p>
+                <p id="country" class="text-content m-bottom-05">Country: </p>
+                <p id="region" class="text-content m-bottom-05">Region: </p>
+                <p id="city" class="text-content m-bottom-05">City: </p>
               </p>
             </div>
         </div>
@@ -33,33 +30,33 @@
     <div class="content-grid" >
         <div class="item"> 
             <h3 class="text-title" >ISP: </h3>
-            <p id="isp" class="text-content text-center"></p>
+            <p id="isp" class="text-content text-center m-bottom-05"></p>
        </div>
        <div class="item">
             <h3 class="text-title">Organization: </h3>
-            <p id="org" class="text-content text-center"></p>
+            <p id="org" class="text-content text-center m-bottom-05"></p>
        </div>
        
        <div class="item"> 
             <h3 class="text-title" >IP Range: </h3>
-            <p id="range" class="text-content text-center"> </p>
+            <p id="range" class="text-content text-center m-bottom-05"> </p>
        </div>
         <div class="item"> 
                 <h3 class="text-title">HostName: </h3>
-                <p id="host" class="text-content text-center"></p>
+                <p id="host" class="text-content text-center m-bottom-05"></p>
         </div>
        <div class="item overflow-auto"> 
         <h3 class="text-title"> Blacklist - HetrixTools </h3>
         <h2 id="blacklistCount" class="blacklist-count pb-0 p-top-1"></h2>
         <div class="blacklist-details pt-0">
-             <p id="blacklistContent" class="text-content"> </p>
+             <p id="blacklistContent" class="text-content m-bottom-05"> </p>
         </div>
     </div>
     </div>
     <div class="content-grid">
         
         <div class="item p-0">  
-            <table class="table table-striped table-dark m-0">
+            <table class="table table-striped table-dark m-0 w-85 h-85">
                 <thead>
                   <tr>
                     <th scope="col"></th>
@@ -71,107 +68,72 @@
                 <tbody>
                   <tr>
                     <th class="text-title t-title" scope="row">Failed</th>
-                    <td class="text-content t-content">
-                        {% if data['Authentication']['DMARC']['Failed']['count'] != 0 %}
+                    <td class="text-content t-content m-bottom-05">
                         <span 
-                            id="dmarcFailed"
+                            id="dmarcFailedCount"
                             data-bs-toggle="tooltip" 
                             data-bs-placement="top" >
-                        
-                        </span> 
-                        {% else %}
-                        {{data['Authentication']['DMARC']['Failed']['count']}}
-                        {% endif %}
+        
+                        </span>
                     </td>
-                    <td class="text-content t-content">
-                        {% if data['Authentication']['DKIM']['Failed']['count'] != 0 %}
+                    <td class="text-content t-content m-bottom-05">
                         <span 
+                            id="dkimFailedCount"
                             data-bs-toggle="tooltip" 
-                            data-bs-placement="top" 
-                            title="{{data['Authentication']['DKIM']['Failed']['details']}}" >
-                            {{data['Authentication']['DMARC']['Failed']['count']}}
+                            data-bs-placement="top">
                         </span> 
-                        {% else %}
-                        {{data['Authentication']['DKIM']['Failed']['count']}}
-                        {% endif %}
                     </td>
-                    <td class="text-content t-content">
-                        {% if data['Authentication']['SPF']['Failed']['count'] != 0 %}
+                    <td class="text-content t-content m-bottom-05">
                         <span 
+                            id="spfFailedCount"
                             data-bs-toggle="tooltip" 
-                            data-bs-placement="top" 
-                            title="{{data['Authentication']['SPF']['Failed']['details']}}" >
-                            {{data['Authentication']['SPF']['Failed']['count']}}
-                        </span> 
-                        {% else %}
-                        {{data['Authentication']['SPF']['Failed']['count']}}
-                        {% endif %}
+                            data-bs-placement="top" >
+                        </span>
                     </td>
                   </tr>
                   <tr>
                     <th class="text-title t-title" scope="row">Warnings</th>
-                    <td class="text-content t-content">
-                        {% if data['Authentication']['DMARC']['Warnings']['count'] != 0 %}
+                    <td class="text-content t-content m-bottom-05">
                         <span 
+                            id="dmarcWarningsCount"
                             data-bs-toggle="tooltip" 
-                            data-bs-placement="top" 
-                            title="{{data['Authentication']['DMARC']['Warnings']['details']}}" >
-                            {{data['Authentication']['DMARC']['Warnings']['count']}}
-                        </span> 
-                        {% else %}
-                        {{data['Authentication']['DMARC']['Warnings']['count']}}
-                        {% endif %}
+                            data-bs-placement="top">
+                        </span>
                     </td>
-                    <td class="text-content t-content">
-                        {% if data['Authentication']['DKIM']['Warnings']['count'] != 0 %}
+                    <td class="text-content t-content m-bottom-05">
                         <span 
+                            id="dkimWarningsCount"
                             data-bs-toggle="tooltip" 
-                            data-bs-placement="top" 
-                            title="{{data['Authentication']['DKIM']['Warnings']['details']}}" >
-                            {{data['Authentication']['DKIM']['Warnings']['count']}}
+                            data-bs-placement="top">
                         </span> 
-                        {% else %}
-                        {{data['Authentication']['DKIM']['Warnings']['count']}}
-                        {% endif %}   
                     </td>
-                    <td class="text-content t-content">
-                        {% if data['Authentication']['SPF']['Warnings']['count'] != 0 %}
+                    <td class="text-content t-content m-bottom-05">
                         <span 
+                            id="spfWarningsCount"
                             data-bs-toggle="tooltip" 
-                            data-bs-placement="top" 
-                            title="{{data['Authentication']['SPF']['Warnings']['details']}}" >
-                            {{data['Authentication']['SPF']['Warnings']['count']}}
+                            data-bs-placement="top" >
                         </span> 
-                        {% else %}
-                        {{data['Authentication']['SPF']['Warnings']['count']}}
-                        {% endif %}
                     </td>
                   </tr>
                   <tr>
                     <th class="text-title t-title" scope="row">Passed</th>
-                    <td id="dmarcPassCount" class="text-content t-content">
+                    <td class="text-content t-content m-bottom-05">
                         <span 
-                            id="dmarcPassTooltip"
+                            id="dmarcPassedCount"
                             data-bs-toggle="tooltip" 
-                            data-bs-placement="top" 
-                            title="{{data['Authentication']['DMARC']['Passed']['details']}}" >
-                            {{data['Authentication']['DMARC']['Passed']['count']}}
-                        </span> 
-                        {% else %}
-                        {{data['Authentication']['DMARC']['Passed']['count']}}
-                        {% endif %}
-                    </td>
-                    <td id="dkimPassCount" class="text-content t-content">
-                        <span 
-                            id="dkimPassTooltip"
-                            data-bs-toggle="tooltip" 
-                            data-bs-placement="top" 
-                            title="{{data['Authentication']['DKIM']['Passed']['details']}}" >
+                            data-bs-placement="top" >
                         </span> 
                     </td>
-                    <td  id="spfPassCount" class="text-content t-content">
+                    <td class="text-content t-content m-bottom-05">
                         <span 
-                            id="spfPassTooltip"
+                            id="dkimPassedCount"
+                            data-bs-toggle="tooltip" 
+                            data-bs-placement="top">
+                        </span> 
+                    </td>
+                    <td class="text-content t-content m-bottom-05">
+                        <span 
+                            id="spfPassedCount"
                             data-bs-toggle="tooltip" 
                             data-bs-placement="top" >
                         </span> 
@@ -185,7 +147,7 @@
             <div class="wrap">
                 <div class="icon">
                     <img src="{{ url_for('static', filename='src/malicious.png') }}" alt="domain" width="10%" height="80%">
-                    <p id="maliciousCount" class="text-content">
+                    <p id="maliciousCount" class="text-content m-bottom-05">
                         <span 
                             data-bs-toggle="tooltip" 
                             data-bs-placement="top">
@@ -194,7 +156,7 @@
                 </div>
                 <div class="icon">
                     <img src="{{ url_for('static', filename='src/suspicious.png') }}" alt="domain" width="10%" height="80%">
-                    <p id="suspiciousCount" class="text-content">
+                    <p id="suspiciousCount" class="text-content m-bottom-05">
                     <span 
                         id = "suspiciousTooltip"
                         data-bs-toggle="tooltip" 
@@ -205,15 +167,15 @@
                 </div>
                 <div class="icon">
                     <img src="{{ url_for('static', filename='src/undetected.png') }}" alt="domain" width="10%" height="80%">
-                    <p id="undetectedCount" class="text-content"> </p>
+                    <p id="undetectedCount" class="text-content m-bottom-05"> </p>
                 </div>
                 <div class="icon">
                     <img src="{{ url_for('static', filename='src/harmless.png') }}" alt="domain" width="10%" height="80%">
-                    <p id="clearCount" class="text-content"> </p>
+                    <p id="clearCount" class="text-content m-bottom-05"> </p>
                 </div>
                 <div class="icon">
                     <img src="{{ url_for('static', filename='src/timeout.png') }}" alt="domain" width="10%" height="80%">
-                    <p id="timeoutCount" class="text-content"> </p>
+                    <p id="timeoutCount" class="text-content m-bottom-05"> </p>
                 </div>           
           </div>
         </div>
@@ -222,4 +184,8 @@
 {% endblock %}
 {% block googlemap %} 
 <script src="https://maps.googleapis.com/maps/api/js?key={{apikey}}&callback=initMap&libraries=maps,marker&v=weekly" async defer></script>
+{% endblock %}
+{% block scripts %} 
+<script type="module" src="{{ url_for('static', filename='js/google.js') }}"></script>
+<script type="module" src="{{ url_for('static', filename='js/domain.js') }}"></script>
 {% endblock %}

@@ -1,10 +1,6 @@
 {% extends "base.html" %}
 {% block title %} IP Analysis {% endblock %}
-{% block link  %} {{ url_for('static', filename='css/ip.css') }}{% endblock %}
-{% block scripts %} 
-<script type="module" src="{{ url_for('static', filename='js/google.js') }}"></script>
-<script type="module" src="{{ url_for('static', filename='js/ip.js') }}"></script>
-{% endblock %}
+
 {% block content %}
 <div class="title-display">
     <h1  id="ipAddr" class="content-title">  IP: </h1>
@@ -18,7 +14,7 @@
     <div class="card" style=" background-color:  #333332;" >
         <div id="map" class="card-img-top" data-lat = "25.033130" data-lng="121.567720" ></div>
         <div class="card-body" >
-            <div class="wrap">
+            <div class="wrap pt-0">
                 <p id="country" class="text-content">Country: </p>
                 <p id="region" class="text-content">Region: </p>
                 <p id="city" class="text-content">City: </p>
@@ -47,7 +43,7 @@
     <div class="content-grid">
         <div class="item"> 
             <h3 class="text-title">BlackList - HetrixTools </h3>
-            <div class="wrap">
+            <div class="wrap pt-0">
                 <h2 id= "blacklistCount" class="blacklist-count"></h2>
                 <div  class="blacklist-details">
                         <p id= "blacklistContent" class="text-content text-center"></p>
@@ -56,7 +52,7 @@
         </div>
         <div class="item" > 
             <h3 class="text-title">Blacklist - VirusTotal </h3>
-            <div class="wrap">
+            <div class="wrap pt-0">
                 <p id= "severity" class="text-content text-center font-bold"></p>
                 <div class="icon">
                     <img src="{{ url_for('static', filename='src/malicious.png') }}" alt="domain" width="10%" height="80%">
@@ -107,4 +103,8 @@
     // Add other bootstrap parameters as needed, using camel case.
   });
 </script>
+{% endblock %}
+{% block scripts %} 
+<script type="module" src="{{ url_for('static', filename='js/google.js') }}"></script>
+<script type="module" src="{{ url_for('static', filename='js/ip.js') }}"></script>
 {% endblock %}

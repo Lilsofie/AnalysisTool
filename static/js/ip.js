@@ -1,25 +1,16 @@
-import { setGeoData } from "./google.js";
+import { Display } from "./display.js";
 
 const CSRF_TOKEN = document.querySelector('meta[name="csrf-token"]').getAttribute('content'); 
-const DEFAULT_IP_DATA = {
-    'ip_addr':'',
-    'VTBlacklist': {'severity': '', 'stats': {'malicious': {'count': 0, 'details': []}, 'suspicious': {'count': 0, 'details': []}, 'undetected': 0, 'harmless':0, 'timeout': 0}}, 
-    'Geolocation': {'Hostname': '', 'City': '', 'Region': '', 'Country': '', 'Org': '', 'latitude': '25.033130', 'longitude': '121.567720'}, 
-    'HTBlacklist': {'count': 0, 'sites': ['']}, 
-    'ASN': {'ISP': '', 'Range': ''}};
 
 document.addEventListener('DOMContentLoaded', () => {
     
+    const display = new Display('ipData');
     const inputIP = document.getElementById('inputIP');
     const buttonEnter = document.getElementById('submitIP');
-
-    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-        return new bootstrap.Tooltip(tooltipTriggerEl);
-    });
-
+    
     var ipData = JSON.parse(localStorage.getItem('ipData'));
-    displayData(ipData);
+    localStorage.removeItem('ipData');
+    display.displayData(ipData,"IP");
     
     inputIP.addEventListener('keypress', (event) => {
         if (event.key === 'Enter') {
@@ -81,103 +72,4 @@ export function navigateToIPAnalysis(input) {
     } else {
         showError('Please enter a IP iddress');
     }
-}
-
-function displayData(ipData){
-    if (ipData == null) ipData = DEFAULT_IP_DATA;
-    else console.log(ipData);
-
-    const ipAddr = document.getElementById("ipAddr");
-    
-    ipAddr.textContent = "IP: " + ipData.ip_addr;
-
-    const geo = ipData.Geolocation;
-    displayGeoData(geo);
-    fetchGeoData(geo);
-
-    const asn = ipData.ASN;
-    displayAsnData(asn);
-
-    const vt = ipData.VTBlacklist;
-    displayVtData(vt);
-    
-    const ht = ipData.HTBlacklist;
-    displayHtData(ht);
-
-    // Clear the data from localStorage
-    localStorage.removeItem('ipData');
-}
-  
-function displayGeoData(geo){
-    const country = document.getElementById("country");
-    const region = document.getElementById("region");
-    const city = document.getElementById("city");
-    const org = document.getElementById("org");
-    const host = document.getElementById("host");
-
-    country.textContent = "Country: " + geo.Country;
-    region.textContent = "Region: " + geo.Region;
-    city.textContent = "City: " + geo.City;
-    org.textContent = geo.Org;
-    host.textContent = geo.Hostname;
-  
-}
-
-function displayAsnData(asn){
-    const isp = document.getElementById("isp");
-    const range = document.getElementById("range");
-
-    isp.textContent = asn.ISP;
-    range.textContent = asn.Range;
-}
-
-function displayVtData(vt){
-    const severity = document.getElementById("severity");
-    const maliciousCount = document.getElementById("maliciousCount");
-    const suspiciousCount = document.getElementById("suspiciousCount");
-    const undetectedCount = document.getElementById("undetectedCount");
-    const clearCount = document.getElementById("clearCount");
-    const timeoutCount = document.getElementById("timeoutCount");
-
-    if(vt.severity != 'None'){
-        severity.textContent = "Severity: " + vt.severity;
-    }
-
-    const malicious = vt.stats.malicious;
-    maliciousCount.textContent = "Malicious: " + malicious.count;
-    if(malicious.count != 0){
-        maliciousCount.setAttribute("title", malicious.details.join(", "));
-        var tooltip = new bootstrap.Tooltip(maliciousCount);
-        tooltip.update();
-    }
-    
-
-    const suspicious = vt.stats.suspicious;
-    suspiciousCount.textContent = "Suspicious: " + suspicious.count;
-    if(suspicious.count != 0){
-        suspiciousCount.setAttribute("title", suspicious.details.join(", "));
-        var tooltip = new bootstrap.Tooltip(suspiciousCount);
-        tooltip.update();
-    }
-
-    undetectedCount.textContent = "Undetected: " + vt.stats.undetected;
-    clearCount.textContent = "Clear: " + vt.stats.harmless;
-    timeoutCount.textContent = "Timeout: " + vt.stats.timeout;
-}
-
-function displayHtData(ht){
-    const blacklistCount = document.getElementById("blacklistCount");
-    const blacklistContent = document.getElementById("blacklistContent");
-
-    blacklistCount.textContent = ht.count + "blacklisted counts";
-    blacklistContent.textContent = ht.sites.join(", ");
-
-}
-
-function fetchGeoData(geo){
-    const geoData = {
-        latitude: geo.latitude,
-        longitude: geo.longitude
-    };
-    setGeoData(geoData);
 }
