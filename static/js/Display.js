@@ -48,10 +48,21 @@ export class Display {
             this.displayHtData(data.HTBlacklist);
             this.fetchGeoData(data.Geolocation);
             if(flag == "Domain"){
+                const inputDomain = document.getElementById("inputDomain");
                 const domainNm = document.getElementById("domainNm");
+
                 domainNm.textContent = "Domain: " + data.name;
+                inputDomain.placeholder  = "Enter a Domain";
                 this.diplayAuthData(data.Authentication);
             }
+            else{
+                const inputIP = document.getElementById("inputIP");
+                inputIP.placeholder = "Enter an IP address";
+            }
+        }
+        else{
+            const inputURL = document.getElementById("inputURL");
+            inputURL.placeholder = "Enter an URL";
         }
         this.displayVtData(data.VTBlacklist);
 

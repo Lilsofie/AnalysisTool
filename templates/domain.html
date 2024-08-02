@@ -9,7 +9,7 @@
 <div class="title-display">
      <h1  id="domainNm" class="content-title">Domain: </h1>
      <div class="input-group search-bar">
-        <input id = "inputDomain" type="text" class="form-control " placeholder="Enter a Domain" aria-label="Recipient's username" aria-describedby="button-addon2">
+        <input id = "inputDomain" type="text" class="form-control " placeholder="Enter a Domain">
         <button id = "submitDomain" class="btn btn-outline-secondary" type="button">Enter</button>
     </div>
 </div>
@@ -154,6 +154,7 @@
                         <span 
                             data-bs-toggle="tooltip" 
                             data-bs-placement="top">
+                        Malicious: 
                         </span>  
                     </p>
                 </div>
@@ -164,21 +165,22 @@
                         id = "suspiciousTooltip"
                         data-bs-toggle="tooltip" 
                         data-bs-placement="top" >
+                        Suspicious: 
                     </span>   
                     </p>
                    
                 </div>
                 <div class="icon">
                     <img src="{{ url_for('static', filename='src/undetected.png') }}" alt="domain" width="10%" height="80%">
-                    <p id="undetectedCount" class="text-content m-bottom-05"> </p>
+                    <p id="undetectedCount" class="text-content m-bottom-05">Undetected:  </p>
                 </div>
                 <div class="icon">
                     <img src="{{ url_for('static', filename='src/harmless.png') }}" alt="domain" width="10%" height="80%">
-                    <p id="clearCount" class="text-content m-bottom-05"> </p>
+                    <p id="clearCount" class="text-content m-bottom-05">Clear:  </p>
                 </div>
                 <div class="icon">
                     <img src="{{ url_for('static', filename='src/timeout.png') }}" alt="domain" width="10%" height="80%">
-                    <p id="timeoutCount" class="text-content m-bottom-05"> </p>
+                    <p id="timeoutCount" class="text-content m-bottom-05"> Timeout: </p>
                 </div>           
           </div>
         </div>

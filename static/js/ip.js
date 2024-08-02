@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
         inputIP.addEventListener('keypress', (event) => {
             if (event.key === 'Enter') {
                 navigateToIPAnalysis(inputIP.value);
+                inputIP.placeholder = "Loading...";
                 inputIP.value = '';
             }
         });
@@ -27,12 +28,14 @@ document.addEventListener('DOMContentLoaded', () => {
     if(buttonEnter){
         buttonEnter.addEventListener('click', function() {
             navigateToIPAnalysis(inputIP.value);
+            inputIP.placeholder = "Loading...";
             inputIP.value = '';
         });   
     }
 });
 
 export function navigateToIPAnalysis(input) {
+    const inputIP = document.getElementById('inputIP') || document.getElementById('inputField')
     const ipAddress = input;
     console.log('IP to analyze:', ipAddress);
 
@@ -64,9 +67,9 @@ export function navigateToIPAnalysis(input) {
             })
             .then(data => {
                 console.log('Scan data:', data);
-                if (data.ip_addr) {
+                if (data.IPAddr) {
                     localStorage.setItem('ipData', JSON.stringify(data));   
-                    window.location.href = `/ip/${data.ip_addr}`;
+                    window.location.href = `/ip/${data.IPAddr}`;
                 } 
             })
             .catch(error => {
@@ -74,9 +77,10 @@ export function navigateToIPAnalysis(input) {
                 alert(`An error occurred: ${error.message}`);
             });
         } else {
+            inputIP.placeholder = "Enter an IP address";
             showError('Please enter a valid IP address');
         }
     } else {
-        showError('Please enter a IP iddress');
+        inputIP.placeholder = "Enter an IP address";
     }
 }

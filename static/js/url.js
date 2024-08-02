@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     var urlData = JSON.parse(localStorage.getItem('urlData'));
 
     localStorage.removeItem('urlData');
-    
+
     if(urlData != null){
         const display = new Display('urlData');
         display.displayData(urlData,"URL");
@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
         inputURL.addEventListener('keypress', (event) => {
             if (event.key === 'Enter') {
                 navigateToURLAnalysis(inputURL.value);
+                inputURL.placeholder = "Loading...";
                 inputURL.value = '';
             }
         });
@@ -26,6 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if(buttonEnter){
         buttonEnter.addEventListener('click', function() {
             navigateToURLAnalysis(inputURL.value);
+            inputURL.placeholder = "Loading...";
             inputURL.value = '';
         });   
     }
@@ -33,6 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 export function navigateToURLAnalysis(input) {   
+    const inputURL = document.getElementById("inputURL") || document.getElementById('inputField');
     const url = input;
     console.log('URL to analyze:', url);
 
@@ -71,10 +74,11 @@ export function navigateToURLAnalysis(input) {
             alert(`An error occurred: ${error.message}`);
         });
         } else {
+            inputURL.placeholder = "Enter an URL";
             showError('Please enter a valid URL address');
         }
     } else {
-        showError('Please enter a URL iddress');
+        inputURL.placeholder = "Enter an URL";
     }
 }
 

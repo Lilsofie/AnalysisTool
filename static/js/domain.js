@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
         inputDomain.addEventListener('keypress', (event) => {
             if (event.key === 'Enter') {
                 navigateToDomainAnalysis(inputDomain.value);
+                inputDomain.placeholder  = "Loading...";
                 inputDomain.value = '';
             }
         });
@@ -27,12 +28,14 @@ document.addEventListener('DOMContentLoaded', () => {
     if(buttonEnter){
         buttonEnter.addEventListener('click', function() {
             navigateToDomainAnalysis(inputDomain.value);
+            inputDomain.placeholder  = "Loading...";
             inputDomain.value = '';
         });   
     }
 });
 
 export function navigateToDomainAnalysis(input){
+    const inputDomain= document.getElementById('inputDomain') || document.getElementById('inputField');
     const domainName = input;
     console.log('Domain to analyze:', domainName);
 
@@ -75,9 +78,10 @@ export function navigateToDomainAnalysis(input){
             });
             
         }else{
+            inputDomain.placeholder = "Enter a Domain";
             showError('Please enter a valid domain name');
         }
     } else {
-        showError('Please enter a domain name');
+        inputDomain.placeholder = "Enter a Domain";
     }
 };
