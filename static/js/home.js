@@ -26,7 +26,6 @@ document.addEventListener('DOMContentLoaded', function() {
             var dropdownValue = dropdownButton.textContent;
 
             sendData(inputValue, dropdownValue);
-
         }
     });
 

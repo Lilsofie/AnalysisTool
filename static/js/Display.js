@@ -1,7 +1,7 @@
 import { setGeoData } from "./google.js";
 
 const DEFAULT_IP_DATA = {
-    'ip_addr':'',
+    'ipAddr':'',
     'VTBlacklist': {'severity': 'None', 'stats': {'malicious': {'count': 0, 'details': []}, 'suspicious': {'count': 0, 'details': []}, 'undetected': 0, 'harmless':0, 'timeout': 0}}, 
     'Geolocation': {'Hostname': '', 'City': '', 'Region': '', 'Country': '', 'Org': '', 'latitude': '25.0245', 'longitude': '121.5697'}, 
     'HTBlacklist': {'count': 0, 'sites': ['']}, 
@@ -41,22 +41,22 @@ export class Display {
         console.log(data);
         if(flag != "URL"){
             const ipAddr = document.getElementById("ipAddr");
-            ipAddr.textContent = "IP: " + data.ip_addr;
+            ipAddr.textContent = "IP: " + data.IPAddr;
 
             this.displayGeoData(data.Geolocation);
             this.displayAsnData(data.ASN);
             this.displayHtData(data.HTBlacklist);
             this.fetchGeoData(data.Geolocation);
             if(flag == "Domain"){
+                const domainNm = document.getElementById("domainNm");
+                domainNm.textContent = "Domain: " + data.name;
                 this.diplayAuthData(data.Authentication);
             }
         }
         this.displayVtData(data.VTBlacklist);
-        console.log(this.dataName)
 
         // Clear the data from localStorage
         localStorage.removeItem(this.dataName);
-        
     }
 
     displayGeoData(geo) {
@@ -143,7 +143,6 @@ export class Display {
             });
         });
     }
-    
     
     fetchGeoData(geo){
         const geoData = {

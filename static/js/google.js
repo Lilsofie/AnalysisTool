@@ -1,9 +1,8 @@
 let map;
 let geoData = null;
 
-export function setGeoData(data) {  
-    geoData = data;
-    
+export function setGeoData(data) { 
+    geoData = data;  
     if (typeof google !== 'undefined' && google.maps) {
         initMap();
     } else {
@@ -12,18 +11,16 @@ export function setGeoData(data) {
 }
 
 async function initMap() {
-  if (!geoData || !geoData.latitude || !geoData.longitude) {
-      console.error('Geo data not available');
-      return;
-  }
+  var lat = 25.0245;
+  var lng = 121.5697;
 
+  if (geoData && geoData.latitude && geoData.longitude) {
+    lat = parseFloat(geoData.latitude);
+    lng = parseFloat(geoData.longitude);
+  }
+  const position = { lat: lat, lng: lng };
   const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
   const mapDiv = document.getElementById("map");
-
-  const lat = parseFloat(geoData.latitude);
-  const lng = parseFloat(geoData.longitude);
-  const position = { lat: lat, lng: lng };
-
   const mapOptions = {
       center: position,
       zoom: 12,
@@ -34,7 +31,7 @@ async function initMap() {
   new AdvancedMarkerElement({
     map: map,
     position: position,
-    title: geoData.city || 'No City Info'
+    title: 'Lotus' || geoData.city
   });
 }
 

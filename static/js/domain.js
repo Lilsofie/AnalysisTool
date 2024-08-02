@@ -4,25 +4,32 @@ const CSRF_TOKEN = document.querySelector('meta[name="csrf-token"]').getAttribut
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    const display = new Display('domainData');
     const inputDomain= document.getElementById('inputDomain');
     const buttonEnter = document.getElementById('submitDomain');
 
     var domainData = JSON.parse(localStorage.getItem('domainData'));
     localStorage.removeItem('domainData');
-    display.displayData(domainData,"Domain");
+    
+    if(domainData != null){
+        const display = new Display('domainData');
+        display.displayData(domainData,"Domain");
+    }
 
-    inputDomain.addEventListener('keypress', (event) => {
-        if (event.key === 'Enter') {
+    if(inputDomain){
+        inputDomain.addEventListener('keypress', (event) => {
+            if (event.key === 'Enter') {
+                navigateToDomainAnalysis(inputDomain.value);
+                inputDomain.value = '';
+            }
+        });
+    }
+
+    if(buttonEnter){
+        buttonEnter.addEventListener('click', function() {
             navigateToDomainAnalysis(inputDomain.value);
-            inputDomain.value= '';
-        }
-    });
-
-    buttonEnter.addEventListener('click', function() {
-        navigateToDomainAnalysis(inputDomain.value);
-        inputDomain.value = '';
-    });
+            inputDomain.value = '';
+        });   
+    }
 });
 
 export function navigateToDomainAnalysis(input){
@@ -57,9 +64,9 @@ export function navigateToDomainAnalysis(input){
             })
             .then(data => {
                 console.log('Scan data:', data);
-                if (data.ip_addr) {
+                if (data.name) {
                     localStorage.setItem('domainData', JSON.stringify(data));   
-                    window.location.href = `/domain/${data.domain_name}`;
+                    window.location.href = `/domain/${data.name}`;
                 } 
             })
             .catch(error => {

@@ -3,26 +3,33 @@ import { Display } from "./display.js";
 const CSRF_TOKEN = document.querySelector('meta[name="csrf-token"]').getAttribute('content'); 
 
 document.addEventListener('DOMContentLoaded', () => {
-    
-    const display = new Display('ipData');
+
     const inputIP = document.getElementById('inputIP');
     const buttonEnter = document.getElementById('submitIP');
     
     var ipData = JSON.parse(localStorage.getItem('ipData'));
+    console.log()
     localStorage.removeItem('ipData');
-    display.displayData(ipData,"IP");
+    if(ipData != null){
+        const display = new Display('ipData');
+        display.displayData(ipData,"IP");
+    }
     
-    inputIP.addEventListener('keypress', (event) => {
-        if (event.key === 'Enter') {
+    if(inputIP){
+        inputIP.addEventListener('keypress', (event) => {
+            if (event.key === 'Enter') {
+                navigateToIPAnalysis(inputIP.value);
+                inputIP.value = '';
+            }
+        });
+    }
+
+    if(buttonEnter){
+        buttonEnter.addEventListener('click', function() {
             navigateToIPAnalysis(inputIP.value);
             inputIP.value = '';
-        }
-    });
-
-    buttonEnter.addEventListener('click', function() {
-        navigateToIPAnalysis(inputIP.value);
-        inputIP.value = '';
-    });
+        });   
+    }
 });
 
 export function navigateToIPAnalysis(input) {

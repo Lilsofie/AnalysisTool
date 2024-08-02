@@ -9,9 +9,6 @@
     width: 94%;
     gap:-0.3%;
 }
-.text-content{
-    margin-bottom: 0.5%;
-}
 .t-title{
     font-size: clamp(11px, calc(1rem + 0.5vw), 56px);
 }

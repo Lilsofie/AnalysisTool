@@ -27,7 +27,7 @@ def analyze_ip():
     ip_addr = request.json['ip_addr']
     try:
         result = {}
-        result["ip_addr"] = ip_addr
+        result["IPAddr"] = ip_addr
         result["VTBlacklist"] = VirusTotal.getReport('ip',ip_addr,VIRUSTOTAL_APIKEY)
         result["Geolocation"] = IPinfo.getIPgeo(ip_addr,IPINFO_APIKEY)
         result["HTBlacklist"] = HetrixTools.checkIPBlackList(ip_addr,HETRIXTOOLS_APIKEY)
@@ -47,6 +47,7 @@ def ip(ip_address):
 
 @app.route('/analyze_domain', methods=['POST'])
 def analyze_domain():
+    domain_nm = request.json['domain']
     try:
         selector = ""
         result = {}
@@ -55,13 +56,14 @@ def analyze_domain():
             domain_nm = domain_nm[:index]
             selector = domain_nm[index+1:]
         result["VTBlacklist"] = VirusTotal.getReport('domain',domain_nm,VIRUSTOTAL_APIKEY)
-        result["IP Addr"] = MxToolBox.dnsLookup(domain_nm,MXTOOLBOX_APIKEY)
-        ip_addr = result["IP Addr"]
+        result["IPAddr"] = MxToolBox.dnsLookup(domain_nm,MXTOOLBOX_APIKEY)
+        ip_addr = result["IPAddr"]
         result["Geolocation"] = IPinfo.getIPgeo(ip_addr,IPINFO_APIKEY)
         asn = result["Geolocation"]["Org"][0:7]
         result["ASN"] = MxToolBox.asnLookup(asn,MXTOOLBOX_APIKEY)
         result["HTBlacklist"] = HetrixTools.checkHostBlackList(domain_nm,HETRIXTOOLS_APIKEY)
         result["Authentication"] = MxToolBox.checkDomain(domain_nm,selector,MXTOOLBOX_APIKEY)
+        result["name"] = domain_nm
         # print(result)
         return jsonify(result)
     except Exception as e:
@@ -99,5 +101,5 @@ def url(id):
 
 
 if __name__ == '__main__':
-    # app.run(host='172.29.33.84', port=5000, debug=True, threaded=False)
-    app.run(debug=True)
+    app.run(host='172.29.33.84', port=5000, debug=True, threaded=False)
+    # app.run(debug=True)

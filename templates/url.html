@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 {% block title %} URL Analysis {% endblock %}
-{% block link  %}{{ url_for('static', filename='css/url.css') }} {% endblock %}
+{% block link %}{{ url_for('static', filename='css/url.css') }} {% endblock %}
+{% block scripts %} 
+<script type = "module" src="{{ url_for('static', filename='js/url.js') }}"></script>
+{% endblock %}
 {% block content %}
 <div class="url-title-display">
     <h1 id="urlLink" class="url-title"> URL: </h1>
@@ -37,7 +40,4 @@
         </div>  
     </div>
 </div>
-{% endblock %}
-{% block scripts %} 
-<script type = "module" src="{{ url_for('static', filename='js/url.js') }}"></script>
 {% endblock %}

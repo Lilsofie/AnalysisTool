@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 {% block title %} IP Analysis {% endblock %}
-
+{% block scripts %} 
+<script type="module" src="{{ url_for('static', filename='js/google.js') }}"></script>
+<script type="module" src="{{ url_for('static', filename='js/ip.js') }}"></script>
+{% endblock %}
 {% block content %}
 <div class="title-display">
     <h1  id="ipAddr" class="content-title">  IP: </h1>
@@ -12,7 +15,7 @@
 
 <div class="board-display">
     <div class="card" style=" background-color:  #333332;" >
-        <div id="map" class="card-img-top" data-lat = "25.033130" data-lng="121.567720" ></div>
+        <div id="map" class="card-img-top" data-lat = "25.033130" data-lng="121.567720" title="lotus"></div>
         <div class="card-body" >
             <div class="wrap pt-0">
                 <p id="country" class="text-content">Country: </p>
@@ -61,6 +64,7 @@
                             id= "maliciousCount"
                             data-bs-toggle="tooltip" 
                             data-bs-placement="top" title="">
+                            Malicious:
                         </span>   
                     </p>
                 </div>
@@ -71,6 +75,7 @@
                         id= "suspiciousCount"
                         data-bs-toggle="tooltip" 
                         data-bs-placement="top" >
+                        Suspicious:
                     </span>   
          
                     </p>
@@ -78,15 +83,15 @@
                 </div>
                 <div class="icon">
                     <img src="{{ url_for('static', filename='src/undetected.png') }}" alt="domain" width="10%" height="80%">
-                    <p id= "undetectedCount" class="text-content"> </p>
+                    <p id= "undetectedCount" class="text-content"> Undetected: </p>
                 </div>
                 <div class="icon">
                     <img src="{{ url_for('static', filename='src/harmless.png') }}" alt="domain" width="10%" height="80%">
-                    <p id= "clearCount" class="text-content"> </p>
+                    <p id= "clearCount" class="text-content"> Clear:  </p>
                 </div>
                 <div class="icon">
                     <img src="{{ url_for('static', filename='src/timeout.png') }}" alt="domain" width="10%" height="80%">
-                    <p id= "timeoutCount" class="text-content"> </p>
+                    <p id= "timeoutCount" class="text-content"> Timeout: </p>
                 </div>           
           </div>
             
@@ -103,8 +108,4 @@
     // Add other bootstrap parameters as needed, using camel case.
   });
 </script>
-{% endblock %}
-{% block scripts %} 
-<script type="module" src="{{ url_for('static', filename='js/google.js') }}"></script>
-<script type="module" src="{{ url_for('static', filename='js/ip.js') }}"></script>
 {% endblock %}

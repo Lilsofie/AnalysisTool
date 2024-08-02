@@ -2,26 +2,33 @@ import { Display } from "./display.js";
 const CSRF_TOKEN = document.querySelector('meta[name="csrf-token"]').getAttribute('content'); 
 
 document.addEventListener('DOMContentLoaded', () => {
-
-    const display = new Display('urlData');
+ 
     const inputURL = document.getElementById("inputURL");
     const buttonEnter = document.getElementById("submitURL");
-
     var urlData = JSON.parse(localStorage.getItem('urlData'));
+
     localStorage.removeItem('urlData');
-    display.displayData(urlData,"URL");
- 
-    inputURL.addEventListener('keypress', (event) => {
-        if (event.key === 'Enter') {
+    
+    if(urlData != null){
+        const display = new Display('urlData');
+        display.displayData(urlData,"URL");
+    }
+
+    if(inputURL){
+        inputURL.addEventListener('keypress', (event) => {
+            if (event.key === 'Enter') {
+                navigateToURLAnalysis(inputURL.value);
+                inputURL.value = '';
+            }
+        });
+    }
+
+    if(buttonEnter){
+        buttonEnter.addEventListener('click', function() {
             navigateToURLAnalysis(inputURL.value);
             inputURL.value = '';
-        }
-    });
-     
-    buttonEnter.addEventListener('click', function() {
-        navigateToURLAnalysis(inputURL.value);
-        inputURL.value = '';
-    });
+        });   
+    }
     
 });
 
@@ -89,6 +96,7 @@ export function analyzeData(data){
     .then(data => {
         console.log('Scan data:', data);
         if (data.id) { 
+
             localStorage.setItem('urlData', JSON.stringify(data));   
             window.location.href = `/url/${data.id}`;
         } 
