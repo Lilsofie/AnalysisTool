@@ -46,5 +46,8 @@ function sendData(inputValue, dropdownValue) {
    else if(dropdownValue == "URL"){
         navigateToURLAnalysis(inputValue);
    }
+   else{
+    alert("Please choose a category to analyze");
+    }
 }
 
