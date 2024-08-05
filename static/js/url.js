@@ -1,4 +1,4 @@
-import { Display } from "./display.js";
+import { Display } from "./Display.js";
 const CSRF_TOKEN = document.querySelector('meta[name="csrf-token"]').getAttribute('content'); 
 
 document.addEventListener('DOMContentLoaded', () => {

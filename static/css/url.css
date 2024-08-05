@@ -29,4 +29,7 @@
     margin: 2% 12%;
     height: 100%;
 }
+::-webkit-scrollbar {
+    height: 1%;
+  }
 

@@ -55,13 +55,16 @@ export class Display {
                 inputDomain.placeholder  = "Enter a Domain";
                 this.diplayAuthData(data.Authentication);
             }
-            else{
+            else{      
                 const inputIP = document.getElementById("inputIP");
                 inputIP.placeholder = "Enter an IP address";
             }
         }
         else{
             const inputURL = document.getElementById("inputURL");
+            const urlLink = document.getElementById("urlLink");
+
+            urlLink.textContent = "URL: " + data.url;
             inputURL.placeholder = "Enter an URL";
         }
         this.displayVtData(data.VTBlacklist);
@@ -106,29 +109,34 @@ export class Display {
         }
 
         const malicious = vt.stats.malicious;
-        maliciousCount.textContent = "Malicious: " + malicious.count;
-        if(malicious.count != 0){
-            maliciousCount.setAttribute("title", malicious.details.join(", "));
-            new bootstrap.Tooltip(maliciousCount).update();
-        }
+        if(this.checkValidOutput(vt.stats)){
+            maliciousCount.textContent = "Malicious: " + malicious.count;
+            if(malicious.count != 0){
+                maliciousCount.setAttribute("title", malicious.details.join(", "));
+                new bootstrap.Tooltip(maliciousCount).update();
+            }
 
-        const suspicious = vt.stats.suspicious;
-        suspiciousCount.textContent = "Suspicious: " + suspicious.count;
-        if(suspicious.count != 0){
-            suspiciousCount.setAttribute("title", suspicious.details.join(", "));
-            new bootstrap.Tooltip(suspiciousCount).update();
-        }
+            const suspicious = vt.stats.suspicious;
+            suspiciousCount.textContent = "Suspicious: " + suspicious.count;
+            if(suspicious.count != 0){
+                suspiciousCount.setAttribute("title", suspicious.details.join(", "));
+                new bootstrap.Tooltip(suspiciousCount).update();
+            }
 
-        undetectedCount.textContent = "Undetected: " + vt.stats.undetected;
-        clearCount.textContent = "Clear: " + vt.stats.harmless;
-        timeoutCount.textContent = "Timeout: " + vt.stats.timeout;
+            undetectedCount.textContent = "Undetected: " + vt.stats.undetected;
+            clearCount.textContent = "Clear: " + vt.stats.harmless;
+            timeoutCount.textContent = "Timeout: " + vt.stats.timeout;
+        }else{
+            alert("API error: Please restart the project");
+        }
+        
     }
 
     displayHtData(ht) {
         const blacklistCount = document.getElementById("blacklistCount");
         const blacklistContent = document.getElementById("blacklistContent");
 
-        blacklistCount.textContent = ht.count + "blacklisted counts";
+        blacklistCount.textContent = ht.count + " Blacklisted Counts";
         blacklistContent.textContent = ht.sites.join(", ");
     }
 
@@ -161,6 +169,11 @@ export class Display {
             longitude: geo.longitude
         };
         setGeoData(geoData);
+    }
+
+    checkValidOutput(stats){
+        if(!stats.malicious.count && !stats.suspicious.count && !stats.harmless && !stats.timeout && !stats.undetected) return 0;
+        return 1;
     }
     
 }
