@@ -3,20 +3,14 @@
     flex-direction: column;
     justify-content: space-between;
 }
-.auth{
-    display: flex;
-    flex: row;
-    width: 94%;
-    gap:-0.3%;
-}
 .t-title{
-    font-size: clamp(11px, calc(1rem + 0.5vw), 56px);
+    font-size: clamp(1.25rem, calc(1rem + 0.5vw),6rem);
 }
 .t-content{
-    font-size: clamp(8px, calc(1rem + 0.5vw), 52px);
+    font-size: clamp(0.75rem, calc(0.75rem + 0.5vw), 5rem);
 }
 .p-ip-addr{
-    padding: 5.7% 7% 5% 9%
+    padding: 5%;
 }
 .grid-1{
     grid-template-rows: 17% 81%;

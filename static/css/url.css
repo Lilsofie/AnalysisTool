@@ -4,20 +4,10 @@
     gap:1.5%;
     height: 30%;
     padding-top: 4%;
+    align-items: center;
+    justify-content: center;
 }
-.url-title{
-    font-family: Arial, Helvetica, sans-serif;
-    font-style: normal;
-    font-weight: 700;
-    font-size: clamp(32px, calc(1rem + 0.5vw), 72px);
-    letter-spacing: -0.02em;
-    color: #000000;
-    text-align: center; 
-    align-self: center;
-    width: 75%;
-    overflow:auto;
-    white-space: nowrap;
-}
+
 .url-item{
     position: relative;
     border-radius: 12px;
@@ -29,6 +19,6 @@
 }
 ::-webkit-scrollbar {
     height: 1%;
-  }
+}
 
 
