@@ -18,8 +18,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if(inputIP){
         inputIP.addEventListener('keypress', (event) => {
             if (event.key === 'Enter') {
-                navigateToIPAnalysis(inputIP.value);
                 inputIP.placeholder = "Loading...";
+                navigateToIPAnalysis(inputIP.value);
                 inputIP.value = '';
             }
         });
@@ -27,8 +27,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if(buttonEnter){
         buttonEnter.addEventListener('click', function() {
-            navigateToIPAnalysis(inputIP.value);
             inputIP.placeholder = "Loading...";
+            navigateToIPAnalysis(inputIP.value);
             inputIP.value = '';
         });   
     }

@@ -18,8 +18,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if(inputDomain){
         inputDomain.addEventListener('keypress', (event) => {
             if (event.key === 'Enter') {
-                navigateToDomainAnalysis(inputDomain.value);
                 inputDomain.placeholder  = "Loading...";
+                navigateToDomainAnalysis(inputDomain.value);
                 inputDomain.value = '';
             }
         });
@@ -27,8 +27,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if(buttonEnter){
         buttonEnter.addEventListener('click', function() {
-            navigateToDomainAnalysis(inputDomain.value);
             inputDomain.placeholder  = "Loading...";
+            navigateToDomainAnalysis(inputDomain.value);
             inputDomain.value = '';
         });   
     }

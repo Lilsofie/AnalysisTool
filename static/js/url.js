@@ -17,8 +17,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if(inputURL){
         inputURL.addEventListener('keypress', (event) => {
             if (event.key === 'Enter') {
-                navigateToURLAnalysis(inputURL.value);
                 inputURL.placeholder = "Loading...";
+                navigateToURLAnalysis(inputURL.value);
                 inputURL.value = '';
             }
         });
@@ -26,8 +26,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if(buttonEnter){
         buttonEnter.addEventListener('click', function() {
-            navigateToURLAnalysis(inputURL.value);
             inputURL.placeholder = "Loading...";
+            navigateToURLAnalysis(inputURL.value);
             inputURL.value = '';
         });   
     }
