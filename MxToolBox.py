@@ -56,6 +56,7 @@ def dnsLookup(domain,apikey):
         result = domain_ip
     else:
         print(f"API call failed with status code: {dns_response.status_code}")
+        result = dns_response.text
         # print(dns_response.json())
     return result
 
