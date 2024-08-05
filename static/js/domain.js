@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 export function navigateToDomainAnalysis(input){
-    const inputDomain= document.getElementById('inputDomain') || document.getElementById('inputField');
+    const inputDomain= document.getElementById('inputDomain') || document.getElementById('homeInput');
     const domainName = input;
     console.log('Domain to analyze:', domainName);
 

@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 export function navigateToIPAnalysis(input) {
-    const inputIP = document.getElementById('inputIP') || document.getElementById('inputField');
+    const inputIP = document.getElementById('inputIP') || document.getElementById('homeInput');
     const ipAddress = input;
     console.log('IP to analyze:', ipAddress);
 

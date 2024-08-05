@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
     })
 
     var dropdownButton = document.getElementById('dropdownButton');
-    var inputField = document.getElementById('inputField');
+    var homeInput = document.getElementById('homeInput');
     var dropdownItems = document.querySelectorAll('.dropdown-item');
 
     // Handle dropdown item selection
@@ -19,13 +19,13 @@ document.addEventListener('DOMContentLoaded', function() {
             dropdownButton.textContent = this.textContent;
         });
     });
-    inputField.addEventListener('keypress', function(event) {
+    homeInput.addEventListener('keypress', function(event) {
         if (event.key === 'Enter') {
             event.preventDefault();
             var inputValue = this.value.trim();
             var dropdownValue = dropdownButton.textContent;
-            if(dropdownValue != "Choose") inputField.placeholder = "Loading...";
-            inputField.value = "";
+            if(dropdownValue != "Choose") homeInput.placeholder = "Loading...";
+            homeInput.value = "";
             sendData(inputValue, dropdownValue);
         }
     });

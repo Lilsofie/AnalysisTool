@@ -1,4 +1,4 @@
-import { Display } from "./Display.js";
+import { Display } from "./display.js";
 const CSRF_TOKEN = document.querySelector('meta[name="csrf-token"]').getAttribute('content'); 
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 export function navigateToURLAnalysis(input) {   
-    const inputURL = document.getElementById("inputURL") || document.getElementById('inputField');
+    const inputURL = document.getElementById("inputURL") || document.getElementById('homeInput');
     const url = input;
     console.log('URL to analyze:', url);
 
