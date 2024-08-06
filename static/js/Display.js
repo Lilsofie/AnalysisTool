@@ -90,7 +90,6 @@ export class Display {
     displayAsnData(asn) {
         const isp = document.getElementById("isp");
         const range = document.getElementById("range");
-
         isp.textContent = asn.ISP;
         range.textContent = asn.Range;
     }
