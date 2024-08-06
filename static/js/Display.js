@@ -173,28 +173,8 @@ export class Display {
 
     checkValidOutput(stats){
         if(!stats.malicious.count && !stats.suspicious.count && !stats.harmless && !stats.timeout && !stats.undetected) {
-            alert("Invalid output detected. Restarting the program...");
-            if (typeof process !== 'undefined') {
-                // Simulate Ctrl+C by sending SIGINT to the current process
-                process.kill(process.pid, 'SIGINT');
-                
-                // Restart the program
-                const { exec } = require('child_process');
-                exec('python app.py', (error, stdout, stderr) => {
-                    if (error) {
-                        console.error(`Error: ${error.message}`);
-                        return;
-                    }
-                    if (stderr) {
-                        console.error(`stderr: ${stderr}`);
-                        return;
-                    }
-                    console.log(`stdout: ${stdout}`);
-                });
-            } else {
-                console.log("Cannot restart program in browser environment.");
-                location.reload();
-            }
+            alert("Invalid output detected. Resloading the page... Try again later");
+            location.reload(true); 
         };
         return 1;
     }
