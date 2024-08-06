@@ -1,3 +1,5 @@
+import subprocess
+import sys
 from flask import Flask, render_template,url_for,redirect,request,jsonify
 from flask_wtf.csrf import CSRFProtect
 from dotenv import load_dotenv
@@ -99,7 +101,35 @@ def analyze_url():
 def url(id):
     return render_template('url.html')
 
+@app.route('/restart', methods=['POST'])
+def restart_server():
+    if request.method == 'POST':
+        # Terminate the current process
+        def restart():
+            print("Restarting server...")
+            try:
+                # Get the path to the restart script
+                restart_script = os.path.abspath(os.path.join(os.path.dirname(__file__), 'restart.py'))
+                
+                # Start the restart script
+                subprocess.Popen([sys.executable, restart_script])
+                
+                # Shut down the current Flask server
+                os._exit(0)
+            except Exception as e:
+                app.logger.error(f"Error during restart: {str(e)}")
+                return jsonify({"status": "error", "message": str(e)}), 500
+
+                # This error won't be sent to the client because
+                # the server will stop shortly
+
+        # Schedule the restart after a short delay
+        from threading import Thread
+        Thread(target=restart).start()
+        return jsonify({"status": "restarting", "message": "Server will restart shortly"}), 202
+
+    return jsonify({"status": "error", "message": "Method not allowed"}), 405
 
 if __name__ == '__main__':
-    app.run(host='172.29.33.84', port=5000, debug=True, threaded=False)
+    app.run(host='172.29.33.84', port=5000, debug=True, use_reloader=False)
     # app.run(debug=True)

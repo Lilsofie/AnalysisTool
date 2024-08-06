@@ -1,5 +1,5 @@
 import { setGeoData } from "./google.js";
-
+const CSRF_TOKEN = document.querySelector('meta[name="csrf-token"]').getAttribute('content'); 
 const DEFAULT_IP_DATA = {
     'ipAddr':'',
     'VTBlacklist': {'severity': 'None', 'stats': {'malicious': {'count': 0, 'details': []}, 'suspicious': {'count': 0, 'details': []}, 'undetected': 0, 'harmless':0, 'timeout': 0}}, 
@@ -172,10 +172,29 @@ export class Display {
 
     checkValidOutput(stats){
         if(!stats.malicious.count && !stats.suspicious.count && !stats.harmless && !stats.timeout && !stats.undetected) {
-            alert("Invalid output detected. Resloading the page... Try again later");
+            restartFlaskApp();
+            alert("Invalid output detected. Please refresh the page");
             location.reload(true); 
         };
         return 1;
     }
     
+}
+
+function restartFlaskApp() {
+    fetch('/restart', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': CSRF_TOKEN
+        },
+        body: JSON.stringify({})
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data.status);
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
 }
