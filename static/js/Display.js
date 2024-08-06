@@ -173,7 +173,7 @@ export class Display {
     checkValidOutput(stats){
         if(!stats.malicious.count && !stats.suspicious.count && !stats.harmless && !stats.timeout && !stats.undetected) {
             restartFlaskApp();
-            alert("Invalid output detected. Please refresh the page");
+            alert("Invalid output detected. Please refresh the page(Ctrl R)");
             location.reload(true); 
         };
         return 1;
