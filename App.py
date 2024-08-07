@@ -1,9 +1,9 @@
-import subprocess
-import sys
 from flask import Flask, render_template,url_for,redirect,request,jsonify
 from flask_wtf.csrf import CSRFProtect
 from dotenv import load_dotenv
 import os
+import subprocess
+import sys
 import HetrixTools
 import VirusTotal
 import MxToolBox
@@ -61,7 +61,8 @@ def analyze_domain():
         result["IPAddr"] = MxToolBox.dnsLookup(domain_nm,MXTOOLBOX_APIKEY)
         ip_addr = result["IPAddr"]
         result["Geolocation"] = IPinfo.getIPgeo(ip_addr,IPINFO_APIKEY)
-        asn = result["Geolocation"]["Org"][0:7]
+        asn = result["Geolocation"]["Org"].split()
+        asn = asn[0]
         result["ASN"] = MxToolBox.asnLookup(asn,MXTOOLBOX_APIKEY)
         result["HTBlacklist"] = HetrixTools.checkHostBlackList(domain_nm,HETRIXTOOLS_APIKEY)
         result["Authentication"] = MxToolBox.checkDomain(domain_nm,selector,MXTOOLBOX_APIKEY)
@@ -108,20 +109,12 @@ def restart_server():
         def restart():
             print("Restarting server...")
             try:
-                # Get the path to the restart script
                 restart_script = os.path.abspath(os.path.join(os.path.dirname(__file__), 'restart.py'))
-                
-                # Start the restart script
                 subprocess.Popen([sys.executable, restart_script])
-                
-                # Shut down the current Flask server
                 os._exit(0)
             except Exception as e:
                 app.logger.error(f"Error during restart: {str(e)}")
                 return jsonify({"status": "error", "message": str(e)}), 500
-
-                # This error won't be sent to the client because
-                # the server will stop shortly
 
         # Schedule the restart after a short delay
         from threading import Thread
