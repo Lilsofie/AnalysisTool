@@ -11,7 +11,7 @@ import IPinfo
 
 app = Flask(__name__)
 csrf = CSRFProtect(app)
-app.config['SECRET_KEY'] = 'L22_h02306@' 
+app.config['SECRET_KEY'] = 'Lotus_AnalysisTool' 
 load_dotenv()
 
 VIRUSTOTAL_APIKEY = os.getenv('VIRUS_TOTAL')
