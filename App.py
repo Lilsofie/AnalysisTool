@@ -1,3 +1,4 @@
+import asyncio
 from flask import Flask, render_template,url_for,redirect,request,jsonify
 from flask_wtf.csrf import CSRFProtect
 from dotenv import load_dotenv
@@ -20,22 +21,49 @@ HETRIXTOOLS_APIKEY = os.getenv('HETRIX_TOOLS')
 MXTOOLBOX_APIKEY = os.getenv('MX_TOOLBOX')
 GOOGLEMAP_APIKEY = os.getenv('GOOGLE_MAP')
 
+async def get_vt_report(flag,input):
+    return VirusTotal.getReport(flag, input, VIRUSTOTAL_APIKEY)
+
+async def get_geo(ip_addr):
+    return IPinfo.getIPgeo(ip_addr,IPINFO_APIKEY)
+
+async def get_ht_result(flag, input):
+    if(flag == "ip"):
+        return HetrixTools.checkIPBlackList(input,HETRIXTOOLS_APIKEY)
+    else:
+        return HetrixTools.checkHostBlackList(input, HETRIXTOOLS_APIKEY)
+    
+async def get_dns(domain):
+    return MxToolBox.dnsLookup(domain, MXTOOLBOX_APIKEY)
+
+async def get_asn(asn):
+    return MxToolBox.asnLookup(asn, MXTOOLBOX_APIKEY)
+
+async def get_auth(domain,selector):
+    return MxToolBox.checkDomain(domain,selector,MXTOOLBOX_APIKEY)
+
 @app.route('/', methods=["GET", "POST"])
 def home():
         return render_template('home.html')
     
 @app.route('/analyze_ip' , methods=['POST']) 
-def analyze_ip():
+async def analyze_ip():
     ip_addr = request.json['ip_addr']
     try:
         result = {}
         result["IPAddr"] = ip_addr
-        result["VTBlacklist"] = VirusTotal.getReport('ip',ip_addr,VIRUSTOTAL_APIKEY)
-        result["Geolocation"] = IPinfo.getIPgeo(ip_addr,IPINFO_APIKEY)
-        result["HTBlacklist"] = HetrixTools.checkIPBlackList(ip_addr,HETRIXTOOLS_APIKEY)
+        result["Geolocation"] = await get_geo(ip_addr)
         asn = result["Geolocation"]["Org"].split()
         asn = asn[0]
-        result["ASN"] = MxToolBox.asnLookup(asn,MXTOOLBOX_APIKEY)
+        asn_detail,vt_report,ht_result = await asyncio.gather(
+            get_asn(asn),
+            get_vt_report("ip",ip_addr),
+            get_ht_result("ip",ip_addr)
+        )
+
+        result["VTBlacklist"] = vt_report
+        result["HTBlacklist"] =ht_result
+        result["ASN"] = asn_detail
         # print(result)
         return jsonify(result)
     except Exception as e:
@@ -48,7 +76,7 @@ def ip(ip_address):
     return render_template('ip.html',apikey=GOOGLEMAP_APIKEY)
 
 @app.route('/analyze_domain', methods=['POST'])
-def analyze_domain():
+async def analyze_domain():
     domain_nm = request.json['domain']
     try:
         selector = ""
@@ -57,16 +85,24 @@ def analyze_domain():
         if index != -1:
             domain_nm = domain_nm[:index]
             selector = domain_nm[index+1:]
-        result["VTBlacklist"] = VirusTotal.getReport('domain',domain_nm,VIRUSTOTAL_APIKEY)
-        result["IPAddr"] = MxToolBox.dnsLookup(domain_nm,MXTOOLBOX_APIKEY)
-        ip_addr = result["IPAddr"]
-        result["Geolocation"] = IPinfo.getIPgeo(ip_addr,IPINFO_APIKEY)
+
+        result["name"] = domain_nm
+        ip_addr = await get_dns(domain_nm)
+        result["IPAddr"] = ip_addr
+        result["Geolocation"] = get_geo(ip_addr)
         asn = result["Geolocation"]["Org"].split()
         asn = asn[0]
-        result["ASN"] = MxToolBox.asnLookup(asn,MXTOOLBOX_APIKEY)
-        result["HTBlacklist"] = HetrixTools.checkHostBlackList(domain_nm,HETRIXTOOLS_APIKEY)
-        result["Authentication"] = MxToolBox.checkDomain(domain_nm,selector,MXTOOLBOX_APIKEY)
-        result["name"] = domain_nm
+        asn_detail,vt_report,ht_result,auth_details = await asyncio.gather(
+            get_asn(asn),
+            get_vt_report("domain",domain_nm),
+            get_ht_result("domain",domain_nm),
+            get_auth(domain_nm,selector)
+        )
+        result["VTBlacklist"] = vt_report
+        result["ASN"] = asn_detail
+        result["HTBlacklist"] = ht_result
+        result["Authentication"] = auth_details
+
         # print(result)
         return jsonify(result)
     except Exception as e:
@@ -124,5 +160,5 @@ def restart_server():
     return jsonify({"status": "error", "message": "Method not allowed"}), 405
 
 if __name__ == '__main__':
-    app.run(host='172.29.33.84', port=5000, debug=True, use_reloader=False)
-    # app.run(debug=True)
+    # app.run(host='172.29.40.43', port=5000, debug=True, use_reloader=False)
+    app.run(debug=True)
