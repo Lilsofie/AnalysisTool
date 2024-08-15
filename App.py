@@ -1,5 +1,5 @@
 import asyncio
-from flask import Flask, render_template,url_for,redirect,request,jsonify
+from flask import Flask, render_template,request,jsonify
 from flask_wtf.csrf import CSRFProtect
 from dotenv import load_dotenv
 import os
@@ -53,10 +53,13 @@ async def analyze_ip():
         result = {}
         result["IPAddr"] = ip_addr
         result["Geolocation"] = await get_geo(ip_addr)
-        asn = result["Geolocation"]["Org"].split()
-        asn = asn[0]
-        asn_detail,vt_report,ht_result = await asyncio.gather(
-            get_asn(asn),
+        if(result["Geolocation"]["Org"]!='None'):
+            asn = result["Geolocation"]["Org"].split()
+            asn = asn[0]
+            asn_detail = get_asn(asn)
+        else:
+            asn_detail = {'ISP':'None','Range':'None'}    
+        vt_report,ht_result = await asyncio.gather(
             get_vt_report("ip",ip_addr),
             get_ht_result("ip",ip_addr)
         )
@@ -89,15 +92,20 @@ async def analyze_domain():
         result["name"] = domain_nm
         ip_addr = await get_dns(domain_nm)
         result["IPAddr"] = ip_addr
-        result["Geolocation"] = get_geo(ip_addr)
-        asn = result["Geolocation"]["Org"].split()
-        asn = asn[0]
-        asn_detail,vt_report,ht_result,auth_details = await asyncio.gather(
-            get_asn(asn),
+        result["Geolocation"] = await get_geo(ip_addr)
+        if(result["Geolocation"]["Org"]!='None'):
+            asn = result["Geolocation"]["Org"].split()
+            asn = asn[0]
+            asn_detail = await get_asn(asn)
+        else:
+            asn_detail = {'ISP':'None','Range':'None'}   
+ 
+        vt_report,ht_result,auth_details = await asyncio.gather(
             get_vt_report("domain",domain_nm),
             get_ht_result("domain",domain_nm),
             get_auth(domain_nm,selector)
         )
+
         result["VTBlacklist"] = vt_report
         result["ASN"] = asn_detail
         result["HTBlacklist"] = ht_result
@@ -160,5 +168,4 @@ def restart_server():
     return jsonify({"status": "error", "message": "Method not allowed"}), 405
 
 if __name__ == '__main__':
-    app.run(host='172.29.40.43', port=5000, debug=True, use_reloader=False)
-    # app.run(debug=True)
+     app.run(debug=True)
