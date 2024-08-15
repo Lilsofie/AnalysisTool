@@ -1,7 +1,7 @@
 This is a simple version of analysis tool which helps analyze an IP address, Domain, or an URL.
 
 Run : python app.py
-Site: http://172.29.33.84:5000/
+Site: http://172.29.40.43:5000/
 
 What it shows:
 1. Geolocation of the IP address/Domain with dynamic google map display

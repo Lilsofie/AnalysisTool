@@ -64,7 +64,7 @@ async def analyze_ip():
         result["VTBlacklist"] = vt_report
         result["HTBlacklist"] =ht_result
         result["ASN"] = asn_detail
-        print(result)
+        # print(result)
         return jsonify(result)
     except Exception as e:
         return jsonify({"error": str(e)}), 500
@@ -160,5 +160,5 @@ def restart_server():
     return jsonify({"status": "error", "message": "Method not allowed"}), 405
 
 if __name__ == '__main__':
-    # app.run(host='172.29.40.43', port=5000, debug=True, use_reloader=False)
-    app.run(debug=True, use_reloader=False)
+    app.run(host='172.29.40.43', port=5000, debug=True, use_reloader=False)
+    # app.run(debug=True)
